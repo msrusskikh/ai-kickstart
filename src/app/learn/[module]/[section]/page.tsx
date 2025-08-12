@@ -3,11 +3,12 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { useProgressStore } from "@/lib/progress"
-import { modules, getLesson } from "@/lib/content"
+import { modules, getLesson, lessonContent } from "@/lib/content"
 import { LessonPlayer } from "@/components/lesson/lesson-player"
 import { Button } from "@/components/ui/button"
 import { Breadcrumbs } from "@/components/layout/breadcrumbs"
 import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react"
+import { useEffect, useState } from "react"
 
 interface LessonPageProps {
   params: Promise<{
@@ -16,8 +17,30 @@ interface LessonPageProps {
   }>
 }
 
-export default async function LessonPage({ params }: LessonPageProps) {
-  const { module: moduleStr, section: sectionStr } = await params
+export default function LessonPage({ params }: LessonPageProps) {
+  const [moduleStr, setModuleStr] = useState<string>("")
+  const [sectionStr, setSectionStr] = useState<string>("")
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const resolveParams = async () => {
+      try {
+        const resolvedParams = await params
+        setModuleStr(resolvedParams.module)
+        setSectionStr(resolvedParams.section)
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        setIsLoading(false)
+      }
+    }
+    
+    resolveParams()
+  }, [params])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   const moduleId = parseInt(moduleStr)
   const sectionId = parseInt(sectionStr)
   
@@ -35,8 +58,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
   const prevSection = currentIndex > 0 ? module.sections[currentIndex - 1] : null
   const nextSection = currentIndex < module.sections.length - 1 ? module.sections[currentIndex + 1] : null
   
-  // Sample content for demonstration
-  const sampleContent = `
+  // Get custom content for this lesson, or fall back to sample content
+  const contentKey = `${lesson.module}-${lesson.section}`
+  const customContent = lessonContent[contentKey]
+  
+  const content = customContent || `
     <h2>Welcome to ${lesson.title}</h2>
     <p>This is a sample lesson content. In a real application, this would be loaded from MDX files with rich formatting, code examples, and interactive elements.</p>
     
@@ -67,7 +93,7 @@ console.log(greet("Learner"));</code></pre>
           
           {/* Lesson Content */}
           <div className="mt-8">
-            <LessonPlayer lesson={lesson} content={sampleContent} />
+            <LessonPlayer lesson={lesson} content={content} />
           </div>
           
           {/* Navigation Controls */}
@@ -75,10 +101,10 @@ console.log(greet("Learner"));</code></pre>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 {prevSection && (
-                  <Button asChild variant="outline">
-                    <Link href={`/learn/${moduleId}/${prevSection.section}`}>
-                      <ArrowLeft className="mr-2 h-4 w-4" />
-                      Previous: {prevSection.title}
+                  <Button asChild variant="outline" className="max-w-xs">
+                    <Link href={`/learn/${moduleId}/${prevSection.section}`} className="flex items-center">
+                      <ArrowLeft className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">Назад: {prevSection.title}</span>
                     </Link>
                   </Button>
                 )}
@@ -86,10 +112,10 @@ console.log(greet("Learner"));</code></pre>
               
               <div className="flex items-center space-x-4">
                 {nextSection && (
-                  <Button asChild>
-                    <Link href={`/learn/${moduleId}/${nextSection.section}`}>
-                      Next: {nextSection.title}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button asChild className="max-w-xs">
+                    <Link href={`/learn/${moduleId}/${nextSection.section}`} className="flex items-center">
+                      <span className="truncate">Далее: {nextSection.title}</span>
+                      <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                     </Link>
                   </Button>
                 )}

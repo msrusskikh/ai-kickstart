@@ -35,7 +35,7 @@ export function Breadcrumbs() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/learn">Learn</Link>
+            <Link href="/learn">Главная</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -52,3 +52,4 @@ export function Breadcrumbs() {
     </Breadcrumb>
   )
 }
+

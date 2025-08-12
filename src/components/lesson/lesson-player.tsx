@@ -65,11 +65,11 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
           <div className="flex items-center space-x-6 text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
               <Clock className="h-4 w-4" />
-              <span>{lesson.duration} min read</span>
+              <span>{lesson.duration} мин</span>
             </div>
             <div className="flex items-center space-x-2">
               <BookOpen className="h-4 w-4" />
-              <span>Module {lesson.module}, Section {lesson.section}</span>
+              <span>Модуль {lesson.module}, Урок {lesson.section}</span>
             </div>
           </div>
         </CardHeader>
@@ -87,7 +87,7 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Target className="h-5 w-5" />
-              <span>Learning Objectives</span>
+              <span>Цели обучения</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -107,11 +107,11 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
       {lesson.prerequisites.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Prerequisites</CardTitle>
+            <CardTitle>Предварительные требования</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Before starting this lesson, make sure you have completed: {lesson.prerequisites.join(', ')}
+              Перед началом этого урока убедитесь, что вы завершили: {lesson.prerequisites.join(', ')}
             </p>
           </CardContent>
         </Card>
@@ -125,7 +125,7 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
       {/* Quizzes */}
       {lesson.quiz && lesson.quiz.length > 0 && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">Check Your Understanding</h2>
+          <h2 className="text-2xl font-semibold">Проверьте понимание</h2>
           {lesson.quiz.map((quiz, index) => (
             <div key={index}>
               {quiz.type === 'mcq' && (

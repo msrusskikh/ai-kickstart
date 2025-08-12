@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { CheckCircle, Circle, ArrowRight, Clock } from "lucide-react"
 import { Breadcrumbs } from "@/components/layout/breadcrumbs"
+import { useEffect, useState } from "react"
 
 interface ModulePageProps {
   params: Promise<{
@@ -16,8 +17,28 @@ interface ModulePageProps {
   }>
 }
 
-export default async function ModulePage({ params }: ModulePageProps) {
-  const { module: moduleStr } = await params
+export default function ModulePage({ params }: ModulePageProps) {
+  const [moduleStr, setModuleStr] = useState<string>("")
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const resolveParams = async () => {
+      try {
+        const resolvedParams = await params
+        setModuleStr(resolvedParams.module)
+        setIsLoading(false)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        setIsLoading(false)
+      }
+    }
+    
+    resolveParams()
+  }, [params])
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   const moduleId = parseInt(moduleStr)
   const module = modules.find(m => m.id === moduleId)
   
@@ -39,16 +60,16 @@ export default async function ModulePage({ params }: ModulePageProps) {
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold text-primary">
-                0/{module.sections.length} sections completed
+                0/{module.sections.length} частей завершено
               </div>
               <div className="text-sm text-muted-foreground">
-                ~{module.sections.reduce((acc, s) => acc + s.duration, 0)} min total
+                ~{module.sections.reduce((acc, s) => acc + s.duration, 0)} мин
               </div>
             </div>
             
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span>Progress</span>
+                <span>Прогресс</span>
                 <span>0%</span>
               </div>
               <Progress value={0} className="h-2" />
@@ -58,7 +79,7 @@ export default async function ModulePage({ params }: ModulePageProps) {
 
         {/* Sections List */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold">Lessons</h2>
+          <h2 className="text-2xl font-semibold">Уроки</h2>
           
           <div className="space-y-3">
             {module.sections.map((section) => {
@@ -76,7 +97,7 @@ export default async function ModulePage({ params }: ModulePageProps) {
                             <h3 className="text-lg font-semibold">{section.title}</h3>
                             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
                               <Clock className="h-4 w-4" />
-                              <span>{section.duration} min</span>
+                              <span>{section.duration} мин</span>
                             </div>
                           </div>
                           <p className="text-muted-foreground mt-1">{section.summary}</p>
@@ -89,7 +110,7 @@ export default async function ModulePage({ params }: ModulePageProps) {
                         variant="default"
                       >
                         <Link href={`/learn/${moduleId}/${section.section}`}>
-                          Start
+                          Начать
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                       </Button>

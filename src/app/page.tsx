@@ -23,7 +23,7 @@ export default function HomePage() {
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/learn">
-                Continue Learning
+                Продолжить обучение
               </Link>
             </Button>
           </div>

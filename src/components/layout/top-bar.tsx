@@ -1,6 +1,7 @@
 "use client"
 
 import { Search } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCommandMenu } from "@/lib/command-menu"
@@ -20,7 +21,9 @@ export function TopBar() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between px-4">
         <div className="flex items-center space-x-2">
-          <h1 className="text-lg font-semibold">Learning Platform</h1>
+          <Link href="/learn" className="hover:opacity-80 transition-opacity">
+            <h1 className="text-lg font-semibold cursor-pointer">Трансформер</h1>
+          </Link>
         </div>
         
         <div className="flex items-center space-x-2">

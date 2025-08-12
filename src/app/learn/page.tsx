@@ -28,13 +28,13 @@ export default function LearnPage() {
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        {/* Continue Learning */}
+        {/* Продолжить обучение */}
         {currentSectionData && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Play className="h-5 w-5" />
-                <span>Continue Learning</span>
+                <span>Продолжить обучение</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -44,7 +44,7 @@ export default function LearnPage() {
               </div>
               <Button asChild>
                 <Link href={`/learn/${currentModule}/${currentSection}`}>
-                  Continue Lesson
+                  Продолжить урок
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -54,7 +54,7 @@ export default function LearnPage() {
 
         {/* Modules Overview */}
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold">Course Modules</h2>
+          <h2 className="text-3xl font-bold">Модули</h2>
           
           <div className="grid gap-6">
             {modules.map((module) => {
@@ -68,21 +68,23 @@ export default function LearnPage() {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-xl">{module.title}</CardTitle>
+                        <Link href={`/learn/${module.id}`} className="hover:opacity-80 transition-opacity">
+                          <CardTitle className="text-xl cursor-pointer">{module.title}</CardTitle>
+                        </Link>
                         <p className="text-muted-foreground mt-1">{module.description}</p>
                       </div>
                       <div className="text-right">
                         <div className="text-2xl font-bold text-primary">
                           {completedCount}/{module.sections.length}
                         </div>
-                        <div className="text-sm text-muted-foreground">sections</div>
+                        <div className="text-sm text-muted-foreground">частей</div>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span>Progress</span>
+                        <span>Прогресс</span>
                         <span>{Math.round(progress)}%</span>
                       </div>
                       <Progress value={progress} className="h-2" />
@@ -90,11 +92,11 @@ export default function LearnPage() {
                     
                     <div className="flex justify-between items-center">
                       <div className="text-sm text-muted-foreground">
-                        {module.sections.length} lessons • ~{module.sections.reduce((acc, s) => acc + s.duration, 0)} min total
+                        {module.sections.length} уроков • ~{module.sections.reduce((acc, s) => acc + s.duration, 0)} мин
                       </div>
                       <Button asChild variant="outline">
                         <Link href={`/learn/${module.id}`}>
-                          View Module
+                          Посмотреть уроки
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                       </Button>

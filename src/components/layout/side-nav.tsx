@@ -95,7 +95,7 @@ export function SideNav() {
   return (
     <div className="flex h-full w-64 flex-col border-r bg-background">
       <div className="p-4">
-        <h2 className="text-lg font-semibold">Course Content</h2>
+        <h2 className="text-lg font-semibold">Содержание</h2>
       </div>
       
       <ScrollArea className="flex-1 px-4">
@@ -113,3 +113,4 @@ export function SideNav() {
     </div>
   )
 }
+

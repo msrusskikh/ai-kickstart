@@ -13,3 +13,4 @@ export const useCommandMenu = create<CommandMenuStore>((set) => ({
   close: () => set({ isOpen: false }),
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
 }));
+
