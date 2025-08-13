@@ -35,18 +35,7 @@ export const modules: Module[] = [
           
           <hr class="my-8 border-gray-200 dark:border-gray-700" />
         `,
-        quiz: [
-          {
-            type: "mcq",
-            question: "Что из перечисленного НЕ является примером современного ИИ?",
-            choices: ["ChatGPT", "Автопилот Tesla", "Калькулятор", "DALL-E"],
-            answer: "Калькулятор"
-          },
-          {
-            type: "reflection",
-            prompt: "Как вы думаете, как ИИ может изменить вашу работу в ближайшие 2-3 года?"
-          }
-        ]
+
       },
       {
         slug: "how-llms-think",
@@ -81,14 +70,7 @@ export const modules: Module[] = [
           
           <hr class="my-8 border-gray-200 dark:border-gray-700" />
         `,
-        quiz: [
-          {
-            type: "mcq",
-            question: "LLM обучаются на:",
-            choices: ["Только на русском языке", "Только на английском языке", "На множестве языков", "Только на математических формулах"],
-            answer: "На множестве языков"
-          }
-        ]
+
       },
       {
         slug: "strengths-weaknesses",
@@ -251,39 +233,39 @@ export const modules: Module[] = [
           <h2>Таблица решений</h2>
           
           <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-300 dark:border-gray-600">
+            <table class="min-w-full border border-gray-200 dark:border-gray-700">
               <thead>
-                <tr class="bg-gray-50 dark:bg-gray-800">
-                  <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Сбой</th>
-                  <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Причина</th>
-                  <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Что сделать</th>
+                <tr>
+                  <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Сбой</th>
+                  <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Причина</th>
+                  <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Что сделать</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Общий, поверхностный ответ</strong></td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Нет контекста</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Дайте аудиторию, цель, ограничения и пример</td>
-                </tr>
-                <tr class="bg-gray-50 dark:bg-gray-700">
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>«Уехал в сторону»</strong></td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Размытая инструкция</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Разбейте на шаги, чётко задайте границы</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Общий, поверхностный ответ</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Нет контекста</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Дайте аудиторию, цель, ограничения и пример</td>
                 </tr>
                 <tr>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Придуманные факты</strong></td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Галлюцинация</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Передайте проверенные факты в запросе или потребуйте ссылок на ваш текст</td>
-                </tr>
-                <tr class="bg-gray-50 dark:bg-gray-700">
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Неподходящий тон</strong></td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Нет ориентира по стилю</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Дайте 1–2 предложения-пример в нужном тоне</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">«Уехал в сторону»</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Размытая инструкция</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Разбейте на шаги, чётко задайте границы</td>
                 </tr>
                 <tr>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Излишняя автоматизация</strong></td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Нет контроля качества</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Добавьте ручные чек-пойнты для критичных частей</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Придуманные факты</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Галлюцинация</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Передайте проверенные факты в запросе или потребуйте ссылок на ваш текст</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Неподходящий тон</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Нет ориентира по стилю</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Дайте 1–2 предложения-пример в нужном тоне</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Излишняя автоматизация</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Нет контроля качества</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Добавьте ручные чек-пойнты для критичных частей</td>
                 </tr>
               </tbody>
             </table>
@@ -354,13 +336,87 @@ export const modules: Module[] = [
         `
       },
       {
+        slug: "module-1-quiz",
+        title: "Проверка знаний: Модуль 1",
+        summary: "Интерактивный тест для закрепления ключевых концепций модуля.",
+        duration: 25,
+
+        module: 1,
+        section: 11,
+        content: `
+          <h2>Проверьте свои знания</h2>
+          <p>Этот тест поможет закрепить ключевые концепции модуля 1. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+          
+          <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6">
+            <p class="text-sm text-blue-800 dark:text-blue-200"><strong>Совет:</strong> Некоторые вопросы могут иметь несколько правильных ответов, но только один является наиболее точным и полным.</p>
+          </div>
+        `,
+        quiz: [
+          {
+            type: "mcq",
+            question: "Что из перечисленного НЕ является ограничением больших языковых моделей (LLM)?",
+            choices: [
+              "Ограниченное окно контекста",
+              "Отсутствие долговременной памяти между сессиями", 
+              "Способность к творческому мышлению",
+              "Возможность галлюцинаций при недостатке данных"
+            ],
+            answer: "Способность к творческому мышлению"
+          },
+          {
+            type: "mcq", 
+            question: "В каком случае ИИ НЕ следует применять согласно принципам ответственного использования?",
+            choices: [
+              "Генерация черновиков документов",
+              "Анализ отзывов клиентов",
+              "Медицинские рекомендации без врачебного контроля",
+              "Перевод технических текстов"
+            ],
+            answer: "Медицинские рекомендации без врачебного контроля"
+          },
+          {
+            type: "mcq",
+            question: "Какой принцип работы с ИИ является наиболее эффективным для сложных задач?",
+            choices: [
+              "Дать одну сложную задачу и ждать идеального результата",
+              "Использовать короткие итерации: черновик → проверка → правки → финал",
+              "Всегда использовать высокую температуру для креативности",
+              "Полностью автоматизировать процесс без человеческого контроля"
+            ],
+            answer: "Использовать короткие итерации: черновик → проверка → правки → финал"
+          },
+          {
+            type: "mcq",
+            question: "Что означает принцип «Мусор на входе — мусор на выходе» при работе с ИИ?",
+            choices: [
+              "ИИ всегда даёт неточные ответы",
+              "Качество запроса определяет качество ответа",
+              "ИИ работает только с качественными данными",
+              "Чем больше данных, тем лучше результат"
+            ],
+            answer: "Качество запроса определяет качество ответа"
+          },
+          {
+            type: "mcq",
+            question: "Какой из методов верификации результатов ИИ является наиболее надёжным?",
+            choices: [
+              "Доверять уверенности модели в ответе",
+              "Проверять только первые 3 утверждения",
+              "Привлекать профильных экспертов для регулируемых тем",
+              "Всегда просить модель о самопроверке"
+            ],
+            answer: "Привлекать профильных экспертов для регулируемых тем"
+          }
+        ]
+      },
+      {
         slug: "recap-module-1",
         title: "Recap",
         summary: "Повторение и закрепление ключевых концепций модуля.",
         duration: 12,
 
         module: 1,
-        section: 11,
+        section: 12,
         content: `
           <h2>Ключевые выводы</h2>
           <ul class="list-disc pl-6 space-y-2">
@@ -747,13 +803,85 @@ export const modules: Module[] = [
         `,
       },
       {
+        slug: "module-2-quiz",
+        title: "Проверка знаний: Модуль 2",
+        summary: "Этот тест поможет закрепить ключевые навыки промптинга из модуля 2. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.",
+        duration: 25,
+
+        module: 2,
+        section: 12,
+        content: `
+         
+          <div class="bg-purple-50 dark:bg-purple-950/20 border-l-4 border-purple-500 p-4 rounded-r-lg mb-6">
+            <p class="text-sm text-purple-800 dark:text-purple-200"><strong>Совет:</strong> Помните о модели «Роль → Цель → Шаги → Ограничения → Критерий качества» при анализе вопросов.</p>
+          </div>
+        `,
+        quiz: [
+          {
+            type: "mcq",
+            question: "Какой элемент промпта активирует нужные паттерны модели и задаёт рамку всего ответа?",
+            choices: [
+              "Цель",
+              "Роль", 
+              "Ограничения",
+              "Критерий качества"
+            ],
+            answer: "Роль"
+          },
+          {
+            type: "mcq", 
+            question: "Что из перечисленного НЕ является одним из 5 ключевых паттернов промптинга?",
+            choices: [
+              "Генерация идей",
+              "Суммирование",
+              "Переписывание",
+              "Программирование"
+            ],
+            answer: "Программирование"
+          },
+          {
+            type: "mcq",
+            question: "В каком случае многошаговые цепочки запросов НЕ являются оптимальным решением?",
+            choices: [
+              "Когда задача сложная и многоэтапная",
+              "Когда нужно поэтапно проверять и уточнять результат",
+              "Когда задача простая и требует одного ответа",
+              "Когда результат одного шага передаётся в следующий"
+            ],
+            answer: "Когда задача простая и требует одного ответа"
+          },
+          {
+            type: "mcq",
+            question: "Что означает принцип «Пример — реактивное топливо» в контексте промптинга?",
+            choices: [
+              "Примеры всегда дают точный результат",
+              "Один хороший образец резко повышает качество ответа",
+              "Примеры нужны только для сложных задач",
+              "Чем больше примеров, тем лучше результат"
+            ],
+            answer: "Один хороший образец резко повышает качество ответа"
+          },
+          {
+            type: "mcq",
+            question: "Какой из методов встроенной проверки является наиболее эффективным для предотвращения галлюцинаций?",
+            choices: [
+              "Просить модель о самопроверке",
+              "Всегда проверять результаты вручную",
+              "Использовать только низкую температуру",
+              "Давать максимально простые задания"
+            ],
+            answer: "Просить модель о самопроверке"
+          }
+        ]
+      },
+      {
         slug: "recap-module-2",
         title: "Recap",
         summary: "Повторение и закрепление навыков промптинга.",
         duration: 15,
 
         module: 2,
-        section: 12,
+        section: 13,
         content: `
           <h2>Ключевые выводы</h2>
           <div class="bg-green-50 dark:bg-green-950/20 border-l-4 border-green-500 p-4 rounded-r-lg">
@@ -1111,13 +1239,87 @@ export const modules: Module[] = [
         `,
       },
       {
+        slug: "module-3-quiz",
+        title: "Проверка знаний: Модуль 3",
+        summary: "Интерактивный тест для закрепления навыков работы с ИИ-инструментами и процессами.",
+        duration: 25,
+
+        module: 3,
+        section: 10,
+        content: `
+          <h2>Проверьте свои знания</h2>
+          <p>Этот тест поможет закрепить ключевые навыки работы с ИИ-инструментами и процессами из модуля 3. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+          
+          <div class="bg-orange-50 dark:bg-orange-950/20 border-l-4 border-orange-500 p-4 rounded-r-lg mb-6">
+            <p class="text-sm text-orange-800 dark:text-orange-200"><strong>Совет:</strong> Помните о принципах выбора инструментов и построения рабочих процессов с ИИ при анализе вопросов.</p>
+          </div>
+        `,
+        quiz: [
+          {
+            type: "mcq",
+            question: "Какой из принципов НЕ является ключевым при выборе ИИ-инструмента для задачи?",
+            choices: [
+              "Конфиденциальность данных",
+              "Интеграция с существующими процессами",
+              "Высокая стоимость подписки",
+              "Порог входа для команды"
+            ],
+            answer: "Высокая стоимость подписки"
+          },
+          {
+            type: "mcq", 
+            question: "В каком случае многошаговые цепочки запросов НЕ являются оптимальным решением для автоматизации?",
+            choices: [
+              "Когда задача повторяется еженедельно",
+              "Когда процесс имеет чёткий алгоритм",
+              "Когда задача уникальна и выполняется один раз",
+              "Когда нужно связать несколько приложений"
+            ],
+            answer: "Когда задача уникальна и выполняется один раз"
+          },
+          {
+            type: "mcq",
+            question: "Что означает принцип «80/20» в контексте автоматизации рабочих процессов?",
+            choices: [
+              "80% задач автоматизировать, 20% оставить человеку",
+              "Сначала автоматизировать повторяющиеся, простые, массовые задачи",
+              "80% времени тратить на настройку, 20% на использование",
+              "20% инструментов покрывают 80% потребностей"
+            ],
+            answer: "Сначала автоматизировать повторяющиеся, простые, массовые задачи"
+          },
+          {
+            type: "mcq",
+            question: "Какой из инструментов НЕ подходит для работы с числовыми данными и формулами?",
+            choices: [
+              "ChatGPT с интеграцией в Excel",
+              "Google Sheets с ИИ-помощником",
+              "Zapier для автоматизации процессов",
+              "Специализированные ИИ-инструменты для анализа данных"
+            ],
+            answer: "Zapier для автоматизации процессов"
+          },
+          {
+            type: "mcq",
+            question: "Какой подход является наиболее эффективным для внедрения ИИ в рабочие процессы?",
+            choices: [
+              "Автоматизировать весь процесс сразу с первого дня",
+              "Начать с малого и масштабировать постепенно",
+              "Использовать только самые дорогие и продвинутые инструменты",
+              "Полностью заменить человеческий контроль ИИ"
+            ],
+            answer: "Начать с малого и масштабировать постепенно"
+          }
+        ]
+      },
+      {
         slug: "recap-module-3",
         title: "Recap",
         summary: "Повторение и закрепление ключевых концепций модуля.",
         duration: 15,
 
         module: 3,
-        section: 10,
+        section: 11,
         content: `
           <h2>Ключевые выводы</h2>
           <div class="bg-green-50 dark:bg-green-950/20 border-l-4 border-green-500 p-4 rounded-r-lg">
@@ -1211,37 +1413,37 @@ export const modules: Module[] = [
           <p>Перед тем как настраивать процесс, задайте себе вопросы:</p>
           
           <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-300 dark:border-gray-600">
+            <table class="min-w-full border border-gray-200 dark:border-gray-700">
               <thead>
-                <tr class="bg-gray-50 dark:bg-gray-800">
-                  <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Вопрос</th>
-                  <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">«Да» → Продолжаем</th>
+                <tr>
+                  <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Вопрос</th>
+                  <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">«Да» → Продолжаем</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Это повторяющаяся задача?</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Чем чаще повтор, тем больше выгода</td>
-                </tr>
-                <tr class="bg-gray-50 dark:bg-gray-700">
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Много текста или данных?</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">ИИ лучше всего работает с языком и структурированной информацией</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Это повторяющаяся задача?</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Чем чаще повтор, тем больше выгода</td>
                 </tr>
                 <tr>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Чёткие правила?</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Меньше двусмысленности = стабильнее результат</td>
-                </tr>
-                <tr class="bg-gray-50 dark:bg-gray-700">
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Можно ли проверить и исправить?</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Отлично подходит для схемы human-in-the-loop</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Много текста или данных?</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">ИИ лучше всего работает с языком и структурированной информацией</td>
                 </tr>
                 <tr>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Есть все нужные данные/контекст?</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Снижает риск «галлюцинаций»</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Чёткие правила?</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Меньше двусмысленности = стабильнее результат</td>
                 </tr>
-                <tr class="bg-gray-50 dark:bg-gray-700">
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Экономит хотя бы 10+ минут в неделю?</td>
-                  <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Стоит вложенных усилий</td>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Можно ли проверить и исправить?</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Отлично подходит для схемы human-in-the-loop</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Есть все нужные данные/контекст?</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Снижает риск «галлюцинаций»</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Экономит хотя бы 10+ минут в неделю?</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Стоит вложенных усилий</td>
                 </tr>
               </tbody>
             </table>
@@ -1443,13 +1645,87 @@ export const modules: Module[] = [
         `,
       },
       {
+        slug: "module-4-quiz",
+        title: "Проверка знаний: Модуль 4",
+        summary: "Интерактивный тест для закрепления навыков поиска и масштабирования ИИ-кейсов.",
+        duration: 25,
+
+        module: 4,
+        section: 10,
+        content: `
+          <h2>Проверьте свои знания</h2>
+          <p>Этот тест поможет закрепить ключевые навыки поиска и масштабирования ИИ-кейсов из модуля 4. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+          
+          <div class="bg-red-50 dark:bg-red-950/20 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+            <p class="text-sm text-red-800 dark:text-red-200"><strong>Совет:</strong> Помните о принципах поиска возможностей и формирования ИИ-культуры при анализе вопросов.</p>
+          </div>
+        `,
+        quiz: [
+          {
+            type: "mcq",
+            question: "Какой из критериев НЕ является частью чек-листа автоматизации для ИИ?",
+            choices: [
+              "Это повторяющаяся задача",
+              "Много текста или данных",
+              "Чёткие правила выполнения",
+              "Высокая стоимость внедрения"
+            ],
+            answer: "Высокая стоимость внедрения"
+          },
+          {
+            type: "mcq", 
+            question: "Что означает принцип «80/20» в контексте поиска возможностей для ИИ?",
+            choices: [
+              "80% задач автоматизировать, 20% оставить человеку",
+              "20% задач создают 80% лишней нагрузки",
+              "80% времени тратить на анализ, 20% на внедрение",
+              "20% сотрудников используют 80% ИИ-инструментов"
+            ],
+            answer: "20% задач создают 80% лишней нагрузки"
+          },
+          {
+            type: "mcq",
+            question: "В каком случае НЕ следует начинать с микро-побед при внедрении ИИ?",
+            choices: [
+              "Когда нужно быстро показать результат команде",
+              "Когда процесс сложный и многоэтапный",
+              "Когда задача экономит хотя бы 10 минут в неделю",
+              "Когда нужно набрать опыт и уверенность"
+            ],
+            answer: "Когда процесс сложный и многоэтапный"
+          },
+          {
+            type: "mcq",
+            question: "Какой из методов измерения эффекта от внедрения ИИ является наименее надёжным?",
+            choices: [
+              "Сравнение времени «до» и «после»",
+              "Подсчёт сэкономленных часов в неделю",
+              "Субъективная оценка «стало лучше»",
+              "Анализ снижения количества ошибок"
+            ],
+            answer: "Субъективная оценка «стало лучше»"
+          },
+          {
+            type: "mcq",
+            question: "Что из перечисленного НЕ является признаком зрелой ИИ-культуры в организации?",
+            choices: [
+              "Команда активно использует наработки друг друга",
+              "Люди умеют видеть возможности для ИИ",
+              "Все процессы полностью автоматизированы",
+              "Успешные кейсы документируются и распространяются"
+            ],
+            answer: "Все процессы полностью автоматизированы"
+          }
+        ]
+      },
+      {
         slug: "recap-module-4",
         title: "Recap",
         summary: "Повторение и закрепление ключевых концепций модуля.",
         duration: 16,
 
         module: 4,
-        section: 10,
+        section: 11,
         content: `
           <h2>Ключевые выводы</h2>
           <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded-r-lg">
@@ -1653,40 +1929,40 @@ export const lessonContentMap: Record<string, string> = {
     <h2>Таблица решений</h2>
     
     <div class="overflow-x-auto">
-      <table class="min-w-full border border-gray-300 dark:border-gray-600">
+      <table class="min-w-full border border-gray-200 dark:border-gray-700">
         <thead>
-          <tr class="bg-gray-50 dark:bg-gray-800">
-            <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Сбой</th>
-            <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Причина</th>
-            <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Что сделать</th>
+          <tr>
+            <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Сбой</th>
+            <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Причина</th>
+            <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Что сделать</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Общий, поверхностный ответ</strong></td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Нет контекста</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Дайте аудиторию, цель, ограничения и пример</td>
-          </tr>
-          <tr class="bg-gray-50 dark:bg-gray-700">
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>«Уехал в сторону»</strong></td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Размытая инструкция</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Разбейте на шаги, чётко задайте границы</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Придуманные факты</strong></td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Галлюцинация</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Передайте проверенные факты в запросе или потребуйте ссылок на ваш текст</td>
-          </tr>
-          <tr class="bg-gray-50 dark:bg-gray-700">
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Неподходящий тон</strong></td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Нет ориентира по стилю</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Дайте 1–2 предложения-пример в нужном тоне</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2"><strong>Излишняя автоматизация</strong></td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Нет контроля качества</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Добавьте ручные чек-пойнты для критичных частей</td>
-          </tr>
+                          <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Общий, поверхностный ответ</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Нет контекста</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Дайте аудиторию, цель, ограничения и пример</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">«Уехал в сторону»</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Размытая инструкция</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Разбейте на шаги, чётко задайте границы</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Придуманные факты</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Галлюцинация</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Передайте проверенные факты в запросе или потребуйте ссылок на ваш текст</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Неподходящий тон</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Нет ориентира по стилю</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Дайте 1–2 предложения-пример в нужном тоне</td>
+                </tr>
+                <tr>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Излишняя автоматизация</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Нет контроля качества</td>
+                  <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Добавьте ручные чек-пойнты для критичных частей</td>
+                </tr>
         </tbody>
       </table>
     </div>
@@ -1732,6 +2008,15 @@ export const lessonContentMap: Record<string, string> = {
   `,
   
   "1-11": `
+    <h2>Проверьте свои знания</h2>
+    <p>Этот тест поможет закрепить ключевые концепции модуля 1. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+    
+    <div class="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6">
+      <p class="text-sm text-blue-800 dark:text-blue-200"><strong>Совет:</strong> Некоторые вопросы могут иметь несколько правильных ответов, но только один является наиболее точным и полным.</p>
+    </div>
+  `,
+  
+  "1-12": `
     <h2>Ключевые выводы</h2>
     <ul>
       <li><strong>LLM — это машины предсказания</strong> текстовых паттернов, а не «мыслящие существа».</li>
@@ -1952,6 +2237,15 @@ export const lessonContentMap: Record<string, string> = {
   `,
   
   "2-12": `
+    <h2>Проверьте свои знания</h2>
+    <p>Этот тест поможет закрепить ключевые навыки промптинга из модуля 2. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+    
+    <div class="bg-purple-50 dark:bg-purple-950/20 border-l-4 border-purple-500 p-4 rounded-r-lg mb-6">
+      <p class="text-sm text-purple-800 dark:text-purple-200"><strong>Совет:</strong> Помните о модели «Роль → Цель → Шаги → Ограничения → Критерий качества» при анализе вопросов.</p>
+    </div>
+  `,
+  
+  "2-13": `
     <h2>Ключевые выводы</h2>
     <ul>
       <li><strong>Хороший промпт — это не «угадайка»</strong>, а чёткая постановка задачи: Роль → Цель → Шаги → Ограничения → Стандарт качества.</li>
@@ -2122,6 +2416,15 @@ export const lessonContentMap: Record<string, string> = {
   `,
   
   "3-10": `
+    <h2>Проверьте свои знания</h2>
+    <p>Этот тест поможет закрепить ключевые навыки работы с ИИ-инструментами и процессами из модуля 3. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+    
+    <div class="bg-orange-50 dark:bg-orange-950/20 border-l-4 border-orange-500 p-4 rounded-r-lg mb-6">
+      <p class="text-sm text-orange-800 dark:text-orange-200"><strong>Совет:</strong> Помните о принципах выбора инструментов и построения рабочих процессов с ИИ при анализе вопросов.</p>
+    </div>
+  `,
+  
+  "3-11": `
     <h2>Ключевые выводы</h2>
     <ul>
       <li>Освоение <strong>2–3 инструментов</strong>, релевантных вашей работе, даёт моментальный прирост продуктивности.</li>
@@ -2176,37 +2479,37 @@ export const lessonContentMap: Record<string, string> = {
     <p>Перед тем как настраивать процесс, задайте себе вопросы:</p>
     
     <div class="overflow-x-auto">
-      <table class="min-w-full border border-gray-300 dark:border-gray-600">
+      <table class="min-w-full border border-gray-200 dark:border-gray-700">
         <thead>
-          <tr class="bg-gray-50 dark:bg-gray-800">
-            <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Вопрос</th>
-            <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">«Да» → Продолжаем</th>
+          <tr>
+            <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">Вопрос</th>
+            <th class="border-b border-gray-200 dark:border-gray-700 px-3 py-2 text-left font-medium">«Да» → Продолжаем</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Это повторяющаяся задача?</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Чем чаще повтор, тем больше выгода</td>
-          </tr>
-          <tr class="bg-gray-50 dark:bg-gray-700">
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Много текста или данных?</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">ИИ лучше всего работает с языком и структурированной информацией</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Это повторяющаяся задача?</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Чем чаще повтор, тем больше выгода</td>
           </tr>
           <tr>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Чёткие правила?</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Меньше двусмысленности = стабильнее результат</td>
-          </tr>
-          <tr class="bg-gray-50 dark:bg-gray-700">
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Можно ли проверить и исправить?</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Отлично подходит для схемы human-in-the-loop</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Много текста или данных?</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">ИИ лучше всего работает с языком и структурированной информацией</td>
           </tr>
           <tr>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Есть все нужные данные/контекст?</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Снижает риск «галлюцинаций»</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Чёткие правила?</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Меньше двусмысленности = стабильнее результат</td>
           </tr>
-          <tr class="bg-gray-50 dark:bg-gray-700">
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Экономит хотя бы 10+ минут в неделю?</td>
-            <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">Стоит вложенных усилий</td>
+          <tr>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Можно ли проверить и исправить?</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Отлично подходит для схемы human-in-the-loop</td>
+          </tr>
+          <tr>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Есть все нужные данные/контекст?</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Снижает риск «галлюцинаций»</td>
+          </tr>
+          <tr>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Экономит хотя бы 10+ минут в неделю?</td>
+            <td class="border-b border-gray-100 dark:border-gray-800 px-3 py-2">Стоит вложенных усилий</td>
           </tr>
         </tbody>
       </table>
@@ -2319,6 +2622,15 @@ export const lessonContentMap: Record<string, string> = {
   `,
   
   "4-10": `
+    <h2>Проверьте свои знания</h2>
+    <p>Этот тест поможет закрепить ключевые навыки поиска и масштабирования ИИ-кейсов из модуля 4. Внимательно прочитайте каждый вопрос и выберите наиболее точный ответ.</p>
+    
+    <div class="bg-red-50 dark:bg-red-950/20 border-l-4 border-red-500 p-4 rounded-r-lg mb-6">
+      <p class="text-sm text-red-800 dark:text-red-200"><strong>Совет:</strong> Помните о принципах поиска возможностей и формирования ИИ-культуры при анализе вопросов.</p>
+    </div>
+  `,
+  
+  "4-11": `
     <h2>Ключевые выводы</h2>
     <ul>
       <li>ИИ приносит наибольшую ценность, когда внедряется в процессы с <strong>повторяющимися, структурированными и объёмными</strong> задачами.</li>

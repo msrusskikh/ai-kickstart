@@ -48,7 +48,7 @@ export function QuizMCQ({ quiz, onComplete }: QuizMCQProps) {
   return (
     <div className="space-y-4 p-6 border rounded-lg bg-card">
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Question</h3>
+        <h3 className="text-lg font-semibold">Вопрос</h3>
         <p className="text-sm text-muted-foreground">{quiz.question}</p>
       </div>
       
@@ -90,12 +90,12 @@ export function QuizMCQ({ quiz, onComplete }: QuizMCQProps) {
           {isCorrect ? (
             <div className="flex items-center space-x-2">
               <CheckCircle className="h-4 w-4" />
-              <span>Correct! Well done.</span>
+              <span>Правильно! Отличная работа.</span>
             </div>
           ) : (
             <div className="flex items-center space-x-2">
               <XCircle className="h-4 w-4" />
-              <span>Incorrect. The correct answer is: {quiz.answer}</span>
+              <span>Неправильно. Правильный ответ: {quiz.answer}</span>
             </div>
           )}
         </div>

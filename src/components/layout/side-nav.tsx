@@ -50,10 +50,10 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
       {/* Progress indicator */}
       <div className="ml-6 mt-2">
         <div className="w-full bg-muted/30 rounded-full h-1.5">
-          <div 
-            className="bg-primary/60 h-1.5 rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
-          />
+                      <div 
+              className="bg-primary h-1.5 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
         </div>
       </div>
       

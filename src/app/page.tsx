@@ -32,7 +32,7 @@ export default function HomePage() {
   const hasProgress = completedSections.size > 0 || currentModule > 1 || currentSection > 1
   
   // Calculate overall progress
-  const totalSections = 43 // Total sections across all modules
+  const totalSections = 47 // Total sections across all modules (updated for new quiz lessons)
   const progressPercentage = Math.round((completedSections.size / totalSections) * 100)
   
   // Determine the best destination for "Continue Learning"
@@ -69,6 +69,15 @@ export default function HomePage() {
   
   return (
     <div className="min-h-screen bg-background">
+      {/* Header with Трансформер text */}
+      <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="container flex h-14 items-center px-4">
+          <div className="flex items-center space-x-2">
+            <h1 className="text-lg font-semibold text-foreground">Трансформер</h1>
+          </div>
+        </div>
+      </header>
+
       {/* Developer Mode Banner */}
       {isDevMode && (
         <div className="bg-green-600/90 text-white py-3 text-center text-sm font-medium border-b border-green-500/30 shadow-sm">
