@@ -27,25 +27,26 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* OpenAI-inspired elegant dark mode - sophisticated, warm, and easy on the eyes */
+    --background: 220 15% 13%; /* Deep charcoal with warm undertones */
+    --foreground: 220 10% 90%; /* Soft warm white */
+    --card: 220 15% 16%; /* Subtle elevation with warm undertones */
+    --card-foreground: 220 10% 90%;
+    --popover: 220 15% 16%;
+    --popover-foreground: 220 10% 90%;
+    --primary: 220 10% 90%; /* Warm white for primary elements */
+    --primary-foreground: 220 15% 13%;
+    --secondary: 220 15% 20%; /* Softer secondary with warm undertones */
+    --secondary-foreground: 220 10% 90%;
+    --muted: 220 15% 20%; /* Softer muted with warm undertones */
+    --muted-foreground: 220 10% 70%; /* Softer muted text for better readability */
+    --accent: 220 15% 20%; /* Softer accent with warm undertones */
+    --accent-foreground: 220 10% 90%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --destructive-foreground: 220 10% 90%;
+    --border: 220 15% 25%; /* Softer borders with warm undertones */
+    --input: 220 15% 20%;
+    --ring: 220 10% 70%; /* Softer ring color for better focus states */
   }
 }
 
@@ -54,10 +55,136 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Enhanced dark mode scrollbar styling */
+  .dark ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .dark ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+  
+  /* Improved selection styling for dark mode */
+  .dark ::selection {
+    background: hsl(var(--accent) / 0.3);
+    color: hsl(var(--accent-foreground));
+  }
+  
+  /* Enhanced focus states for better accessibility */
+  .dark *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
+  }
+  
+  /* Enhanced focus ring for dark mode */
+  .dark .focus-ring:focus {
+    @apply ring-offset-0;
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.4);
+  }
+  
+  /* Enhanced lesson styling */
+  .lesson-content {
+    @apply max-w-4xl mx-auto;
+  }
+  
+  .lesson-content h1 {
+    @apply text-3xl font-bold text-foreground mb-6 mt-8 first:mt-0;
+  }
+  
+  .lesson-content h2 {
+    @apply text-2xl font-semibold text-foreground mb-4 mt-8;
+  }
+  
+  .lesson-content h3 {
+    @apply text-xl font-medium text-foreground mb-3 mt-6;
+  }
+  
+  .lesson-content p {
+    @apply text-base leading-relaxed text-foreground mb-4;
+  }
+  
+  .lesson-content ul {
+    @apply my-4 space-y-2 list-disc pl-6;
+  }
+  
+  .lesson-content li {
+    @apply text-foreground;
+  }
+  
+  .lesson-content strong {
+    @apply font-semibold text-foreground;
+  }
+  
+  .lesson-content table {
+    @apply w-full border-collapse my-6;
+  }
+  
+  .lesson-content th {
+    @apply border border-border bg-muted px-4 py-3 text-left text-sm font-semibold text-foreground;
+  }
+  
+  .lesson-content td {
+    @apply border border-border px-4 py-3 text-sm text-foreground;
+  }
+  
+  .lesson-content tr:nth-child(even) {
+    @apply bg-muted/50;
+  }
+  
+  .lesson-content tr:hover {
+    @apply bg-accent transition-colors duration-150;
+  }
+  
+  /* Enhanced interactive elements for dark mode */
+  .dark a:not(.lesson-content a) {
+    @apply text-primary hover:text-primary/80 transition-colors duration-200;
+  }
+  
+  .dark button:not([disabled]) {
+    @apply transition-all duration-200;
+  }
+  
+  .dark button:not([disabled]):hover {
+    @apply transform scale-[1.02];
+  }
+  
+  /* Elegant card shadows for dark mode */
+  .dark .bg-card {
+    box-shadow: 0 1px 3px 0 hsl(var(--background) / 0.1), 0 1px 2px -1px hsl(var(--background) / 0.1);
+  }
+  
+  /* Enhanced input styling for dark mode */
+  
+  /* Enhanced input styling for dark mode */
+  .dark input, .dark textarea {
+    background-color: hsl(var(--background));
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+  
+  .dark input::placeholder, .dark textarea::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+  
+  .dark input:focus, .dark textarea:focus {
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 1px hsl(var(--ring) / 0.2);
   }
 }

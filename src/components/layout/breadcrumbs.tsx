@@ -46,7 +46,7 @@ export function Breadcrumbs() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{section.title}</BreadcrumbPage>
+          <BreadcrumbPage className="truncate max-w-[200px]">{section.title}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

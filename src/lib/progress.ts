@@ -6,6 +6,8 @@ interface ProgressStore extends Progress {
   markSectionComplete: (module: number, section: number) => void;
   setCurrentLesson: (module: number, section: number) => void;
   reset: () => void;
+  toggleDevMode: () => void;
+  isDevMode: boolean;
 }
 
 const defaultProgress: Progress = {
@@ -18,6 +20,7 @@ export const useProgressStore = create<ProgressStore>()(
   persist(
     (set, get) => ({
       ...defaultProgress,
+      isDevMode: false,
       markSectionComplete: (module: number, section: number) => {
         set((state) => {
           const newCompleted = new Set(state.completedSections);
@@ -31,6 +34,9 @@ export const useProgressStore = create<ProgressStore>()(
       reset: () => {
         set(defaultProgress);
       },
+      toggleDevMode: () => {
+        set((state) => ({ isDevMode: !state.isDevMode }));
+      },
     }),
     {
       name: 'learning-progress',
@@ -38,6 +44,7 @@ export const useProgressStore = create<ProgressStore>()(
         completedSections: Array.from(state.completedSections),
         currentModule: state.currentModule,
         currentSection: state.currentSection,
+        isDevMode: state.isDevMode,
       }),
       onRehydrateStorage: () => (state) => {
         if (state) {

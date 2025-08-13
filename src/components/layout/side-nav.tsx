@@ -31,21 +31,31 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
       <Button
         variant="ghost"
         size="sm"
-        className="w-full justify-between p-2 h-auto"
+        className="w-full justify-between p-3 h-auto hover:bg-accent/50 transition-all duration-200"
         onClick={onToggle}
       >
-        <div className="flex items-center space-x-2">
+        <div className="flex items-start space-x-2">
           {isExpanded ? (
-            <ChevronDown className="h-4 w-4" />
+            <ChevronDown className="h-4 w-4 mt-0.5 flex-shrink-0 text-muted-foreground" />
           ) : (
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4 mt-0.5 flex-shrink-0 text-muted-foreground" />
           )}
-          <span className="font-medium">{module.title}</span>
+          <span className="font-medium break-words leading-tight mt-0.5 text-foreground">{module.title}</span>
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-md">
           {completedCount}/{module.sections.length}
         </div>
       </Button>
+      
+      {/* Progress indicator */}
+      <div className="ml-6 mt-2">
+        <div className="w-full bg-muted/30 rounded-full h-1.5">
+          <div 
+            className="bg-primary/60 h-1.5 rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
       
       {isExpanded && (
         <div className="ml-6 space-y-1">
@@ -58,16 +68,18 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                 key={section.section}
                 href={`/learn/${module.id}/${section.section}`}
                 className={cn(
-                  "flex items-center space-x-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-                  isActive && "bg-accent text-accent-foreground"
+                  "flex items-start space-x-2 rounded-md px-3 py-2 transition-all duration-200 hover:bg-accent/60 hover:text-accent-foreground group",
+                  isActive && "bg-accent text-accent-foreground shadow-sm"
                 )}
               >
                 {isCompleted ? (
-                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
                 ) : (
-                  <Circle className="h-4 w-4 text-muted-foreground" />
+                  <Circle className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
                 )}
-                <span className="truncate">{section.title}</span>
+                <span className="relative overflow-hidden max-w-[180px]">
+                  <span className="text-xs font-medium leading-tight text-foreground">{section.title}</span>
+                </span>
               </Link>
             )
           })}
@@ -93,13 +105,13 @@ export function SideNav() {
   }
 
   return (
-    <div className="flex h-full w-64 flex-col border-r bg-background">
-      <div className="p-4">
-        <h2 className="text-lg font-semibold">Содержание</h2>
+    <div className="flex h-full w-72 flex-col border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="p-4 border-b border-border/50">
+        <h2 className="text-lg font-semibold text-foreground">Содержание</h2>
       </div>
       
       <ScrollArea className="flex-1 px-4">
-        <div className="space-y-4">
+        <div className="space-y-4 py-4">
           {modules.map((module) => (
             <ModuleItem
               key={module.id}

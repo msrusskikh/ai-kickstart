@@ -1,13 +1,13 @@
 "use client"
 
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 import { useProgressStore } from "@/lib/progress"
-import { modules, getLesson, lessonContent } from "@/lib/content"
+import { modules, getLesson, lessonContentMap } from "@/lib/content"
 import { LessonPlayer } from "@/components/lesson/lesson-player"
 import { Button } from "@/components/ui/button"
 import { Breadcrumbs } from "@/components/layout/breadcrumbs"
-import { ArrowLeft, ArrowRight, CheckCircle } from "lucide-react"
+import { ArrowLeft, ArrowRight, CheckCircle, Lock } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface LessonPageProps {
@@ -21,6 +21,7 @@ export default function LessonPage({ params }: LessonPageProps) {
   const [moduleStr, setModuleStr] = useState<string>("")
   const [sectionStr, setSectionStr] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
+  const { completedSections, currentModule, currentSection, isDevMode } = useProgressStore()
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -53,6 +54,27 @@ export default function LessonPage({ params }: LessonPageProps) {
   if (!module) {
     notFound()
   }
+
+  // Check if user has access to this lesson (bypass if dev mode is enabled)
+  const isFirstSection = sectionId === 1
+  const isCompleted = completedSections.has(`${moduleId}-${sectionId}`)
+  const hasAccessToPrevious = sectionId > 1 && completedSections.has(`${moduleId}-${sectionId - 1}`)
+  const hasAccess = isDevMode || isFirstSection || isCompleted || hasAccessToPrevious
+
+  // If user doesn't have access and dev mode is disabled, redirect to the first accessible lesson
+  if (!hasAccess && !isDevMode) {
+    // Find the first incomplete lesson they can access
+    const firstIncomplete = module.sections.find(section => {
+      if (section.section === 1) return true
+      return completedSections.has(`${moduleId}-${section.section - 1}`)
+    })
+    
+    if (firstIncomplete) {
+      redirect(`/learn/${moduleId}/${firstIncomplete.section}`)
+    } else {
+      redirect(`/learn/${moduleId}/1`)
+    }
+  }
   
   const currentIndex = module.sections.findIndex(s => s.section === sectionId)
   const prevSection = currentIndex > 0 ? module.sections[currentIndex - 1] : null
@@ -60,7 +82,7 @@ export default function LessonPage({ params }: LessonPageProps) {
   
   // Get custom content for this lesson, or fall back to sample content
   const contentKey = `${lesson.module}-${lesson.section}`
-  const customContent = lessonContent[contentKey]
+  const customContent = lessonContentMap[contentKey]
   
   const content = customContent || `
     <h2>Welcome to ${lesson.title}</h2>

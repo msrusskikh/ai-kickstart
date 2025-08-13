@@ -6,7 +6,7 @@ import { modules } from './content';
 
 export function useKeyboardShortcuts() {
   const router = useRouter();
-  const { currentModule, currentSection, setCurrentLesson } = useProgressStore();
+  const { currentModule, currentSection, setCurrentLesson, completedSections, isDevMode } = useProgressStore();
   const { open: openCommandMenu } = useCommandMenu();
 
   useEffect(() => {
@@ -38,8 +38,15 @@ export function useKeyboardShortcuts() {
           if (currentModuleData) {
             const nextSection = currentModuleData.sections.find(s => s.section === currentSection + 1);
             if (nextSection) {
-              setCurrentLesson(currentModule, currentSection + 1);
-              router.push(`/learn/${currentModule}/${currentSection + 1}`);
+              // Check if user has access to next section (bypass if dev mode is enabled)
+              const hasAccess = isDevMode || nextSection.section === 1 || 
+                completedSections.has(`${currentModule}-${nextSection.section}`) ||
+                completedSections.has(`${currentModule}-${nextSection.section - 1}`);
+              
+              if (hasAccess) {
+                setCurrentLesson(currentModule, currentSection + 1);
+                router.push(`/learn/${currentModule}/${currentSection + 1}`);
+              }
             } else if (currentModule < modules.length) {
               // Go to next module, first section
               setCurrentLesson(currentModule + 1, 1);

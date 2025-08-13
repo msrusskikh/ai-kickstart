@@ -17,11 +17,10 @@ export interface LessonFrontmatter {
   title: string;
   summary: string;
   duration: number;
-  objectives: string[];
-  prerequisites: string[];
   module: number;
   section: number;
   quiz?: Quiz[];
+  content?: string;
 }
 
 export interface Module {

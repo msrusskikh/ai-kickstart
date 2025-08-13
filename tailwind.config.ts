@@ -59,6 +59,8 @@ const config: Config = {
       animation: {
         'fade-in': 'fadeIn 120ms ease-out',
         'slide-up': 'slideUp 180ms ease-out',
+        'glow': 'glow 2s ease-in-out infinite alternate',
+        'subtle-bounce': 'subtleBounce 0.6s ease-out',
       },
       keyframes: {
         fadeIn: {
@@ -68,6 +70,15 @@ const config: Config = {
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        glow: {
+          '0%': { boxShadow: '0 0 5px hsl(var(--ring) / 0.1)' },
+          '100%': { boxShadow: '0 0 20px hsl(var(--ring) / 0.2)' },
+        },
+        subtleBounce: {
+          '0%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-2px)' },
+          '100%': { transform: 'translateY(0)' },
         },
       },
     },

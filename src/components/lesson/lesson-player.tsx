@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { Clock, Target, BookOpen } from "lucide-react"
+import { Clock, BookOpen } from "lucide-react"
 import { useProgressStore } from "@/lib/progress"
 import { QuizMCQ } from "./quiz-mcq"
 import { QuizReflection } from "./quiz-reflection"
@@ -31,6 +31,12 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
       const windowHeight = window.innerHeight
       
       const scrollProgress = (scrollTop + windowHeight - contentTop) / contentHeight
+      const clampedProgress = Math.max(0, Math.min(100, scrollProgress * 100))
+      
+      // Update progress bar
+      if (progressRef.current) {
+        progressRef.current.style.width = `${clampedProgress}%`
+      }
       
       if (scrollProgress >= 0.8) {
         markSectionComplete(lesson.module, lesson.section)
@@ -45,12 +51,10 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
     markSectionComplete(lesson.module, lesson.section)
   }
 
-  // Simple content rendering (in a real app, this would use MDX)
+  // Enhanced content rendering with better styling
   const renderContent = () => {
-    // This is a simplified content renderer
-    // In production, you'd use MDX with proper component mapping
     return (
-      <div className="prose prose-gray dark:prose-invert max-w-none">
+      <div className="prose prose-gray dark:prose-invert max-w-none prose-headings:scroll-mt-20 prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6 prose-h1:text-foreground prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4 prose-h2:mt-8 prose-h2:text-foreground prose-h3:text-xl prose-h3:font-medium prose-h3:mb-3 prose-h3:mt-6 prose-h3:text-foreground prose-p:text-base prose-p:leading-relaxed prose-p:mb-4 prose-p:text-foreground prose-ul:my-4 prose-li:mb-2 prose-li:text-foreground prose-strong:font-semibold prose-strong:text-foreground prose-table:w-full prose-table:border-collapse prose-table:my-6 prose-th:border prose-th:border-border prose-th:bg-muted prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:text-sm prose-th:font-semibold prose-th:text-foreground prose-td:border prose-td:border-border prose-td:px-4 prose-td:py-3 prose-td:text-sm prose-td:text-foreground">
         <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     )
@@ -58,10 +62,25 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
 
   return (
     <div className="max-w-lesson mx-auto space-y-8" ref={contentRef}>
+      {/* Progress Indicator */}
+      <div className="sticky top-20 z-10 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border border-border/30 rounded-lg p-3 shadow-sm">
+        <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+          <span>Прогресс чтения</span>
+          <span>80% для завершения</span>
+        </div>
+        <div className="w-full bg-muted/30 rounded-full h-2">
+          <div 
+            className="bg-primary/60 h-2 rounded-full transition-all duration-500 ease-out"
+            style={{ width: '0%' }}
+            ref={progressRef}
+          />
+        </div>
+      </div>
+      
       {/* Lesson Header */}
-      <Card>
+      <Card className="shadow-sm border-border/50">
         <CardHeader>
-          <CardTitle className="text-3xl">{lesson.title}</CardTitle>
+          <CardTitle className="text-3xl text-foreground">{lesson.title}</CardTitle>
           <div className="flex items-center space-x-6 text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
               <Clock className="h-4 w-4" />
@@ -81,51 +100,17 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
         </CardContent>
       </Card>
 
-      {/* Objectives */}
-      {lesson.objectives.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Target className="h-5 w-5" />
-              <span>Цели обучения</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              {lesson.objectives.map((objective, index) => (
-                <li key={index} className="flex items-start space-x-2">
-                  <span className="text-green-500 mt-1">•</span>
-                  <span>{objective}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Prerequisites */}
-      {lesson.prerequisites.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Предварительные требования</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              Перед началом этого урока убедитесь, что вы завершили: {lesson.prerequisites.join(', ')}
-            </p>
-          </CardContent>
-        </Card>
-      )}
-
       {/* Main Content */}
       <div className="space-y-6">
-        {renderContent()}
+        <div className="lesson-content bg-card/30 rounded-lg p-6 border border-border/30">
+          {renderContent()}
+        </div>
       </div>
 
       {/* Quizzes */}
       {lesson.quiz && lesson.quiz.length > 0 && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">Проверьте понимание</h2>
+          <h2 className="text-2xl font-semibold text-foreground">Проверьте понимание</h2>
           {lesson.quiz.map((quiz, index) => (
             <div key={index}>
               {quiz.type === 'mcq' && (
@@ -138,9 +123,6 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
           ))}
         </div>
       )}
-
-      {/* Progress indicator */}
-      <div ref={progressRef} className="h-4" />
     </div>
   )
 }

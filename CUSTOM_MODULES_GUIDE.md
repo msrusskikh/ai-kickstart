@@ -71,10 +71,10 @@ Each module contains multiple sections (lessons):
 
 ### 1. Update the Content Mapping
 
-In `src/lib/content.ts`, add content for your lessons to the `lessonContent` object:
+In `src/lib/content.ts`, add content for your lessons to the `lessonContentMap` object:
 
 ```typescript
-export const lessonContent: Record<string, string> = {
+export const lessonContentMap: Record<string, string> = {
   // Format: "module-section" as key
   "6-1": `
     <h2>Your Lesson Title</h2>
@@ -232,7 +232,7 @@ For example:
 ## Testing Your Changes
 
 1. **Add the module** to the `modules` array
-2. **Add content** to the `lessonContent` object
+2. **Add content** to the `lessonContentMap` object
 3. **Restart your development server** if needed
 4. **Navigate** to `/learn/{module-id}/{section-id}` to test
 5. **Check navigation** between lessons
