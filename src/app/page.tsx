@@ -68,9 +68,9 @@ export default function HomePage() {
   }
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-100">
       {/* Header with Трансформер text */}
-      <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-gray-100/95 backdrop-blur supports-[backdrop-filter]:bg-gray-100/80">
         <div className="container flex h-14 items-center px-4">
           <div className="flex items-center space-x-2">
             <h1 className="text-lg font-semibold text-foreground">Трансформер</h1>

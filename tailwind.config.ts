@@ -56,6 +56,18 @@ const config: Config = {
         'relaxed': '1.6',
         'tight': '1.3',
       },
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
+        'open-sans': ['Open Sans', 'sans-serif'],
+        'source-sans-pro': ['Source Sans Pro', 'sans-serif'],
+        'noto-sans': ['Noto Sans', 'sans-serif'],
+        'ubuntu': ['Ubuntu', 'sans-serif'],
+        'pt-sans': ['PT Sans', 'sans-serif'],
+        'fira-sans': ['Fira Sans', 'sans-serif'],
+        'work-sans': ['Work Sans', 'sans-serif'],
+        'ibm-plex-sans': ['IBM Plex Sans', 'sans-serif'],
+      },
       animation: {
         'fade-in': 'fadeIn 120ms ease-out',
         'slide-up': 'slideUp 180ms ease-out',

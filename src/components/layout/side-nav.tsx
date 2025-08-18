@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, CheckCircle, Circle } from "lucide-react"
+import { ChevronDown, ChevronRight, CheckCircle, Circle, Lock } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { useProgressStore } from "@/lib/progress"
@@ -18,20 +18,31 @@ interface ModuleItemProps {
 
 function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
   const pathname = usePathname()
-  const { completedSections } = useProgressStore()
+  const { completedSections, isDevMode } = useProgressStore()
   
   const completedCount = module.sections.filter(section => 
     completedSections.has(`${module.id}-${section.section}`)
   ).length
   
   const progress = (completedCount / module.sections.length) * 100
+  
+  // Check if module has any locked sections (when not in dev mode)
+  const hasLockedSections = !isDevMode && module.sections.some(section => {
+    const isFirstSection = section.section === 1
+    const hasAccessToPrevious = section.section > 1 && completedSections.has(`${module.id}-${section.section - 1}`)
+    const isCompleted = completedSections.has(`${module.id}-${section.section}`)
+    return !(isFirstSection || isCompleted || hasAccessToPrevious)
+  })
 
   return (
     <div className="space-y-1">
       <Button
         variant="ghost"
         size="sm"
-        className="w-full justify-between p-3 h-auto hover:bg-accent/50 transition-all duration-200"
+        className={cn(
+          "w-full justify-between p-3 h-auto transition-all duration-200",
+          hasLockedSections ? "opacity-75 hover:bg-muted/30" : "hover:bg-accent/50"
+        )}
         onClick={onToggle}
       >
         <div className="flex items-start space-x-2">
@@ -40,7 +51,12 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
           ) : (
             <ChevronRight className="h-4 w-4 mt-0.5 flex-shrink-0 text-muted-foreground" />
           )}
-          <span className="font-medium break-words leading-tight mt-0.5 text-foreground">{module.title}</span>
+          <div className="flex items-center space-x-2">
+            <span className="font-medium break-words leading-tight mt-0.5 text-foreground">{module.title}</span>
+            {hasLockedSections && (
+              <Lock className="h-3 w-3 text-muted-foreground/60" />
+            )}
+          </div>
         </div>
         <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-md">
           {completedCount}/{module.sections.length}
@@ -63,22 +79,37 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
             const isCompleted = completedSections.has(`${module.id}-${section.section}`)
             const isActive = pathname === `/learn/${module.id}/${section.section}`
             
+            // Check if user has access to this lesson (same logic as in lesson page)
+            const isFirstSection = section.section === 1
+            const hasAccessToPrevious = section.section > 1 && completedSections.has(`${module.id}-${section.section - 1}`)
+            const hasAccess = isDevMode || isFirstSection || isCompleted || hasAccessToPrevious
+            
             return (
               <Link
                 key={section.section}
                 href={`/learn/${module.id}/${section.section}`}
+                title={!hasAccess && !isDevMode ? "Complete previous lesson to unlock" : undefined}
                 className={cn(
-                  "flex items-start space-x-2 rounded-md px-3 py-2 transition-all duration-200 hover:bg-accent/60 hover:text-accent-foreground group",
+                  "flex items-start space-x-2 rounded-md px-3 py-2 transition-all duration-200 group",
+                  // Apply dimming when not accessible and not in dev mode
+                  !hasAccess && !isDevMode && "opacity-50 pointer-events-none",
+                  // Apply hover effects only when accessible
+                  hasAccess && "hover:bg-accent/60 hover:text-accent-foreground",
                   isActive && "bg-accent text-accent-foreground shadow-sm"
                 )}
               >
                 {isCompleted ? (
                   <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
-                ) : (
+                ) : hasAccess ? (
                   <Circle className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
+                ) : (
+                  <Lock className="h-4 w-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                 )}
                 <span className="relative overflow-hidden max-w-[180px]">
-                  <span className="text-xs font-medium leading-tight text-foreground">{section.title}</span>
+                  <span className={cn(
+                    "text-xs font-medium leading-tight",
+                    hasAccess ? "text-foreground" : "text-foreground/50"
+                  )}>{section.title}</span>
                 </span>
               </Link>
             )
