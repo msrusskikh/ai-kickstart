@@ -193,7 +193,6 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const [showResults, setShowResults] = useState(false)
   const [score, setScore] = useState(0)
   const [selectedQuestion, setSelectedQuestion] = useState('')
-  const [model, setModel] = useState('gpt-4o-mini')
   const [showCompletionModal, setShowCompletionModal] = useState(false)
   const [showHint, setShowHint] = useState(false)
 
@@ -208,6 +207,13 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const handlePhaseComplete = () => {
     if (currentPhase < 5) {
       setCurrentPhase(currentPhase + 1)
+    }
+  }
+
+  const handlePhaseNavigation = (targetPhase: number) => {
+    // Only allow going back, no skipping ahead
+    if (targetPhase < currentPhase) {
+      setCurrentPhase(targetPhase)
     }
   }
 
@@ -226,10 +232,8 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   // Load/persist local state for better UX
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedModel = localStorage.getItem('ck_lab_model')
       const savedPrompt = localStorage.getItem('ck_lab_prompt')
       const savedQuestion = localStorage.getItem('ck_lab_question')
-      if (savedModel) setModel(savedModel)
       if (savedPrompt) setContextRefreshPrompt(savedPrompt)
       if (savedQuestion) setSelectedQuestion(savedQuestion)
     }
@@ -237,11 +241,10 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('ck_lab_model', model)
       localStorage.setItem('ck_lab_prompt', contextRefreshPrompt)
       localStorage.setItem('ck_lab_question', selectedQuestion)
     }
-  }, [model, contextRefreshPrompt, selectedQuestion])
+  }, [contextRefreshPrompt, selectedQuestion])
 
   const handlePromptSubmit = async () => {
     if (!contextRefreshPrompt.trim() || !selectedQuestion.trim()) return
@@ -252,7 +255,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
       const res = await fetch('/api/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contextPrompt: contextRefreshPrompt, testQuestion: selectedQuestion, model })
+        body: JSON.stringify({ contextPrompt: contextRefreshPrompt, testQuestion: selectedQuestion, model: 'gpt-4o-mini' })
       })
       if (!res.ok) {
         const err = await res.json().catch(() => ({}))
@@ -588,14 +591,16 @@ CURRENT QUESTION: [ваш вопрос]
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-muted-foreground">Модель</label>
+                <label className="text-sm font-medium">Тестовый вопрос</label>
                 <select
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  className="mt-1 w-full border rounded-md bg-background p-2 text-sm"
+                  value={selectedQuestion}
+                  onChange={(e) => setSelectedQuestion(e.target.value)}
+                  className="mt-2 w-full border rounded-md bg-background p-2 text-sm"
                 >
-                  <option value="gpt-4o-mini">gpt-4o-mini</option>
-                  <option value="gpt-4o">gpt-4o</option>
+                  <option value="">Выберите вопрос...</option>
+                  <option value="What events and marketing activities should we prioritize for maximum impact?">Какие маркетинговые активности приоритизировать для максимального эффекта?</option>
+                  <option value="How should we allocate our remaining marketing budget?">Как распределить оставшийся маркетинговый бюджет?</option>
+                  <option value="What's our go-to-market strategy summary?">Какова краткая GTM-стратегия?</option>
                 </select>
               </div>
             </div>
@@ -606,19 +611,6 @@ CURRENT QUESTION: [ваш вопрос]
               onChange={(e) => setContextRefreshPrompt(e.target.value)}
               className="min-h-[200px]"
             />
-            <div>
-              <label className="text-sm font-medium">Тестовый вопрос</label>
-              <select
-                value={selectedQuestion}
-                onChange={(e) => setSelectedQuestion(e.target.value)}
-                className="mt-2 w-full border rounded-md bg-background p-2 text-sm"
-              >
-                <option value="">Выберите вопрос...</option>
-                <option value="What events and marketing activities should we prioritize for maximum impact?">Какие маркетинговые активности приоритизировать для максимального эффекта?</option>
-                <option value="How should we allocate our remaining marketing budget?">Как распределить оставшийся маркетинговый бюджет?</option>
-                <option value="What's our go-to-market strategy summary?">Какова краткая GTM-стратегия?</option>
-              </select>
-            </div>
             <Button 
               onClick={handlePromptSubmit}
               disabled={!contextRefreshPrompt.trim() || !selectedQuestion.trim() || isLoading}
@@ -765,10 +757,20 @@ CURRENT QUESTION: [ваш вопрос]
               <Progress value={(currentPhase / 5) * 100} className="h-3" />
               <div className="flex justify-between text-xs text-muted-foreground">
                 {phases.map((phase) => (
-                  <div key={phase.id} className="text-center">
-                    <div className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center text-xs font-medium ${
+                  <div 
+                    key={phase.id} 
+                    className={`text-center cursor-pointer transition-all duration-200 ${
+                      phase.id <= currentPhase 
+                        ? 'opacity-100' 
+                        : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    onClick={() => phase.id <= currentPhase && handlePhaseNavigation(phase.id)}
+                  >
+                    <div className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center text-xs font-medium transition-all duration-200 ${
                       phase.id <= currentPhase
-                        ? 'bg-primary text-primary-foreground'
+                        ? phase.id < currentPhase
+                          ? 'bg-primary text-primary-foreground hover:bg-primary/80'
+                          : 'bg-primary text-primary-foreground'
                         : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                     }`}>
                       {phase.id < currentPhase ? <CheckCircle className="w-4 h-4" /> : phase.id}
@@ -800,13 +802,21 @@ CURRENT QUESTION: [ваш вопрос]
 
         {/* Lab Completion */}
         {currentPhase === 5 && (
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-4">
             <Button 
               onClick={handleLabComplete}
               className="px-8 bg-green-600 hover:bg-green-700"
             >
               Завершить лабораторную работу
               <CheckCircle className="ml-2 h-4 w-4" />
+            </Button>
+            <Button 
+              onClick={() => window.location.href = '/learn/1/13'}
+              variant="outline"
+              className="px-8"
+            >
+              Перейти к Итогам
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         )}
