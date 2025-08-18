@@ -1,6 +1,6 @@
 "use client"
 
-import { notFound, redirect } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { useProgressStore } from "@/lib/progress"
 import { modules, getLesson, lessonContentMap } from "@/lib/content"
@@ -10,36 +10,14 @@ import { Breadcrumbs } from "@/components/layout/breadcrumbs"
 import { ArrowLeft, ArrowRight, CheckCircle, Lock } from "lucide-react"
 import { useEffect, useState } from "react"
 
-interface LessonPageProps {
-  params: Promise<{
-    module: string
-    section: string
-  }>
-}
-
-export default function LessonPage({ params }: LessonPageProps) {
-  const [moduleStr, setModuleStr] = useState<string>("")
-  const [sectionStr, setSectionStr] = useState<string>("")
-  const [isLoading, setIsLoading] = useState(true)
+export default function LessonPage() {
+  const router = useRouter()
+  const params = useParams<{ module: string; section: string }>()
+  const moduleStr = params?.module || ""
+  const sectionStr = params?.section || ""
   const { completedSections, currentModule, currentSection, isDevMode } = useProgressStore()
 
-  useEffect(() => {
-    const resolveParams = async () => {
-      try {
-        const resolvedParams = await params
-        setModuleStr(resolvedParams.module)
-        setSectionStr(resolvedParams.section)
-        setIsLoading(false)
-      } catch (error) {
-        console.error("Error resolving params:", error)
-        setIsLoading(false)
-      }
-    }
-    
-    resolveParams()
-  }, [params])
-
-  if (isLoading) {
+  if (!moduleStr || !sectionStr) {
     return <div>Loading...</div>
   }
   const moduleId = parseInt(moduleStr)
@@ -47,12 +25,28 @@ export default function LessonPage({ params }: LessonPageProps) {
   
   const lesson = getLesson(moduleId, sectionId)
   if (!lesson) {
-    notFound()
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <h2 className="text-2xl font-bold text-foreground">Страница не найдена</h2>
+        <p className="text-muted-foreground text-center max-w-md">Запрашиваемая страница не существует или была перемещена.</p>
+        <Button asChild>
+          <Link href="/">Вернуться на главную</Link>
+        </Button>
+      </div>
+    )
   }
   
   const module = modules.find(m => m.id === moduleId)
   if (!module) {
-    notFound()
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <h2 className="text-2xl font-bold text-foreground">Страница не найдена</h2>
+        <p className="text-muted-foreground text-center max-w-md">Запрашиваемая страница не существует или была перемещена.</p>
+        <Button asChild>
+          <Link href="/">Вернуться на главную</Link>
+        </Button>
+      </div>
+    )
   }
 
   // Check if user has access to this lesson (bypass if dev mode is enabled)
@@ -61,51 +55,55 @@ export default function LessonPage({ params }: LessonPageProps) {
   const hasAccessToPrevious = sectionId > 1 && completedSections.has(`${moduleId}-${sectionId - 1}`)
   const hasAccess = isDevMode || isFirstSection || isCompleted || hasAccessToPrevious
 
-  // If user doesn't have access and dev mode is disabled, redirect to the first accessible lesson
-  if (!hasAccess && !isDevMode) {
-    // Find the first incomplete lesson they can access
-    const firstIncomplete = module.sections.find(section => {
-      if (section.section === 1) return true
-      return completedSections.has(`${moduleId}-${section.section - 1}`)
-    })
-    
-    if (firstIncomplete) {
-      redirect(`/learn/${moduleId}/${firstIncomplete.section}`)
-    } else {
-      redirect(`/learn/${moduleId}/1`)
+  // If user doesn't have access and dev mode is disabled, navigate client-side
+  useEffect(() => {
+    if (!hasAccess && !isDevMode) {
+      const firstIncomplete = module.sections.find(section => {
+        if (section.section === 1) return true
+        return completedSections.has(`${moduleId}-${section.section - 1}`)
+      })
+      if (firstIncomplete) {
+        router.replace(`/learn/${moduleId}/${firstIncomplete.section}`)
+      } else {
+        router.replace(`/learn/${moduleId}/1`)
+      }
     }
-  }
+  }, [hasAccess, isDevMode, module.sections, completedSections, moduleId, router])
   
   const currentIndex = module.sections.findIndex(s => s.section === sectionId)
   const prevSection = currentIndex > 0 ? module.sections[currentIndex - 1] : null
   const nextSection = currentIndex < module.sections.length - 1 ? module.sections[currentIndex + 1] : null
   
   // Get custom content for this lesson, or fall back to sample content
-  const contentKey = `${lesson.module}-${lesson.section}`
-  const customContent = lessonContentMap[contentKey]
-  
-  const content = customContent || `
-    <h2>Welcome to ${lesson.title}</h2>
-    <p>This is a sample lesson content. In a real application, this would be loaded from MDX files with rich formatting, code examples, and interactive elements.</p>
+  // For lab lessons, we don't need content from lessonContentMap
+  let content = ''
+  if (!lesson.isLab) {
+    const contentKey = `${lesson.module}-${lesson.section}`
+    const customContent = lessonContentMap[contentKey]
     
-    <h3>Key Concepts</h3>
-    <ul>
-      <li>Understanding the fundamentals</li>
-      <li>Practical application</li>
-      <li>Best practices</li>
-    </ul>
-    
-    <h3>Example Code</h3>
-    <p>Here's a simple example to get you started:</p>
-    <pre><code>function greet(name) {
+    content = customContent || `
+      <h2>Welcome to ${lesson.title}</h2>
+      <p>This is a sample lesson content. In a real application, this would be loaded from MDX files with rich formatting, code examples, and interactive elements.</p>
+      
+      <h3>Key Concepts</h3>
+      <ul>
+        <li>Understanding the fundamentals</li>
+        <li>Practical application</li>
+        <li>Best practices</li>
+      </ul>
+      
+      <h3>Example Code</h3>
+      <p>Here's a simple example to get you started:</p>
+      <pre><code>function greet(name) {
   return \`Hello, \${name}!\`;
 }
 
 console.log(greet("Learner"));</code></pre>
-    
-    <h3>Next Steps</h3>
-    <p>After completing this lesson, you'll be ready to move on to more advanced topics. Make sure to complete the quiz below to reinforce your understanding.</p>
-  `
+      
+      <h3>Next Steps</h3>
+      <p>After completing this lesson, you'll be ready to move on to more advanced topics. Make sure to complete the quiz below to reinforce your understanding.</p>
+    `
+  }
 
   return (
     <div className="min-h-screen bg-background">

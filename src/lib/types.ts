@@ -21,6 +21,7 @@ export interface LessonFrontmatter {
   section: number;
   quiz?: Quiz[];
   content?: string;
+  isLab?: boolean;
 }
 
 export interface Module {

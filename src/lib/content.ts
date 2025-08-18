@@ -403,13 +403,26 @@ export const modules: Module[] = [
         ]
       },
       {
+        slug: "context-window-rescue-mission",
+        title: "Context Window Rescue Mission",
+        summary: "Интерактивная лабораторная работа по управлению ограничениями окна контекста ИИ.",
+        duration: 10,
+
+        module: 1,
+        section: 12,
+        content: `
+          <div id="context-window-lab-root"></div>
+        `,
+        isLab: true
+      },
+      {
         slug: "recap-module-1",
         title: "Итоги",
         summary: "Повторение и закрепление ключевых концепций модуля.",
         duration: 2,
 
         module: 1,
-        section: 12,
+        section: 13,
         content: `
           <h2>Ключевые выводы</h2>
           <ul class="list-disc pl-6 space-y-2">
@@ -1983,8 +1996,12 @@ export const lessonContentMap: Record<string, string> = {
       <p class="text-sm text-blue-800 dark:text-blue-200"><strong>Совет:</strong> Некоторые вопросы могут иметь несколько правильных ответов, но только один является наиболее точным и полным.</p>
     </div>
   `,
-  
+
   "1-12": `
+    <div id="context-window-lab-root"></div>
+  `,
+  
+  "1-13": `
     <h2>Ключевые выводы</h2>
     <ul>
       <li><strong>LLM — это машины предсказания</strong> текстовых паттернов, а не «мыслящие существа».</li>

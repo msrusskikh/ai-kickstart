@@ -8,6 +8,7 @@ import { QuizReflection } from "./quiz-reflection"
 import { Callout } from "./callout"
 import { Card, CardContent, CardHeader, CardTitle } from "./card"
 import { CodeBlock } from "./code-block"
+import ContextWindowLab from "./context-window-lab"
 import type { LessonFrontmatter, Quiz } from "@/lib/types"
 
 interface LessonPlayerProps {
@@ -44,8 +45,17 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
     markSectionComplete(lesson.module, lesson.section)
   }
 
+  const handleLabComplete = () => {
+    markSectionComplete(lesson.module, lesson.section)
+  }
+
   // Enhanced content rendering with better styling
   const renderContent = () => {
+    // Check if this is a lab lesson
+    if (lesson.isLab) {
+      return <ContextWindowLab onComplete={handleLabComplete} />
+    }
+    
     return (
       <div className="prose prose-gray dark:prose-invert max-w-none prose-headings:scroll-mt-20 prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6 prose-h1:text-foreground prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4 prose-h2:mt-8 prose-h2:text-foreground prose-h3:text-xl prose-h3:font-medium prose-h3:mb-3 prose-h3:mt-6 prose-h3:text-foreground prose-p:text-base prose-p:leading-relaxed prose-p:mb-4 prose-p:text-foreground prose-ul:my-4 prose-li:mb-2 prose-li:text-foreground prose-strong:font-semibold prose-strong:text-foreground">
         <div dangerouslySetInnerHTML={{ __html: content }} />
