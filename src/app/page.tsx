@@ -90,11 +90,12 @@ export default function HomePage() {
           </div>
           
           <h1 className="text-6xl font-bold tracking-tight text-foreground leading-tight">
-            Интерактивный курс{" "}
+            Интерактивный курс
+            <br />
             <span className="text-primary">AI Fundamentals</span>
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Освойте фундаментальные принципы работы с ИИ за 2 часа. Увеличьте эффективность работы и освободите время для важного.
+            Освойте фундаментальные принципы работы с ИИ за 2 часа. Увеличьте эффективность работы и освободите время для важного
           </p>
           
           {/* Progress Indicator */}

@@ -1868,6 +1868,19 @@ export function searchLessons(query: string): SearchResult[] {
 export const lessonContentMap: Record<string, string> = {
   // Module 1: Мышление и основы ИИ
   "1-1": `
+    <div class="mb-8">
+      <div class="w-full max-w-6xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg" style="aspect-ratio: 16/9;">
+        <iframe 
+          src="https://www.youtube.com/embed/VmYGN4o_dLw" 
+          title="AI Fundamentals Video"
+          class="w-full h-full"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+    
     <p>Современные ассистенты — <strong>ChatGPT</strong>, <strong>Claude</strong>, <strong>Gemini</strong> и другие — построены на больших языковых моделях (LLM). Это глубокие нейросети, обученные на гигантских корпусах текстов: книги, статьи, код, веб-страницы, стенограммы и т.п.</p>
     
     <h2>Как работают LLM</h2>
