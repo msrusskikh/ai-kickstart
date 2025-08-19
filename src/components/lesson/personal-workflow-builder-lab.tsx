@@ -229,11 +229,7 @@ const useOpenAI = () => {
 export default function PersonalWorkflowBuilderLab() {
   const [state, setState] = useState<LabState>({
     currentStep: 1,
-    userTasks: [
-      { description: '', frequency: '', duration: '' },
-      { description: '', frequency: '', duration: '' },
-      { description: '', frequency: '', duration: '' }
-    ],
+    userTasks: [],
     analysisResults: null,
     selectedTask: null,
     workflowInputs: { inputs: '', outputs: '', audience: '', requirements: '' },
@@ -462,8 +458,8 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
     }))
   }
 
-  const canProceedToStep2 = state.userTasks.length === 3 && 
-    state.userTasks.every(task => task.description.trim().length > 10 && task.frequency.trim().length > 0 && task.duration.trim().length > 0)
+  const canProceedToStep2 = state.userTasks.length >= 3 && 
+    state.userTasks.every(task => task.description.trim().length > 5 && task.frequency.trim().length > 0 && task.duration.trim().length > 0)
 
   const canProceedToStep4 = state.selectedTask && 
     state.workflowInputs.inputs && 
@@ -562,7 +558,11 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
               </div>
             ))}
             
-            {/* Tasks are pre-filled, no need to add more */}
+            {state.userTasks.length < 3 && (
+              <Button onClick={addTask} variant="outline" className="w-full">
+                + Добавить задачу
+              </Button>
+            )}
           </div>
           
           <div className="mt-6 flex justify-end">
@@ -570,7 +570,7 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
             <div className="mr-4 text-sm text-gray-500">
               <div>Задач: {state.userTasks.length}/3</div>
               <div>Валидных: {state.userTasks.filter(task => 
-                task.description.trim().length > 10 && 
+                task.description.trim().length > 5 && 
                 task.frequency.trim().length > 0 && 
                 task.duration.trim().length > 0
               ).length}/3</div>
