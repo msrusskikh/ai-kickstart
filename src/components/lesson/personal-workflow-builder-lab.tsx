@@ -229,7 +229,11 @@ const useOpenAI = () => {
 export default function PersonalWorkflowBuilderLab() {
   const [state, setState] = useState<LabState>({
     currentStep: 1,
-    userTasks: [],
+    userTasks: [
+      { description: '', frequency: '', duration: '' },
+      { description: '', frequency: '', duration: '' },
+      { description: '', frequency: '', duration: '' }
+    ],
     analysisResults: null,
     selectedTask: null,
     workflowInputs: { inputs: '', outputs: '', audience: '', requirements: '' },
@@ -459,7 +463,7 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
   }
 
   const canProceedToStep2 = state.userTasks.length === 3 && 
-    state.userTasks.every(task => task.description.length > 20 && task.frequency && task.duration)
+    state.userTasks.every(task => task.description.trim().length > 10 && task.frequency.trim().length > 0 && task.duration.trim().length > 0)
 
   const canProceedToStep4 = state.selectedTask && 
     state.workflowInputs.inputs && 
@@ -558,14 +562,19 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
               </div>
             ))}
             
-            {state.userTasks.length < 3 && (
-              <Button onClick={addTask} variant="outline" className="w-full">
-                + Добавить задачу
-              </Button>
-            )}
+            {/* Tasks are pre-filled, no need to add more */}
           </div>
           
           <div className="mt-6 flex justify-end">
+            {/* Debug info */}
+            <div className="mr-4 text-sm text-gray-500">
+              <div>Задач: {state.userTasks.length}/3</div>
+              <div>Валидных: {state.userTasks.filter(task => 
+                task.description.trim().length > 10 && 
+                task.frequency.trim().length > 0 && 
+                task.duration.trim().length > 0
+              ).length}/3</div>
+            </div>
             <Button 
               onClick={handleTaskSubmit}
               disabled={!canProceedToStep2 || isLoading}
