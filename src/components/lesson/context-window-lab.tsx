@@ -193,7 +193,6 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const [showResults, setShowResults] = useState(false)
   const [score, setScore] = useState(0)
   const [selectedQuestion, setSelectedQuestion] = useState('')
-  const [showCompletionModal, setShowCompletionModal] = useState(false)
   const [showHint, setShowHint] = useState(false)
 
   const handleContextItemToggle = (itemId: number) => {
@@ -222,11 +221,6 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     setScore(correctCount)
     setShowResults(true)
     handlePhaseComplete()
-  }
-
-  const handleLabComplete = () => {
-    setShowCompletionModal(true)
-    onComplete?.()
   }
 
   // Load/persist local state for better UX
@@ -789,7 +783,17 @@ CURRENT QUESTION: [ваш вопрос]
 
         {/* Navigation */}
         {currentPhase < 5 && (
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-4">
+            {currentPhase > 1 && (
+              <Button 
+                onClick={() => handlePhaseNavigation(currentPhase - 1)}
+                variant="outline"
+                className="px-8"
+              >
+                Назад
+                <ArrowRight className="ml-2 h-4 w-4 rotate-180" />
+              </Button>
+            )}
             <Button 
               onClick={handlePhaseComplete}
               className="px-8"
@@ -800,28 +804,28 @@ CURRENT QUESTION: [ваш вопрос]
           </div>
         )}
 
-        {/* Lab Completion */}
+        {/* Lab Completion - Removed buttons as requested */}
         {currentPhase === 5 && (
-          <div className="flex justify-center space-x-4">
-            <Button 
-              onClick={handleLabComplete}
-              className="px-8 bg-green-600 hover:bg-green-700"
-            >
-              Завершить лабораторную работу
-              <CheckCircle className="ml-2 h-4 w-4" />
-            </Button>
-            <Button 
-              onClick={() => window.location.href = '/learn/1/13'}
-              variant="outline"
-              className="px-8"
-            >
-              Перейти к Итогам
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+          <div className="text-center space-y-4">
+            <div className="rounded-lg border bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800 p-6">
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
+                <h3 className="text-xl font-semibold text-green-900 dark:text-green-100">
+                  Лабораторная работа завершена!
+                </h3>
+              </div>
+              <p className="text-green-800 dark:text-green-200">
+                Поздравляем! Вы успешно освоили управление окном контекста ИИ.
+              </p>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Используйте навигацию выше для перехода к следующему уроку.
+            </p>
           </div>
         )}
 
-        {/* Completion Modal */}
+        {/* Completion Modal - Removed since we're not using it anymore */}
+        {/*
         {showCompletionModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-background rounded-lg p-8 max-w-md mx-4 text-center space-y-6">
@@ -859,6 +863,7 @@ CURRENT QUESTION: [ваш вопрос]
             </div>
           </div>
         )}
+        */}
 
         {/* Footer */}
         <div className="text-center text-sm text-muted-foreground">

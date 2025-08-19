@@ -9,6 +9,8 @@ import { Callout } from "./callout"
 import { Card, CardContent, CardHeader, CardTitle } from "./card"
 import { CodeBlock } from "./code-block"
 import ContextWindowLab from "./context-window-lab"
+import { IterationChallengeLab } from "./iteration-challenge-lab"
+import PersonalWorkflowBuilderLab from "./personal-workflow-builder-lab"
 import type { LessonFrontmatter, Quiz } from "@/lib/types"
 
 interface LessonPlayerProps {
@@ -53,6 +55,14 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
   const renderContent = () => {
     // Check if this is a lab lesson
     if (lesson.isLab) {
+      // Check for specific lab types
+      if (lesson.slug === "ai-lab-4-iteration-challenge") {
+        return <IterationChallengeLab onComplete={handleLabComplete} />
+      }
+      if (lesson.slug === "personal-workflow-builder-lab") {
+        return <PersonalWorkflowBuilderLab />
+      }
+      // Default lab component
       return <ContextWindowLab onComplete={handleLabComplete} />
     }
     

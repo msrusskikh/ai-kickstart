@@ -8,3 +8,4 @@ export { EnhancedTable, Table, TableHead, TableBody, TableRow, TableHeader, Tabl
 export { CalloutBox } from './callout-box'
 export { SectionDivider } from './section-divider'
 export { default as ContextWindowLab } from './context-window-lab'
+export { default as PersonalWorkflowBuilderLab } from './personal-workflow-builder-lab'
