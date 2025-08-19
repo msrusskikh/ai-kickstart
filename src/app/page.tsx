@@ -78,12 +78,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Developer Mode Banner */}
-      {isDevMode && (
-        <div className="bg-green-600/90 text-white py-3 text-center text-sm font-medium border-b border-green-500/30 shadow-sm">
-          🔓 Режим разработчика активен - Все уроки доступны для форматирования
-        </div>
-      )}
+
       
       {/* Hero Section */}
       <div className="container mx-auto px-6 py-28">

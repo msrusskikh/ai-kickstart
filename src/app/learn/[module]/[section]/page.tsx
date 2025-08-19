@@ -74,12 +74,19 @@ export default function LessonPage() {
   const prevSection = currentIndex > 0 ? module.sections[currentIndex - 1] : null
   const nextSection = currentIndex < module.sections.length - 1 ? module.sections[currentIndex + 1] : null
   
+  // Check if this is the last lesson of the current module
+  const isLastLessonOfModule = currentIndex === module.sections.length - 1
+  const nextModule = modules.find(m => m.id === moduleId + 1)
+  
   // Get custom content for this lesson, or fall back to sample content
   // For lab lessons, we don't need content from lessonContentMap
   let content = ''
   if (!lesson.isLab) {
     const contentKey = `${lesson.module}-${lesson.section}`
+    console.log('Loading lesson content for:', contentKey)
+    console.log('Available keys:', Object.keys(lessonContentMap))
     const customContent = lessonContentMap[contentKey]
+    console.log('Custom content found:', !!customContent)
     
     content = customContent || `
       <h2>Welcome to ${lesson.title}</h2>
@@ -106,7 +113,7 @@ console.log(greet("Learner"));</code></pre>
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-lesson mx-auto">
           <Breadcrumbs />
@@ -135,6 +142,16 @@ console.log(greet("Learner"));</code></pre>
                   <Button asChild className="max-w-xs">
                     <Link href={`/learn/${moduleId}/${nextSection.section}`} className="flex items-center">
                       <span className="truncate">Далее: {nextSection.title}</span>
+                      <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
+                    </Link>
+                  </Button>
+                )}
+                
+                {/* Next Module Button - Show only on last lesson of current module */}
+                {isLastLessonOfModule && nextModule && (
+                  <Button asChild variant="default" className="max-w-xs bg-primary hover:bg-primary/90">
+                    <Link href={`/learn/${nextModule.id}/1`} className="flex items-center">
+                      <span className="truncate">К следующему модулю</span>
                       <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
                     </Link>
                   </Button>

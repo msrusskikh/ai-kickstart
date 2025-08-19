@@ -2,13 +2,50 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   try {
-    const { contextPrompt, testQuestion, model } = await request.json()
+    const body = await request.json()
     const apiKey = process.env.OPENAI_API_KEY
 
     if (!apiKey) {
       return NextResponse.json({ error: "Server missing OPENAI_API_KEY" }, { status: 500 })
     }
 
+    // Handle lab prompts (new format)
+    if (body.prompt) {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: body.model || "gpt-4o-mini",
+          temperature: body.temperature || 0.7,
+          max_tokens: body.max_tokens || 400,
+          messages: [
+            {
+              role: "system",
+              content: "Ты — AI-ассистент для анализа клиентских отзывов. Отвечай на русском языке, будь конкретным и структурированным.",
+            },
+            { role: "user", content: body.prompt },
+          ],
+        }),
+      })
+
+      if (!response.ok) {
+        const text = await response.text()
+        return NextResponse.json(
+          { error: "OpenAI API error", details: text },
+          { status: response.status }
+        )
+      }
+
+      const data = await response.json()
+      const response_text = data?.choices?.[0]?.message?.content || ""
+      return NextResponse.json({ response: response_text })
+    }
+
+    // Handle existing product launch prompts
+    const { contextPrompt, testQuestion, model } = body
     const composedUserMessage = [
       "You are helping plan a product launch. Use the following context refresh strictly:",
       contextPrompt || "",
@@ -52,7 +89,7 @@ export async function POST(request: Request) {
       { error: "Unexpected error", details: String(error?.message || error) },
       { status: 500 }
     )
-  }
+    }
 }
 
 

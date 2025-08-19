@@ -94,8 +94,8 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                   // Apply dimming when not accessible and not in dev mode
                   !hasAccess && !isDevMode && "opacity-50 pointer-events-none",
                   // Apply hover effects only when accessible
-                  hasAccess && "hover:bg-accent/60 hover:text-accent-foreground",
-                  isActive && "bg-accent text-accent-foreground shadow-sm"
+                  hasAccess && "hover:text-foreground",
+                  isActive && "bg-gray-150 dark:bg-gray-600 text-foreground"
                 )}
               >
                 {isCompleted ? (
@@ -136,7 +136,7 @@ export function SideNav() {
   }
 
   return (
-    <div className="flex h-full w-72 flex-col border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <div className="flex h-full w-72 flex-col border-r bg-gray-100/95 backdrop-blur supports-[backdrop-filter]:bg-gray-100/80">
       <div className="p-4 border-b border-border/50">
         <h2 className="text-lg font-semibold text-foreground">Содержание</h2>
       </div>

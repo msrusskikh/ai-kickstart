@@ -55,9 +55,10 @@ export default function ModulePage({ params }: ModulePageProps) {
   const progressPercentage = module.sections.length > 0 ? (completedCount / module.sections.length) * 100 : 0
   
   return (
-    <div className="container mx-auto px-6 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <Breadcrumbs />
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto px-6 py-8">
+        <div className="max-w-4xl mx-auto space-y-8">
+          <Breadcrumbs />
         
         {/* Module Header */}
         <Card>
@@ -74,7 +75,7 @@ export default function ModulePage({ params }: ModulePageProps) {
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="text-2xl font-bold text-primary">
-                {completedCount}/{module.sections.length} частей завершено
+                {completedCount}/{module.sections.length} уроков завершено
               </div>
               <div className="text-sm text-muted-foreground">
                 ~{module.sections.reduce((acc, s) => acc + s.duration, 0)} мин
@@ -177,6 +178,7 @@ export default function ModulePage({ params }: ModulePageProps) {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

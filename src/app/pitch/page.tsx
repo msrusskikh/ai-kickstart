@@ -27,21 +27,26 @@ const pitchSlides = [
   },
   {
     id: 4,
+    title: "Фичи продукта",
+    content: "• 4 основных модуля, 47 полноценных уроков\n• Интерактивные лабы с ChatGPT 4o-mini API calls\n• Дублирующие AI-generated видео в уроках\n• Прогресс-трекер\n• "
+  },
+  {
+    id: 5,
     title: "Результат",
     content: "• Сотрудники, не пользующиеся AI-инструментами, автоматизируют 10-20% своих задач\n• Сотрудники, пользующиеся AI-инструментами, автоматизируют 30-40% своих задач\n• Сотрудники, которые используют AI-инструменты для обучения, автоматизируют 50-60% своих задач"
   },
   {
-    id: 5,
+    id: 6,
     title: "Экономика",
     content: "10,000 сотрудников ×\n30-300 запросов в месяц ×\n$X за запрос\n────────\n [сумма] руб. в месяц\nНормельное распределение, $1 = 80р"
   },
   {
-    id: 6,
+    id: 7,
     title: "Roadmap",
     content: "• A/B-тест эффективности обучения: видео vs текст\n• Метрика – сотрудник начал использовать ИИ в работе\n• Библиотека автоматизаций по департаментам\nс персонализированными рекомендациями\n• Advanced программа обучения\n"
   },
   {
-    id: 7,
+    id: 8,
     title: "Vision",
     content: "От быстрого старта к платформе корпоративной AI-трансформации:\n*Обучение → Практика  → Готовые решения → Use-case discovery → Культура AI-enablement*"
   }
@@ -105,7 +110,7 @@ export default function PitchPage() {
                 <div className="h-32 flex items-center justify-center">
                                   <div className={`text-base text-muted-foreground leading-relaxed font-normal ${currentSlide >= 2 ? 'text-left' : 'text-center'}`}>
                   {currentSlide >= 2 ? (
-                    // For slides 3, 4, 5, 6, 7 (index 2, 3, 4, 5, 6), show as bullet points
+                    // For slides 3, 4, 5, 6, 7, 8 (index 2, 3, 4, 5, 6, 7), show as bullet points
                     pitchSlides[currentSlide].content.split('\n').map((line, index) => (
                       <div key={index} className="mb-2">
                         {line.includes('*') ? (
