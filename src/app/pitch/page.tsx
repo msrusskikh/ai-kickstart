@@ -181,13 +181,12 @@ export default function PitchPage() {
           ))}
         </div>
 
-      </div>
-
-      {/* Footer - Fixed at bottom of screen */}
-      <div className="fixed bottom-12 left-1/2 transform -translate-x-1/2">
-        <div className="flex items-center justify-center space-x-2 text-xs text-muted-foreground/60 font-mono tracking-wide">
-          <div className="w-1.5 h-1.5 bg-green-500/70 rounded-full"></div>
-          <span>Powered by OpenAI</span>
+        {/* Footer - Positioned at bottom of content */}
+        <div className="mt-16 mb-8 flex justify-center">
+          <div className="flex items-center space-x-2 text-xs text-muted-foreground/60 font-mono tracking-wide">
+            <div className="w-1.5 h-1.5 bg-green-500/70 rounded-full"></div>
+            <span>Powered by OpenAI</span>
+          </div>
         </div>
       </div>
     </div>
