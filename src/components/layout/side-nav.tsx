@@ -95,7 +95,7 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                   !hasAccess && !isDevMode && "opacity-50 pointer-events-none",
                   // Apply hover effects only when accessible
                   hasAccess && "hover:text-foreground",
-                  isActive && "bg-gray-150 dark:bg-gray-600 text-foreground"
+                  isActive && "bg-gray-200 dark:bg-gray-600 text-foreground"
                 )}
               >
                 {isCompleted ? (

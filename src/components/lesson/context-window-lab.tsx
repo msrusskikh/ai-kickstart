@@ -596,7 +596,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
 - Фокус на digital-маркетинге (LinkedIn, контент, вебинары)
 - Команда: Сара (маркетинг), Майк (разработка), Лиза (продажи)
 
-ТЕКУЩИЙ ВОПРОС: [Пользователь добавляет свой следующий вопрос здесь]`}</pre>
+ТЕКУЩИЙ ВОПРОС: [ваш вопрос]`}</pre>
               </div>
               <div 
                 className={`p-3 rounded-lg cursor-pointer transition-all duration-200 border-2 relative ${
@@ -637,7 +637,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
 • Наш дифференциатор: Синхронизация в реальном времени (у конкурентов этого нет)
 • Целевой рынок: Средние производственные компании
 
-Теперь, с учетом этого контекста: [Пользователь добавляет вопрос]`}</pre>
+Теперь, с учетом этого контекста: [ваш вопрос]`}</pre>
               </div>
               <div 
                 className={`p-3 rounded-lg cursor-pointer transition-all duration-200 border-2 relative ${
@@ -666,7 +666,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 <pre className="text-xs whitespace-pre-wrap text-muted-foreground mt-2 bg-white dark:bg-gray-900 p-2 rounded">
 {`Предыдущий контекст: Мы запускаем CloudSync Pro (интеграция данных) 15 марта с бюджетом $150K, нацеливаясь на средние производственные компании. Генеральный директор конкретно запретил выставки в этом квартале из-за расходов на расширение офиса. Наш главный дифференциатор — возможность синхронизации в реальном времени.
 
-Учитывая эти ограничения: [Пользователь добавляет вопрос]`}</pre>
+Учитывая эти ограничения: [ваш вопрос]`}</pre>
               </div>
             </div>
           </CardContent>
@@ -692,7 +692,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
               </div>
             )}
             <div>
-              <label className="text-sm font-medium mb-3 block">Тестовый вопрос</label>
+              <label className="text-sm font-medium mb-3 block">Добавьте тестовый вопрос</label>
               <div className="grid grid-cols-1 gap-3">
                 <button
                   onClick={() => setSelectedQuestion("Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?")}

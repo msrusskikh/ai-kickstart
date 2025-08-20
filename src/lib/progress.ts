@@ -20,7 +20,7 @@ export const useProgressStore = create<ProgressStore>()(
   persist(
     (set, get) => ({
       ...defaultProgress,
-      isDevMode: false,
+      isDevMode: true,
       markSectionComplete: (module: number, section: number) => {
         set((state) => {
           const newCompleted = new Set(state.completedSections);

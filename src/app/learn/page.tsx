@@ -14,6 +14,12 @@ export default function LearnPage() {
   const currentModuleData = modules.find(m => m.id === currentModule)
   const currentSectionData = currentModuleData?.sections.find(s => s.section === currentSection)
   
+  // Check if user is a new learner (no progress)
+  const isNewLearner = completedSections.size === 0 && currentModule === 1 && currentSection === 1
+  
+  // Get first lesson data for new learners
+  const firstLesson = modules[0]?.sections[0]
+  
   const getModuleProgress = (moduleId: number) => {
     const module = modules.find(m => m.id === moduleId)
     if (!module) return 0
@@ -29,18 +35,41 @@ export default function LearnPage() {
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-4xl mx-auto space-y-8">
-        {/* Продолжить обучение */}
-        {currentSectionData && (
+        {/* Banner for new learners */}
+        {isNewLearner && firstLesson && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Play className="h-5 w-5" />
-                <span>Продолжить обучение</span>
+                <span>Начать обучение</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <h3 className="text-xl font-semibold">{currentSectionData.title}</h3>
+                <h3 className="text-xl font-semibold">{firstLesson.title}</h3>
+                <p className="text-muted-foreground">{firstLesson.summary}</p>
+              </div>
+              <Button asChild>
+                <Link href={`/learn/1/1`}>
+                  Начать урок
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Продолжить обучение - only show if user has progress and is not a new learner */}
+        {currentSectionData && !isNewLearner && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Play className="h-5 w-5" />
+                <span>{currentSectionData.title}</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
                 <p className="text-muted-foreground">{currentSectionData.summary}</p>
               </div>
               <Button asChild>

@@ -404,7 +404,7 @@ export const modules: Module[] = [
       },
       {
         slug: "context-window-rescue-mission",
-        title: "Миссия по спасению контекстного окна",
+        title: "Лаба: Миссия по спасению контекстного окна",
         summary: "Спасите важную информацию от «забывания» в длинных разговорах с AI",
         duration: 10,
 
@@ -464,15 +464,7 @@ export const modules: Module[] = [
           <p><strong>Чем лучше инструкция, тем ближе результат к вашей задумке.</strong></p>
           
           <hr class="my-8 border-gray-200 dark:border-gray-700" />
-        `,
-        quiz: [
-          {
-            type: "mcq",
-            question: "Промптинг — это:",
-            choices: ["Программирование", "Искусство составления запросов", "Дизайн интерфейсов", "Анализ данных"],
-            answer: "Искусство составления запросов"
-          }
-        ]
+        `
       },
       {
         slug: "role-goal-steps-constraints-criteria",
@@ -804,7 +796,7 @@ export const modules: Module[] = [
       },
       {
         slug: "ai-lab-4-iteration-challenge",
-        title: "Челлендж итераций",
+        title: "Лаба: Челлендж итераций",
         summary: "Интерактивная практика улучшения промптов через 4 раунда итераций с анализом клиентских отзывов.",
         duration: 10,
         isLab: true,
@@ -1350,7 +1342,7 @@ export const modules: Module[] = [
       },
       {
         slug: "personal-workflow-builder-lab",
-        title: "Лабораторная работа: Конструктор персональных рабочих процессов",
+        title: "Лаба: Конструктор персональных рабочих процессов",
         summary: "Интерактивная практика проектирования ИИ-workflow для автоматизации повторяющихся задач.",
         duration: 10,
         module: 3,
@@ -1871,7 +1863,7 @@ export const lessonContentMap: Record<string, string> = {
     <div class="mb-8">
       <div class="w-full max-w-6xl mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg" style="aspect-ratio: 16/9;">
         <iframe 
-          src="https://www.youtube.com/embed/VmYGN4o_dLw" 
+          src="https://www.youtube.com/embed/njOykZHqVK4" 
           title="AI Fundamentals Video"
           class="w-full h-full"
           frameborder="0" 
