@@ -430,30 +430,6 @@
     margin: 0 auto;
   }
   
-  /* Responsive spacing for different screen sizes */
-  .responsive-padding {
-    padding-left: clamp(1rem, 5vw, 3rem);
-    padding-right: clamp(1rem, 5vw, 3rem);
-  }
-  
-  .responsive-margin {
-    margin-left: clamp(1rem, 5vw, 3rem);
-    margin-right: clamp(1rem, 5vw, 3rem);
-  }
-  
-  /* Better text sizing for different screen densities */
-  .text-responsive {
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-  }
-  
-  .text-responsive-lg {
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
-  }
-  
-  .text-responsive-xl {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-  }
-  
   /* Improved focus states for accessibility */
   .focus-visible {
     outline: 2px solid hsl(var(--ring));

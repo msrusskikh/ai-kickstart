@@ -133,14 +133,14 @@ export default function HomePage() {
 
       
       {/* Hero Section */}
-      <div className="container-wide mx-auto responsive-padding py-28">
-        <div className="content-max-width mx-auto text-center space-y-10">
-          <h1 className="text-responsive-xl font-bold tracking-tight text-foreground leading-tight">
+      <div className="container mx-auto px-6 py-28">
+        <div className="max-w-4xl mx-auto text-center space-y-10">
+          <h1 className="text-6xl font-bold tracking-tight text-foreground leading-tight">
             Интерактивный курс
             <br />
             <span className="text-primary">AI Fundamentals</span>
           </h1>
-          <p className="text-responsive-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
             Освойте фундаментальные принципы работы с ИИ за 2 часа. Увеличьте эффективность работы и освободите время для важного
           </p>
           
