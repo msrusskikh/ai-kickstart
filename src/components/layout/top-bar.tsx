@@ -20,7 +20,7 @@ export function TopBar() {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-gray-100/95 backdrop-blur supports-[backdrop-filter]:bg-gray-100/80">
+    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-14 items-center justify-between px-4">
         <div className="flex items-center space-x-2">
           <Link href="/learn" className="hover:opacity-80 transition-opacity">
@@ -41,13 +41,17 @@ export function TopBar() {
           
           {/* Developer Mode Toggle */}
           <Button
-            variant={isDevMode ? "default" : "outline"}
+            variant="outline"
             size="sm"
             onClick={() => {
               console.log('Dev mode toggle clicked, current state:', isDevMode)
               toggleDevMode()
             }}
-            className={`h-9 px-3 transition-all duration-200 ${isDevMode ? 'bg-green-600 hover:bg-green-700 shadow-sm' : 'hover:bg-accent/50'}`}
+            className={`h-9 px-3 transition-all duration-200 ${
+              isDevMode 
+                ? 'bg-green-600 hover:bg-green-700 shadow-sm text-white border-green-600' 
+                : 'hover:bg-accent/50'
+            }`}
             title={isDevMode ? "Disable Developer Mode" : "Enable Developer Mode"}
           >
             {isDevMode ? (

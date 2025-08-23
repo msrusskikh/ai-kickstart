@@ -55,7 +55,7 @@ export default function ModulePage({ params }: ModulePageProps) {
   const progressPercentage = module.sections.length > 0 ? (completedCount / module.sections.length) * 100 : 0
   
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-4xl mx-auto space-y-8">
           <Breadcrumbs />
