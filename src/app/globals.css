@@ -50,12 +50,63 @@
     --input: 220 15% 20%;
     --ring: 220 10% 70%; /* Softer ring color for better focus states */
   }
+
+  /* Force light mode as default to prevent color issues */
+  html {
+    color-scheme: light;
+  }
+
+  /* Ensure CSS variables are always available */
+  html:not(.dark) {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    
+    /* Fallback colors if CSS variables fail */
+    background-color: hsl(var(--background, 0 0% 100%));
+    color: hsl(var(--foreground, 222.2 84% 4.9%));
+    
+    /* Additional fallbacks for better compatibility */
+    background-color: #ffffff;
+    color: #171717;
+  }
+  
+  /* Ensure text is always readable */
+  h1, h2, h3, h4, h5, h6 {
+    color: hsl(var(--foreground, 222.2 84% 4.9%));
+    color: #171717;
+  }
+  
+  p, span, div {
+    color: hsl(var(--foreground, 222.2 84% 4.9%));
+    color: #171717;
+  }
+  
+  /* Dark mode overrides */
+  .dark body {
+    background-color: hsl(var(--background, 220 15% 13%));
+    color: hsl(var(--foreground, 220 10% 90%));
+    background-color: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: hsl(var(--foreground, 220 10% 90%));
+    color: #f9fafb;
+  }
+  
+  .dark p, .dark span, .dark div {
+    color: hsl(var(--foreground, 220 10% 90%));
+    color: #f9fafb;
   }
   
   /* Enhanced dark mode scrollbar styling */
@@ -98,7 +149,17 @@
   /* Enhanced focus ring for dark mode */
   .dark .focus-ring:focus {
     @apply ring-offset-0;
-    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.4);
+  }
+  
+  /* Fallback styles for when CSS variables aren't working */
+  .fallback-colors {
+    background-color: #ffffff;
+    color: #171717;
+  }
+  
+  .dark .fallback-colors {
+    background-color: #1f2937;
+    color: #f9fafb;
   }
   
   /* Enhanced lesson styling */

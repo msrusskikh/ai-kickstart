@@ -83,7 +83,7 @@ export default function PitchPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -108,25 +108,25 @@ export default function PitchPage() {
                   </h2>
                 </div>
                 <div className="h-32 flex items-center justify-center">
-                                  <div className={`text-base text-muted-foreground leading-relaxed font-normal ${currentSlide >= 2 ? 'text-left' : 'text-center'}`}>
-                  {currentSlide >= 2 ? (
-                    // For slides 3, 4, 5, 6, 7, 8 (index 2, 3, 4, 5, 6, 7), show as bullet points
-                    pitchSlides[currentSlide].content.split('\n').map((line, index) => (
-                      <div key={index} className="mb-2">
-                        {line.includes('*') ? (
-                          <span dangerouslySetInnerHTML={{ 
-                            __html: line.replace(/\*(.*?)\*/g, '<em>$1</em>') 
-                          }} />
-                        ) : (
-                          line
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    // For slides 1-2 (index 0, 1), show as regular text
-                    <div dangerouslySetInnerHTML={{ __html: pitchSlides[currentSlide].content.replace(/\n/g, '<br/>') }} />
-                  )}
-                </div>
+                  <div className={`text-base text-muted-foreground leading-relaxed font-normal ${currentSlide >= 2 ? 'text-left' : 'text-center'}`}>
+                    {currentSlide >= 2 ? (
+                      // For slides 3, 4, 5, 6, 7, 8 (index 2, 3, 4, 5, 6, 7), show as bullet points
+                      pitchSlides[currentSlide].content.split('\n').map((line, index) => (
+                        <div key={index} className="mb-2">
+                          {line.includes('*') ? (
+                            <span dangerouslySetInnerHTML={{ 
+                              __html: line.replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                            }} />
+                          ) : (
+                            line
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      // For slides 1-2 (index 0, 1), show as regular text
+                      <div dangerouslySetInnerHTML={{ __html: pitchSlides[currentSlide].content.replace(/\n/g, '<br/>') }} />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
