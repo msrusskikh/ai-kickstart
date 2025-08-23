@@ -109,6 +109,71 @@
     color: #f9fafb;
   }
   
+  /* Button text visibility fixes */
+  .bg-primary {
+    background-color: hsl(var(--primary, 222.2 47.4% 11.2%));
+    background-color: #171717;
+  }
+  
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground, 210 40% 98%));
+    color: #ffffff;
+  }
+  
+  .bg-primary:hover {
+    background-color: hsl(var(--primary) / 0.9);
+    background-color: #404040;
+  }
+  
+  /* Ensure button text is always visible */
+  button, .btn, [role="button"] {
+    color: hsl(var(--foreground, 222.2 84% 4.9%));
+    color: #171717;
+  }
+  
+  .dark button, .dark .btn, .dark [role="button"] {
+    color: hsl(var(--foreground, 220 10% 90%));
+    color: #f9fafb;
+  }
+  
+  /* Specific button variant fixes */
+  .bg-primary.text-primary-foreground {
+    color: #ffffff !important;
+  }
+  
+  .dark .bg-primary.text-primary-foreground {
+    color: #ffffff !important;
+  }
+  
+  /* Additional button text visibility fixes */
+  .inline-flex.items-center.justify-center.whitespace-nowrap.rounded-md.text-sm.font-medium {
+    color: hsl(var(--foreground, 222.2 84% 4.9%));
+    color: #171717;
+  }
+  
+  .dark .inline-flex.items-center.justify-center.whitespace-nowrap.rounded-md.text-sm.font-medium {
+    color: hsl(var(--foreground, 220 10% 90%));
+    color: #f9fafb;
+  }
+  
+  /* Force white text on primary buttons */
+  .bg-primary .text-primary-foreground,
+  .bg-primary.text-primary-foreground,
+  button.bg-primary,
+  .bg-primary button {
+    color: #ffffff !important;
+  }
+  
+  /* Ensure all button text is visible */
+  [class*="bg-primary"] {
+    color: #ffffff !important;
+  }
+  
+  [class*="bg-primary"] span,
+  [class*="bg-primary"] div {
+    color: #ffffff !important;
+  }
+  
   /* Enhanced dark mode scrollbar styling */
   .dark ::-webkit-scrollbar {
     width: 8px;

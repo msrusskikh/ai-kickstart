@@ -113,7 +113,7 @@ console.log(greet("Learner"));</code></pre>
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-lesson mx-auto">
           <Breadcrumbs />
@@ -124,7 +124,7 @@ console.log(greet("Learner"));</code></pre>
           </div>
           
           {/* Navigation Controls */}
-          <div className="mt-12 pt-8 border-t">
+          <div className="mt-12 pt-8 border-t border-border/30">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 {prevSection && (
@@ -149,7 +149,7 @@ console.log(greet("Learner"));</code></pre>
                 
                 {/* Next Module Button - Show only on last lesson of current module */}
                 {isLastLessonOfModule && nextModule && (
-                  <Button asChild variant="default" className="max-w-xs bg-primary hover:bg-primary/90">
+                  <Button asChild variant="default" className="max-w-xs">
                     <Link href={`/learn/${nextModule.id}/1`} className="flex items-center">
                       <span className="truncate">К следующему модулю</span>
                       <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
