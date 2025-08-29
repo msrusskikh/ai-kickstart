@@ -107,7 +107,7 @@ export default function HomePage() {
   }
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header with Трансформер text */}
       <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="container flex h-14 items-center px-4 justify-between">
@@ -130,63 +130,64 @@ export default function HomePage() {
         </div>
       </header>
 
-
-      
-      {/* Hero Section */}
-      <div className="container mx-auto px-6 py-28">
-        <div className="max-w-4xl mx-auto text-center space-y-10">
-          <h1 className="text-6xl font-bold tracking-tight text-foreground leading-tight">
-            Интерактивный курс
-            <br />
-            <span className="text-primary">AI Fundamentals</span>
-          </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Освойте фундаментальные принципы работы с ИИ за 2 часа. Увеличьте эффективность работы и освободите время для важного
-          </p>
-          
-          {/* Progress Indicator */}
-          {hasProgress && (
-            <div className="bg-card/50 rounded-xl p-7 max-w-lg mx-auto border border-border/30 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-sm font-medium text-foreground">Ваш прогресс</span>
-                <span className="text-2xl font-bold text-foreground">{progressPercentage}%</span>
-              </div>
-              <div className="w-full bg-muted/50 rounded-full h-2 mb-4">
-                <div 
-                  className="bg-primary h-2 rounded-full transition-all duration-500 ease-out" 
-                  style={{ width: `${progressPercentage}%` }}
-                />
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  {completedSections.size} из {totalSections} уроков завершено
-                </p>
-                <p className="text-sm font-medium text-foreground">
-                  Ваш текущий урок: {getCurrentLessonTitle()}
-                </p>
-              </div>
-            </div>
-          )}
-          
-          <div className="flex items-center justify-center space-x-5 pt-6">
-            <Button asChild size="lg" className="hover:scale-105 transition-transform duration-200 shadow-sm px-8">
-              <Link href="/learn">
-                Начать обучение
-              </Link>
-            </Button>
+      {/* Main Content - flex-grow to push footer down */}
+      <main className="flex-grow">
+        {/* Hero Section */}
+        <div className="container mx-auto px-6 py-28">
+          <div className="max-w-4xl mx-auto text-center space-y-10">
+            <h1 className="text-6xl font-bold tracking-tight text-foreground leading-tight">
+              Интерактивный курс
+              <br />
+              <span className="text-primary">AI Fundamentals</span>
+            </h1>
+            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+              Освойте фундаментальные принципы работы с ИИ за 2 часа. Увеличьте эффективность работы и освободите время для важного
+            </p>
+            
+            {/* Progress Indicator */}
             {hasProgress && (
-              <Button asChild variant="outline" size="lg" className="hover:scale-105 transition-transform duration-200 hover:bg-accent/50 px-8">
-                <Link href={getContinueDestination()}>
-                  Продолжить обучение
+              <div className="bg-card/50 rounded-xl p-7 max-w-lg mx-auto border border-border/30 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-foreground">Ваш прогресс</span>
+                  <span className="text-2xl font-bold text-foreground">{progressPercentage}%</span>
+                </div>
+                <div className="w-full bg-muted/50 rounded-full h-2 mb-4">
+                  <div 
+                    className="bg-primary h-2 rounded-full transition-all duration-500 ease-out" 
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    {completedSections.size} из {totalSections} уроков завершено
+                  </p>
+                  <p className="text-sm font-medium text-foreground">
+                    Ваш текущий урок: {getCurrentLessonTitle()}
+                  </p>
+                </div>
+              </div>
+            )}
+            
+            <div className="flex items-center justify-center space-x-5 pt-6">
+              <Button asChild size="lg" className="hover:scale-105 transition-transform duration-200 shadow-sm px-8">
+                <Link href="/learn">
+                  Начать обучение
                 </Link>
               </Button>
-            )}
+              {hasProgress && (
+                <Button asChild variant="outline" size="lg" className="hover:scale-105 transition-transform duration-200 hover:bg-accent/50 px-8">
+                  <Link href={getContinueDestination()}>
+                    Продолжить обучение
+                  </Link>
+                </Button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </main>
 
-      {/* Footer with OpenAI Brand Reference - Fixed positioning */}
-      <footer className="py-8 border-t border-border/30">
+      {/* Footer with OpenAI Brand Reference - Now at the very bottom */}
+      <footer className="mt-auto py-8 border-t border-border/30">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center space-x-2 text-xs text-muted-foreground/60 font-mono tracking-wide">
             <div className="w-1.5 h-1.5 bg-green-500/70 rounded-full"></div>

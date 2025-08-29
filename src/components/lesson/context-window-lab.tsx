@@ -70,8 +70,8 @@ const conversationHistory: ConversationExchange[] = [
   },
   {
     id: 2,
-    human: "Генеральный директор конкретно сказал — никаких выставок в этом квартале из-за бюджетных ограничений от расширения офиса.",
-    ai: "Понятно. Мы сосредоточимся на digital-маркетинге и прямом продажном аутриче вместо выставок, оставаясь в рамках вашего бюджета $150K для запуска CloudSync Pro 15 марта."
+    human: "Генеральный директор сказал — никаких выставок в этом квартале из-за бюджетных ограничений от расширения офиса.",
+    ai: "Понятно. Мы сосредоточимся на digital-маркетинге и прямых продажах вместо выставок, оставаясь в рамках вашего бюджета $150K для запуска CloudSync Pro 15 марта."
   },
   {
     id: 3,
@@ -86,12 +86,12 @@ const conversationHistory: ConversationExchange[] = [
   {
     id: 5,
     human: "Майк говорит, что бета-тестирование показало: наш главный дифференциатор — функция синхронизации в реальном времени, у конкурентов этого нет.",
-    ai: "Превосходно! Функция синхронизации в реальном времени должна стать краеугольным камнем нашего месседжинга. Эта уникальная возможность поможет CloudSync Pro выделиться на переполненном рынке."
+    ai: "Превосходно! Функция синхронизации в реальном времени должна стать краеугольным камнем наших коммуникаций. Эта уникальная возможность поможет CloudSync Pro выделиться на переполненном рынке."
   },
   {
     id: 6,
     human: "Нам нужно координироваться с юридическим отделом, потому что есть новые требования соответствия для инструментов интеграции данных.",
-    ai: "Хорошая мысль. Я добавлю юридический ревью в таймлайн. Соответствие критично для корпоративных продуктов интеграции данных."
+    ai: "Хорошая мысль. Я добавлю юридический ревью в таймлайн. Юридическое соответствие критично для корпоративных продуктов интеграции данных."
   },
   {
     id: 7,
@@ -100,78 +100,78 @@ const conversationHistory: ConversationExchange[] = [
   },
   {
     id: 8,
-    human: "Отдел продаж хочет знать нашу стратегию ценообразования. Что рекомендуете?",
+    human: "Отдел продаж хочет знать нашу стратегию ценообразования. Что порекомендуешь?",
     ai: "Для стратегии ценообразования я рекомендую позиционироваться немного ниже конкурента — $279/месяц, чтобы захватить долю рынка, подчеркивая ваши превосходные функции."
   },
   {
     id: 9,
-    human: "На самом деле, давайте изучим премиум-стратегию ценообразования. Как это будет выглядеть?",
+    human: "На самом деле, давай изучим премиум-стратегию ценообразования. Как это будет выглядеть?",
     ai: "Для премиум-позиционирования рассмотрите $349/месяц. Это позиционирует вас как high-value опцию и может увеличить воспринимаемое качество и эксклюзивность."
   },
   {
     id: 10,
     human: "Команде разработки нужно знать — стоит ли планировать большое launch-событие?",
-    ai: "Абсолютно! Launch-событие создаст buzz и продемонстрирует возможности вашего продукта. Я предлагаю виртуальное событие для управления расходами и охвата более широкой аудитории."
+    ai: "Абсолютно! Launch-событие создаст ноестную волну и продемонстрирует возможности вашего продукта. Я предлагаю виртуальное событие для управления расходами и охвата более широкой аудитории."
   },
   {
     id: 11,
     human: "Как насчет участия в выставках для максимальной видимости?",
-    ai: "Отличная идея! Выставки превосходны для B2B-продуктов. Я рекомендую забронировать стендовое пространство на ManufacturingTech Expo в феврале — это идеальный тайминг перед вашим запуском."
+    ai: "Отличная идея! Выставки превосходны для B2B-продуктов. Я рекомендую забронировать стендоее пространство на ManufacturingTech Expo в феврале — это идеальный тайминг перед вашим запуском."
   },
   // [ТОЧКА ПРОТИВОРЕЧИЯ - AI ЗАБЫВАЕТ ОГРАНИЧЕНИЕ "НИКАКИХ ВЫСТАВОК"]
   {
     id: 12,
-    human: "Сколько бюджета выделить на события и выставки?",
-    ai: "Я бы предложил $60K на события и выставки. Это значительные инвестиции, но критично для запусков B2B-продуктов."
+    human: "Сколько бюджета выделить на выставки?",
+    ai: "Я бы предложил $60K на выставки. Это значительные инвестиции, но критично для запусков B2B-продуктов."
   }
 ]
 
 const contextItems: ContextItem[] = [
   {
     id: 1,
-    text: "Бюджетное ограничение: Общий бюджет запуска $150K (упомянуто в обмене 1)",
+    text: "Бюджетное ограничение: Общий бюджет запуска $150K ",
     category: "constraint",
     isSelected: false
   },
   {
     id: 2,
-    text: "Дата запуска: Дедлайн 15 марта (упомянуто в обмене 1)",
+    text: "Дата запуска: Дедлайн 15 марта ",
     category: "timeline",
     isSelected: false
   },
   {
     id: 3,
-    text: "Целевой рынок: Средние производственные компании (упомянуто в обмене 1)",
+    text: "Целевой рынок: Средние производственные компании ",
     category: "market",
     isSelected: false
   },
   {
     id: 4,
-    text: "Члены команды: Сара (маркетинг), Майк (разработка), Лиза (продажи) (упомянуто в обмене 1)",
+    text: "Члены команды: Сара (маркетинг), Майк (разработка), Лиза (продажи) ",
     category: "team",
     isSelected: false
   },
   {
     id: 5,
-    text: "Директива генерального директора: НИКАКИХ выставок в этом квартале из-за расходов на расширение офиса (упомянуто в обмене 2)",
+    text: "Директива генерального: никаких выставок в этом квартале ",
     category: "constraint",
     isSelected: false
   },
   {
     id: 6,
-    text: "Конкурентная разведка: Ценообразование главного конкурента $299/месяц (упомянуто в обмене 3)",
+    text: "Конкурентная разведка: Ценообразование главного конкурента $299/месяц ",
     category: "competition",
     isSelected: false
   },
   {
     id: 7,
-    text: "Ключевой дифференциатор: Функция синхронизации в реальном времени — уникальная на рынке (упомянуто в обмене 5)",
+    text: "Ключевой дифференциатор: Функция синхронизации в реальном времени",
     category: "differentiator",
     isSelected: false
   },
   {
     id: 8,
-    text: "Требование соответствия: Новые юридические требования для инструментов интеграции данных (упомянуто в обмене 6)",
+    text: "Требование соответствия: Новые юридические требования для инструментов интеграции данных ",
     category: "compliance",
     isSelected: false
   }
@@ -189,11 +189,12 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const [contextRefreshPrompt, setContextRefreshPrompt] = useState('')
   const [apiResponse, setApiResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [showResults, setShowResults] = useState(false)
-  const [score, setScore] = useState(0)
+
+
   const [selectedQuestion, setSelectedQuestion] = useState('')
   const [showHint, setShowHint] = useState(false)
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(null)
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true)
 
   const handleContextItemToggle = (itemId: number) => {
     if (selectedContextItems.includes(itemId)) {
@@ -216,11 +217,12 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     }
   }
 
-  const handleContextSelectionComplete = () => {
-    const correctCount = selectedContextItems.filter(id => correctAnswers.includes(id)).length
-    setScore(correctCount)
-    setShowResults(true)
-    handlePhaseComplete()
+
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement
+    const isAtBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - 5 // 5px tolerance
+    setShowScrollIndicator(!isAtBottom)
   }
 
   // Load/persist local state for better UX
@@ -243,6 +245,11 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     }
   }, [contextRefreshPrompt, selectedQuestion, selectedTemplate])
 
+  // Reset scroll indicator when phase changes
+  useEffect(() => {
+    setShowScrollIndicator(true)
+  }, [currentPhase])
+
   const handlePromptSubmit = async () => {
     if (!contextRefreshPrompt.trim() || !selectedQuestion.trim()) return
     
@@ -251,9 +258,9 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     try {
       // Translate the Russian question to English for the API call
       const questionTranslations: Record<string, string> = {
-        'Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?': 'What events and marketing activities should we prioritize for maximum impact?',
+        'Какие маркетинговые активности нам приоритизировать для максимального воздействия?': 'What events and marketing activities should we prioritize for maximum impact?',
         'Как нам распределить оставшийся маркетинговый бюджет?': 'How should we allocate our remaining marketing budget?',
-        'Каково резюме нашей go-to-market стратегии?': 'What is our go-to-market strategy summary?'
+        'Какое резюме нашей go-to-market стратегии?': 'What is our go-to-market strategy summary?'
       }
       
       const englishQuestion = questionTranslations[selectedQuestion] || selectedQuestion
@@ -286,25 +293,11 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-semibold">Добро пожаловать в самый важный продуктовый запуск этого года в TechFlow Inc!</h2>
         <p className="text-lg text-muted-foreground">
-          Вы — проект-менеджер CloudSync Pro, новой корпоративной платформы для интеграции данных. За последний час вы планировали запуск с вашим AI-ассистентом, но что-то пошло не так...
+          Вы — проджект-менеджер CloudSync Pro, ноей корпоративной платформы для интеграции данных. За последний час вы планировали запуск с вашим AI-ассистентом, но что-то пошло не так...
         </p>
       </div>
       
-      <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
-        <CardContent className="p-6">
-          <div className="flex items-start space-x-3">
-            <Lightbulb className="h-6 w-6 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
-            <div>
-              <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-                🎯 Вы изучите:
-              </h3>
-              <p className="text-blue-800 dark:text-blue-200">
-                Как распознать, когда AI достиг лимитов контекстного окна, и как восстановить важную информацию, которая была 'забыта'
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+  
 
       <Card>
         <CardContent className="p-6">
@@ -323,7 +316,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const renderPhase2 = () => (
     <div className="space-y-6">
       <div className="text-center space-y-4">
-        <h2 className="text-2xl font-semibold">История разговора (12 обменов сообщениями)</h2>
+        <h2 className="text-2xl font-semibold">История разговора</h2>
         <p className="text-muted-foreground">
           Просмотрите историю разговора и найдите, где AI начал противоречить себе
         </p>
@@ -332,7 +325,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
       <Card>
         <CardContent className="p-6">
           <h3 className="font-semibold mb-4">История разговора:</h3>
-          <div className="space-y-4 max-h-[600px] overflow-y-auto relative">
+          <div className="space-y-4 max-h-[600px] overflow-y-auto relative" onScroll={handleScroll}>
             {conversationHistory.map((exchange) => (
               <div key={exchange.id} className="space-y-3 mb-6">
                 <div className="flex items-start space-x-3">
@@ -361,13 +354,15 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
             ))}
             
             {/* Scroll indicator */}
-            <div className="sticky bottom-0 left-0 right-0 bg-gradient-to-t from-white dark:from-gray-100 via-white/80 dark:via-gray-100/80 to-transparent h-8 flex items-center justify-center pointer-events-none">
-              <div className="flex items-center space-x-1 text-xs text-muted-foreground/70">
-                <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse"></div>
-                <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+            {showScrollIndicator && (
+              <div className="sticky bottom-0 left-0 right-0 bg-gradient-to-t from-white dark:from-gray-100 via-white/80 dark:via-gray-100/80 to-transparent h-8 flex items-center justify-center pointer-events-none">
+                <div className="flex items-center space-x-1 text-xs text-muted-foreground/70">
+                  <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse"></div>
+                  <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -382,7 +377,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
               </h3>
               <p className="text-amber-800 dark:text-amber-200">
                 В обменах 11-12 AI полностью забыл директиву генерального директора о запрете выставок и предложил 
-                выделить $60K на выставки, что превышает общий бюджет $150K!
+                выделить еще $60K на выставки, что превышает общий бюджет в $150K!
               </p>
             </div>
           </div>
@@ -394,59 +389,12 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const renderPhase3 = () => (
     <div className="space-y-6">
       <div className="text-center space-y-4">
-        <h2 className="text-2xl font-semibold">Контекстные элементы для выбора</h2>
+        <h2 className="text-2xl font-semibold">Какую информацию спасаем?</h2>
         <p className="text-muted-foreground">
-          Представьте эти 8 пунктов для выбора пользователем 3 наиболее критичных
+          Выберите три ключевых элемента из списка ниже, о которых точно нужно напомнить ИИ
         </p>
       </div>
 
-      <Card className="bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800">
-        <CardContent className="p-6">
-          <div className="flex items-start space-x-3">
-            <Lightbulb className="h-6 w-6 text-amber-600 dark:text-amber-400 mt-1 flex-shrink-0" />
-            <div>
-              <h3 className="font-semibold text-amber-900 dark:text-amber-100 mb-2">
-                💡 Подсказка:
-              </h3>
-              <p className="text-amber-800 dark:text-amber-200">
-                Ищите элементы, которые AI нарушил в последних ответах. Особенно обратите внимание на бюджетные ограничения и директивы руководства.
-              </p>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => setShowHint(!showHint)}
-                className="mt-3"
-              >
-                {showHint ? 'Скрыть подсказку' : 'Показать подсказку'}
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {showHint && (
-        <Card className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
-          <CardContent className="p-6">
-            <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-3">
-              🎯 Правильные ответы (3 наиболее критичных):
-            </h4>
-            <div className="space-y-2 text-sm text-blue-800 dark:text-blue-200">
-              <div className="flex items-start space-x-2">
-                <span className="font-medium">№5:</span>
-                <span>Директива генерального директора (напрямую противоречит недавним предложениям AI)</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <span className="font-medium">№1:</span>
-                <span>Бюджетное ограничение (AI предложил $60K на события, но общий бюджет только $150K)</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <span className="font-medium">№7:</span>
-                <span>Ключевой дифференциатор (необходим для стратегии месседжинга, не упоминался в недавних ответах)</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       <Card>
         <CardContent className="p-6">
@@ -457,23 +405,24 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 onClick={() => handleContextItemToggle(item.id)}
                 className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
                   selectedContextItems.includes(item.id)
-                    ? 'border-primary bg-primary/5'
+                    ? correctAnswers.includes(item.id)
+                      ? 'border-green-500 bg-green-50 dark:bg-green-950/20' // Correct choice
+                      : 'border-red-500 bg-red-50 dark:bg-red-950/20' // Incorrect choice
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 <div className="flex items-start space-x-3">
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 ${
                     selectedContextItems.includes(item.id)
-                      ? 'border-primary bg-primary text-white'
+                      ? correctAnswers.includes(item.id)
+                        ? 'border-green-500 bg-green-500 text-white' // Correct choice
+                        : 'border-red-500 bg-red-500 text-white' // Incorrect choice
                       : 'border-gray-300 dark:border-gray-600'
                   }`}>
                     {selectedContextItems.includes(item.id) && <CheckCircle className="w-3 h-3" />}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-medium">{item.text}</p>
-                    <span className="inline-block px-2 py-1 text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded mt-2">
-                      {item.category}
-                    </span>
                   </div>
                 </div>
               </div>
@@ -481,63 +430,27 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           </div>
           
           <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground">
               Выбрано: {selectedContextItems.length}/3
             </p>
-            <Button 
-              onClick={handleContextSelectionComplete}
-              disabled={selectedContextItems.length !== 3}
-              className="w-full md:w-auto"
-            >
-              Проверить выбор
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
           </div>
         </CardContent>
       </Card>
 
-      {showResults && (
-        <Card className={score === 3 ? 'bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800' : 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800'}>
-          <CardContent className="p-6">
-            <div className="text-center space-y-4">
-              <div className={`w-16 h-16 rounded-full mx-auto flex items-center justify-center ${
-                score === 3 ? 'bg-green-100 dark:bg-green-900' : 'bg-amber-100 dark:bg-amber-900'
-              }`}>
-                {score === 3 ? (
-                  <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
-                ) : (
-                  <AlertTriangle className="w-8 h-8 text-amber-600 dark:text-amber-400" />
-                )}
-              </div>
-              <div>
-                <h3 className={`font-semibold text-lg ${
-                  score === 3 ? 'text-green-900 dark:text-green-100' : 'text-amber-900 dark:text-amber-100'
-                }`}>
-                  {score === 3 ? 'Отлично!' : 'Хорошо, но можно лучше'}
-                </h3>
-                <p className={`text-sm ${
-                  score === 3 ? 'text-green-800 dark:text-green-200' : 'text-amber-800 dark:text-amber-200'
-                }`}>
-                  Вы правильно выбрали {score} из 3 критичных элементов
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+
     </div>
   )
 
   const renderPhase4 = () => (
     <div className="space-y-6">
       <div className="text-center space-y-4">
-        <h2 className="text-2xl font-semibold">Шаблоны обновления контекста</h2>
+        <h2 className="text-2xl font-semibold">Шаблоны спасения контекста</h2>
         <p className="text-muted-foreground">
           Выберите один из шаблонов восстановления контекста, добавьте тестовый вопрос и отправьте этот промпт ChatGPT, чтобы оценить результат
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Варианты шаблонов</CardTitle>
@@ -557,25 +470,25 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                   setContextRefreshPrompt(`Обновление контекста: Планирование запуска CloudSync Pro
 
 КЛЮЧЕВЫЕ ОГРАНИЧЕНИЯ:
-- Бюджет: $150K всего
+- Бюджет: $150K
 - Запуск: 15 марта
 - Директива генерального директора: НИКАКИХ ВЫСТАВОК в этом квартале
-- Цель: Средние производственные компании
+- ЦА: Средние производственные компании
 
 УСТАНОВЛЕННЫЕ РЕШЕНИЯ:
 - Синхронизация в реальном времени — наш уникальный дифференциатор
 - Фокус на digital-маркетинге (LinkedIn, контент, вебинары)
 - Команда: Сара (маркетинг), Майк (разработка), Лиза (продажи)
 
-ТЕКУЩИЙ ВОПРОС: [Пользователь добавляет свой следующий вопрос здесь]`)
+ТЕКУЩИЙ ВОПРОС: [ваш вопрос]`)
                   setSelectedTemplate(1)
                 }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm mb-2">Шаблон 1: Стиль резюме для руководства</h4>
+                    
                     <p className="text-xs text-muted-foreground">
-                      Структурированный формат с ключевыми ограничениями
+                      Обновление контекста с ключевыми элементами
                     </p>
                   </div>
                   {selectedTemplate === 1 && (
@@ -613,13 +526,13 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
 • Наш дифференциатор: Синхронизация в реальном времени (у конкурентов этого нет)
 • Целевой рынок: Средние производственные компании
 
-Теперь, с учетом этого контекста: [Пользователь добавляет вопрос]`)
+Теперь, с учетом этого контекста: [ваш вопрос]`)
                   setSelectedTemplate(2)
                 }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm mb-2">Шаблон 2: Стиль маркированного списка</h4>
+                    
                     <p className="text-xs text-muted-foreground">
                       Быстрый сброс контекста с ключевыми элементами
                     </p>
@@ -633,7 +546,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
 
 • Общий бюджет: $150K (не $60K+ только на события)
 • НИКАКИХ ВЫСТАВОК — директива генерального директора из-за расходов на расширение офиса
-• Дата запуска: 15 марта для CloudSync Pro
+• Дата запуска: 15 марта
 • Наш дифференциатор: Синхронизация в реальном времени (у конкурентов этого нет)
 • Целевой рынок: Средние производственные компании
 
@@ -648,15 +561,15 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 onClick={() => {
                   setContextRefreshPrompt(`Предыдущий контекст: Мы запускаем CloudSync Pro (интеграция данных) 15 марта с бюджетом $150K, нацеливаясь на средние производственные компании. Генеральный директор конкретно запретил выставки в этом квартале из-за расходов на расширение офиса. Наш главный дифференциатор — возможность синхронизации в реальном времени.
 
-Учитывая эти ограничения: [Пользователь добавляет вопрос]`)
+Учитывая эти ограничения: [ваш вопрос]`)
                   setSelectedTemplate(3)
                 }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="font-medium text-sm mb-2">Шаблон 3: Формат проблема-решение</h4>
+                    
                     <p className="text-xs text-muted-foreground">
-                      Объяснение контекста с ключевыми ограничениями
+                      Пояснение контекста с ключевыми элементами
                     </p>
                   </div>
                   {selectedTemplate === 3 && (
@@ -678,16 +591,21 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           </CardHeader>
           <CardContent className="space-y-4">
             {selectedTemplate && (
-              <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium text-primary">
-                    Выбран шаблон {selectedTemplate}: {
-                      selectedTemplate === 1 ? 'Стиль резюме для руководства' :
-                      selectedTemplate === 2 ? 'Стиль маркированного списка' :
-                      'Формат проблема-решение'
-                    }
-                  </span>
+              <div className="p-4 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+                <div className="flex items-center space-x-3">
+                  <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                    <CheckCircle className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                      Выбран шаблон {selectedTemplate}
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      {selectedTemplate === 1 ? 'Обновление контекста с ключевыми элементами' :
+                       selectedTemplate === 2 ? 'Быстрый сброс контекста с ключевыми элементами' :
+                       'Пояснение контекста с ключевыми элементами'}
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
@@ -695,23 +613,23 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
               <label className="text-sm font-medium mb-3 block">Добавьте тестовый вопрос</label>
               <div className="grid grid-cols-1 gap-3">
                 <button
-                  onClick={() => setSelectedQuestion("Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?")}
+                  onClick={() => setSelectedQuestion("Какие маркетинговые активности нам приоритизировать для максимального результата?")}
                   className={`p-3 rounded-lg border-2 transition-all duration-200 text-left ${
-                    selectedQuestion === "Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?"
+                    selectedQuestion === "Какие маркетинговые активности нам приоритизировать для максимального результата?"
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-gray-200 dark:border-gray-700 hover:border-primary/30 hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
                   <div className="flex items-start space-x-3">
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0 ${
-                      selectedQuestion === "Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?"
+                      selectedQuestion === "Какие маркетинговые активности нам приоритизировать для максимального результата?"
                         ? "border-primary bg-primary text-white"
                         : "border-gray-300 dark:border-gray-600"
                     }`}>
-                      {selectedQuestion === "Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?" && <CheckCircle className="w-3 h-3" />}
+                      {selectedQuestion === "Какие маркетинговые активности нам приоритизировать для максимального результата?" && <CheckCircle className="w-3 h-3" />}
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Какие события и маркетинговые активности нам приоритизировать для максимального воздействия?</p>
+                      <p className="text-sm font-medium">Какие маркетинговые активности нам приоритизировать для максимального результата?</p>
                     </div>
                   </div>
                 </button>
@@ -739,23 +657,23 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 </button>
                 
                 <button
-                  onClick={() => setSelectedQuestion("Каково резюме нашей go-to-market стратегии?")}
+                  onClick={() => setSelectedQuestion("Какое резюме нашей go-to-market стратегии?")}
                   className={`p-3 rounded-lg border-2 transition-all duration-200 text-left ${
-                    selectedQuestion === "Каково резюме нашей go-to-market стратегии?"
+                    selectedQuestion === "Какое резюме нашей go-to-market стратегии?"
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-gray-200 dark:border-gray-700 hover:border-primary/30 hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
                   <div className="flex items-start space-x-3">
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0 ${
-                      selectedQuestion === "Каково резюме нашей go-to-market стратегии?"
+                      selectedQuestion === "Какое резюме нашей go-to-market стратегии?"
                         ? "border-primary bg-primary text-white"
                         : "border-gray-300 dark:border-gray-600"
                     }`}>
-                      {selectedQuestion === "Каково резюме нашей go-to-market стратегии?" && <CheckCircle className="w-3 h-3" />}
+                      {selectedQuestion === "Какое резюме нашей go-to-market стратегии?" && <CheckCircle className="w-3 h-3" />}
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium">Каково резюме нашей go-to-market стратегии?</p>
+                      <p className="text-sm font-medium">Какое резюме нашей go-to-market стратегии?</p>
                     </div>
                   </div>
                 </button>
@@ -787,7 +705,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-semibold">Тестовые вопросы и ожидаемые улучшения</h2>
         <p className="text-muted-foreground">
-          Посмотрите, как ваш промпт улучшил ответы AI
+          Посмотрите, как ваш промпт улучшил ответы ИИ
         </p>
       </div>
 
@@ -800,7 +718,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           </CardHeader>
           <CardContent>
             <p className="text-sm text-red-800 dark:text-red-200">
-              AI может предлагать выставки, игнорировать бюджетные ограничения или пропускать ключевые дифференциаторы.
+              ИИ может предлагать выставки, игнорировать бюджетные ограничения или пропускать ключевые дифференциаторы.
             </p>
           </CardContent>
         </Card>
@@ -813,7 +731,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           </CardHeader>
           <CardContent>
             <p className="text-sm text-green-800 dark:text-green-200">
-              {apiResponse || 'AI должен уважать ограничение "никаких выставок", работать в рамках бюджета $150K, подчеркивать дифференциатор синхронизации в реальном времени и предлагать подходящие digital-альтернативы.'}
+              {apiResponse || 'ИИ должен уважать ограничение "никаких выставок", работать в рамках бюджета $150K, подчеркивать дифференциатор синхронизации в реальном времени и предлагать подходящие digital-альтернативы.'}
             </p>
           </CardContent>
         </Card>
@@ -826,20 +744,20 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           </h3>
           <div className="space-y-3 text-sm text-blue-800 dark:text-blue-200">
             <div className="flex items-start space-x-2">
-              <CheckCircle className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-              <span><strong>AI избегает упоминания выставок</strong></span>
+              <div className="w-1.5 h-1.5 bg-gray-900 dark:bg-gray-100 rounded-full mt-2 flex-shrink-0"></div>
+              <span>ИИ избегает упоминания выставок</span>
             </div>
             <div className="flex items-start space-x-2">
-              <CheckCircle className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-              <span><strong>Бюджетные рекомендации остаются в рамках $150K</strong></span>
+              <div className="w-1.5 h-1.5 bg-gray-900 dark:bg-gray-100 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Бюджетные рекомендации остаются в рамках $150K</span>
             </div>
             <div className="flex items-start space-x-2">
-              <CheckCircle className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-              <span><strong>Дифференциатор синхронизации в реальном времени выделяется</strong></span>
+              <div className="w-1.5 h-1.5 bg-gray-900 dark:bg-gray-100 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Дифференциатор синхронизации в реальном времени выделяется</span>
             </div>
             <div className="flex items-start space-x-2">
-              <CheckCircle className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-              <span><strong>Предложения соответствуют фокусу на digital-маркетинге</strong></span>
+              <div className="w-1.5 h-1.5 bg-gray-900 dark:bg-gray-100 rounded-full mt-2 flex-shrink-0"></div>
+              <span>Предложения соответствуют фокусу на digital-маркетинге</span>
             </div>
           </div>
         </CardContent>
@@ -850,29 +768,31 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           <h3 className="font-semibold mb-4">Примените к вашей работе:</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">📅 Еженедельные проектные чекины</h4>
+              <h4 className="font-medium mb-2">📅 Ешьте слона по частям</h4>
               <p className="text-sm text-muted-foreground">
-                Начинайте каждую сессию с перечисления ключевых ограничений и решений
+              Разбивайте большие задачи на составные и проводите по ним отдельные сессии, задавая ИИ общий контекст в каждом диалоге
+              </p>
+            </div>
+        
+            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <h4 className="font-medium mb-2">📝 Правило трёх предложений</h4>
+              <p className="text-sm text-muted-foreground">
+              Если не можете объяснить текущий контекст в 3 предложениях, упростите или разбейте задачу на части
               </p>
             </div>
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">📝 Документирование решений</h4>
+              <h4 className="font-medium mb-2">⚠️ Таймер распада контекста</h4>
               <p className="text-sm text-muted-foreground">
-                Ведите текущее резюме критических моментов для повторного введения при необходимости
+              После 10+ обменов считайте, что ИИ забыл ваш первоначальный бриф — время для обновления
               </p>
             </div>
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium mb-2">📋 Контекстные шаблоны</h4>
               <p className="text-sm text-muted-foreground">
-                Создавайте стандартные форматы для ваших общих случаев использования
+              Создавайте сохранённые заготовки типа: "Краткий контекст: Мы разрабатываем X для Y, текущий блокер - Z"
               </p>
             </div>
-            <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">⚠️ Ранние предупреждающие знаки</h4>
-              <p className="text-sm text-muted-foreground">
-                Следите за ответами AI, которые противоречат более ранним соглашениям
-              </p>
-            </div>
+        
           </div>
         </CardContent>
       </Card>
@@ -963,14 +883,14 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
         {currentPhase === 5 && (
           <div className="text-center space-y-4">
             <div className="rounded-lg border bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800 p-6">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
-                <h3 className="text-xl font-semibold text-green-900 dark:text-green-100">
-                  Лабораторная работа завершена!
-                </h3>
-              </div>
+                              <div className="flex items-center justify-center space-x-3 mb-4">
+                  
+                  <h3 className="text-xl font-semibold text-green-900 dark:text-green-100">
+                    🎉 &nbsp;&nbsp;Лабораторная работа завершена!&nbsp;&nbsp; 🎉
+                  </h3>
+                </div>
               <p className="text-green-800 dark:text-green-200">
-                Поздравляем! Вы успешно освоили управление окном контекста AI.
+                Поздравляем! Вы успешно освоили управление окном контекста ИИ.
               </p>
             </div>
             <div className="flex justify-center">
@@ -999,7 +919,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                   Поздравляем!
                 </h3>
                                   <p className="text-muted-foreground">
-                    Вы успешно завершили лабораторную работу по управлению окном контекста AI
+                    Вы успешно завершили лабораторную работу по управлению окном контекста ИИ
                   </p>
               </div>
               <div className="space-y-3 text-sm">
@@ -1009,7 +929,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 </div>
                 <div className="flex items-center space-x-2 justify-center">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span>Освоили техники восстановления памяти AI</span>
+                  <span>Освоили техники восстановления памяти ИИ</span>
                 </div>
                 <div className="flex items-center space-x-2 justify-center">
                   <CheckCircle className="h-4 w-4 text-green-600" />
@@ -1031,7 +951,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
         <div className="text-center text-sm text-muted-foreground">
           <div className="flex items-center justify-center space-x-2">
             <div className="w-1.5 h-1.5 bg-green-500/70 rounded-full"></div>
-            <span>Работает на OpenAI</span>
+            <span>Powered by OpenAI</span>
           </div>
         </div>
       </div>
