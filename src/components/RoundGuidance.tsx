@@ -39,68 +39,74 @@ const RoundGuidance: React.FC<RoundGuidanceProps> = ({
       )}
       
       {/* Framework Elements Checklist */}
-      <div className="mb-4">
-        <h4 className="font-medium text-blue-900 mb-2">Элементы фреймворка:</h4>
-        <div className="grid grid-cols-1 gap-2">
-          {Object.entries(FRAMEWORK_ELEMENTS).map(([key, element]) => {
-            const isPresent = detectedElements.includes(key);
-            const isRequired = frameworkElements.includes(key);
-            
-            return (
-              <div 
-                key={key}
-                className={`flex items-center space-x-2 px-3 py-2 rounded text-sm ${
-                  isPresent 
-                    ? 'bg-green-100 text-green-800' 
-                    : isRequired 
-                    ? 'bg-red-100 text-red-800'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                <span className="text-lg">{element.icon}</span>
-                <span className="font-medium">{element.name}</span>
-                <span className="text-xs">
-                  {isPresent ? '✓' : isRequired ? '✗' : '○'}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      
-      {/* Guidance points */}
-      {'guidance' in roundData && roundData.guidance && roundData.guidance.length > 0 && (
-        <div className="mb-4">
-          <h4 className="font-medium text-blue-900 mb-2">Руководство:</h4>
-          <ul className="space-y-1">
-            {roundData.guidance.map((guide, index) => (
-              <li key={index} className="text-sm text-blue-800 flex items-start">
-                <span className="mr-2">•</span>
-                <span>{guide}</span>
-              </li>
-            ))}
-          </ul>
+      {frameworkElements.length > 0 && (
+        <div className="mb-6">
+          <h4 className="font-semibold text-blue-900 mb-3 text-base">
+            Элементы фреймворка для этого раунда:
+          </h4>
+          <div className="bg-white rounded-lg border border-gray-200 p-4">
+            <div className="grid grid-cols-1 gap-3">
+              {frameworkElements.map((elementKey) => {
+                const element = FRAMEWORK_ELEMENTS[elementKey as keyof typeof FRAMEWORK_ELEMENTS];
+                if (!element) return null;
+                
+                const isPresent = detectedElements.includes(elementKey);
+                
+                return (
+                  <div 
+                    key={elementKey}
+                    className={`px-3 py-2 rounded-md text-sm border ${
+                      isPresent 
+                        ? 'bg-green-50 border-green-200 text-green-800' 
+                        : 'bg-gray-50 border-gray-200 text-gray-600'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="text-lg">{element.icon}</span>
+                      <span className="font-medium">{element.name}</span>
+                      <span className="text-xs">
+                        {isPresent ? '✓' : '○'}
+                      </span>
+                    </div>
+                    <p className="text-xs ml-7 text-gray-600 dark:text-gray-400">
+                      {element.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
       
+
+      
       {/* Examples */}
       {'examples' in roundData && roundData.examples && roundData.examples.length > 0 && (
-        <div className="mb-4">
-          <h4 className="font-medium text-blue-900 mb-2">Примеры:</h4>
-          <div className="space-y-2">
-            {roundData.examples.map((example, index) => (
-              <div key={index} className="bg-white p-2 rounded text-sm border">
-                <code className="text-blue-700">{example}</code>
-              </div>
-            ))}
+        <div className="mb-6">
+          <h4 className="font-semibold text-blue-900 mb-3 text-base">
+            Примеры:
+          </h4>
+          <div className="bg-white rounded-lg border border-gray-200 p-4">
+            <div className="space-y-3">
+              {roundData.examples.map((example, index) => (
+                <div key={index} className="px-3 py-2 rounded-md text-sm bg-gray-50 border border-gray-200">
+                  <code className="text-blue-700">{example}</code>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
       
       {/* Expected output */}
-      <div className="bg-white p-3 rounded border">
-        <h4 className="font-medium text-gray-900 mb-1">Ожидаемый результат:</h4>
-        <p className="text-sm text-gray-700">{roundData.expectedOutput}</p>
+      <div className="mb-6">
+        <h4 className="font-semibold text-blue-900 mb-3 text-base">
+          Ожидаемый результат:
+        </h4>
+        <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <p className="text-sm text-gray-700">{roundData.expectedOutput}</p>
+        </div>
       </div>
     </div>
   );

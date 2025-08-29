@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -189,6 +189,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   const [contextRefreshPrompt, setContextRefreshPrompt] = useState('')
   const [apiResponse, setApiResponse] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const lessonPlayerRef = useRef<HTMLDivElement>(null)
 
 
   const [selectedQuestion, setSelectedQuestion] = useState('')
@@ -204,9 +205,17 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     }
   }
 
+  const scrollToTop = () => {
+    if (lessonPlayerRef.current) {
+      lessonPlayerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   const handlePhaseComplete = () => {
     if (currentPhase < 5) {
       setCurrentPhase(currentPhase + 1)
+      // Scroll to top when moving to next phase
+      setTimeout(() => scrollToTop(), 100)
     }
   }
 
@@ -214,6 +223,8 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     // Only allow going back, no skipping ahead
     if (targetPhase < currentPhase) {
       setCurrentPhase(targetPhase)
+      // Scroll to top when navigating to previous phase
+      setTimeout(() => scrollToTop(), 100)
     }
   }
 
@@ -256,21 +267,12 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
     setIsLoading(true)
     setApiResponse('')
     try {
-      // Translate the Russian question to English for the API call
-      const questionTranslations: Record<string, string> = {
-        'Какие маркетинговые активности нам приоритизировать для максимального воздействия?': 'What events and marketing activities should we prioritize for maximum impact?',
-        'Как нам распределить оставшийся маркетинговый бюджет?': 'How should we allocate our remaining marketing budget?',
-        'Какое резюме нашей go-to-market стратегии?': 'What is our go-to-market strategy summary?'
-      }
-      
-      const englishQuestion = questionTranslations[selectedQuestion] || selectedQuestion
-      
       const res = await fetch('/api/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           contextPrompt: contextRefreshPrompt, 
-          testQuestion: englishQuestion, 
+          testQuestion: selectedQuestion, 
           model: 'gpt-4o-mini' 
         })
       })
@@ -279,10 +281,24 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
         throw new Error(err?.details || 'API error')
       }
       const data = await res.json()
-      setApiResponse(data?.content || '')
+      const responseContent = data?.content || ''
+      
+      // Validate and clean the response
+      if (responseContent && typeof responseContent === 'string') {
+        setApiResponse(responseContent.trim())
       handlePhaseComplete()
+        
+        // Scroll to top of lesson player when moving to final phase
+        setTimeout(() => scrollToTop(), 200)
+      } else {
+        throw new Error('Invalid response format from API')
+      }
     } catch (e) {
-      setApiResponse('Ошибка вызова API. Проверьте ключ и попробуйте ещё раз.')
+      console.error('API call error:', e)
+      const errorMessage = e instanceof Error && e.message.includes('Invalid response format') 
+        ? 'Получен неверный формат ответа от API. Попробуйте ещё раз.'
+        : 'Ошибка вызова API. Проверьте ключ и попробуйте ещё раз.'
+      setApiResponse(errorMessage)
     } finally {
       setIsLoading(false)
     }
@@ -686,14 +702,27 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
               onChange={(e) => setContextRefreshPrompt(e.target.value)}
               className="min-h-[200px]"
             />
+            <div className="space-y-3">
             <Button 
               onClick={handlePromptSubmit}
               disabled={!contextRefreshPrompt.trim() || !selectedQuestion.trim() || isLoading}
               className="w-full"
             >
-              {isLoading ? 'Отправка...' : 'Отправить промпт'}
+                {isLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                    Отправка...
+                  </>
+                ) : (
+                  <>
+                    Отправить промпт
               <Zap className="ml-2 h-4 w-4" />
+                  </>
+                )}
             </Button>
+              
+
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -709,11 +738,11 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="space-y-6">
         <Card className="bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800">
           <CardHeader>
             <CardTitle className="text-lg text-red-900 dark:text-red-100">
-              До обновления контекста (ожидаемый плохой ответ):
+              До обновления контекста:
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -726,13 +755,214 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
         <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
           <CardHeader>
             <CardTitle className="text-lg text-green-900 dark:text-green-100">
-              После обновления контекста (ожидаемый хороший ответ):
+              После обновления контекста:
+              
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-green-800 dark:text-green-200">
-              {apiResponse || 'ИИ должен уважать ограничение "никаких выставок", работать в рамках бюджета $150K, подчеркивать дифференциатор синхронизации в реальном времени и предлагать подходящие digital-альтернативы.'}
-            </p>
+            {apiResponse ? (
+              <div className="space-y-3 animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
+                <div className={`p-6 rounded-lg border shadow-sm transition-all duration-200 ${
+                  apiResponse.includes('Ошибка') || apiResponse.includes('неверный формат')
+                    ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800'
+                    : 'bg-white dark:bg-gray-900 border-green-200 dark:border-green-800'
+                }`}>
+                  <div className="flex items-center space-x-2 mb-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      apiResponse.includes('Ошибка') || apiResponse.includes('неверный формат')
+                        ? 'bg-red-500'
+                        : 'bg-green-500'
+                    }`}></div>
+                    <span className={`text-xs font-medium uppercase tracking-wide ${
+                      apiResponse.includes('Ошибка') || apiResponse.includes('неверный формат')
+                        ? 'text-red-700 dark:text-red-300'
+                        : 'text-green-700 dark:text-green-300'
+                    }`}>
+                      {apiResponse.includes('Ошибка') || apiResponse.includes('неверный формат') ? 'Ошибка' : 'Ответ ИИ'}
+                    </span>
+                  </div>
+                  <div className={`text-sm leading-relaxed prose prose-sm max-w-none max-h-96 overflow-y-auto scrollbar-thin relative ${
+                    apiResponse.includes('Ошибка') || apiResponse.includes('неверный формат')
+                      ? 'text-red-800 dark:text-red-200 scrollbar-thumb-red-300 scrollbar-track-red-100 dark:scrollbar-thumb-red-600 dark:scrollbar-track-red-900/20'
+                      : 'text-green-800 dark:text-green-200 scrollbar-thumb-green-300 scrollbar-track-green-100 dark:scrollbar-thumb-green-600 dark:scrollbar-track-green-900/20'
+                  }`}
+                  onScroll={(e) => {
+                    const target = e.target as HTMLDivElement
+                    const isAtBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - 5
+                    const scrollIndicator = target.querySelector('.scroll-indicator')
+                    if (scrollIndicator) {
+                      scrollIndicator.classList.toggle('opacity-0', isAtBottom)
+                    }
+                  }}>
+                    {apiResponse.includes('Ошибка') || apiResponse.includes('неверный формат') ? (
+                      <div className="space-y-3">
+                        <p>{apiResponse}</p>
+                        <Button 
+                          onClick={() => setApiResponse('')}
+                          variant="outline" 
+                          size="sm"
+                          className="text-red-600 border-red-300 hover:bg-red-50 dark:hover:bg-red-950/20"
+                        >
+                          Очистить ошибку
+                        </Button>
+                      </div>
+                    ) : (
+                      apiResponse.split('\n').map((line, index) => {
+                        const trimmedLine = line.trim()
+                        if (!trimmedLine) return <div key={index} className="mb-1">&nbsp;</div>
+                        
+                        // Enhanced markdown detection
+                        const isHeading1 = /^#\s/.test(trimmedLine)
+                        const isHeading2 = /^##\s/.test(trimmedLine)
+                        const isHeading3 = /^###\s/.test(trimmedLine)
+                        const isHeading = isHeading1 || isHeading2 || isHeading3
+                        const isNumberedList = /^\d+\.\s/.test(trimmedLine)
+                        const isBulletList = /^[\•\-\*]\s/.test(trimmedLine)
+                        const isSubBullet = /^\s+[\•\-\*]\s/.test(trimmedLine)
+                        const isBold = /\*\*(.*?)\*\*/.test(trimmedLine)
+                        const isItalic = /\*(.*?)\*/.test(trimmedLine)
+                        const isCode = /`(.*?)`/.test(trimmedLine)
+                        
+                        // Determine styling and content
+                        let className = 'mb-2'
+                        let content: string | JSX.Element | (string | JSX.Element)[] = trimmedLine
+                        
+                        if (isHeading1) {
+                          className = 'text-xl font-bold text-green-900 dark:text-green-100 mb-4 mt-6 first:mt-0'
+                          content = trimmedLine.replace(/^#\s/, '')
+                        } else if (isHeading2) {
+                          className = 'text-lg font-bold text-green-900 dark:text-green-100 mb-3 mt-5'
+                          content = trimmedLine.replace(/^##\s/, '')
+                        } else if (isHeading3) {
+                          className = 'text-base font-bold text-green-900 dark:text-green-100 mb-3 mt-4'
+                          content = trimmedLine.replace(/^###\s/, '')
+                        } else if (isNumberedList) {
+                          className = 'ml-6 mb-2 flex items-start'
+                          content = (
+                            <>
+                              <span className="text-green-600 dark:text-green-400 font-medium mr-2 flex-shrink-0">
+                                {trimmedLine.match(/^\d+\./)?.[0]}
+                              </span>
+                              <span>{trimmedLine.replace(/^\d+\.\s/, '')}</span>
+                            </>
+                          )
+                        } else if (isBulletList) {
+                          className = 'ml-6 mb-2 flex items-start'
+                          content = (
+                            <>
+                              <span className="text-green-600 dark:text-green-400 mr-2 flex-shrink-0">•</span>
+                              <span>{trimmedLine.replace(/^[\•\-\*]\s/, '')}</span>
+                            </>
+                          )
+                        } else if (isSubBullet) {
+                          className = 'ml-12 mb-2 flex items-start'
+                          content = (
+                            <>
+                              <span className="text-green-600 dark:text-green-400 mr-2 flex-shrink-0">◦</span>
+                              <span>{trimmedLine.replace(/^\s+[\•\-\*]\s/, '')}</span>
+                            </>
+                          )
+                        }
+                        
+                        // Process inline markdown formatting
+                        const processInlineMarkdown = (text: string) => {
+                          const parts = []
+                          let currentIndex = 0
+                          
+                          // Process **bold** text
+                          const boldRegex = /\*\*(.*?)\*\*/g
+                          let boldMatch
+                          while ((boldMatch = boldRegex.exec(text)) !== null) {
+                            if (boldMatch.index > currentIndex) {
+                              parts.push(text.slice(currentIndex, boldMatch.index))
+                            }
+                            parts.push(
+                              <strong key={`bold-${currentIndex}`} className="font-bold">
+                                {boldMatch[1]}
+                              </strong>
+                            )
+                            currentIndex = boldMatch.index + boldMatch[0].length
+                          }
+                          
+                          // Process *italic* text
+                          const italicRegex = /\*(.*?)\*/g
+                          let italicMatch
+                          while ((italicMatch = italicRegex.exec(text)) !== null) {
+                            if (italicMatch.index > currentIndex) {
+                              parts.push(text.slice(currentIndex, italicMatch.index))
+                            }
+                            parts.push(
+                              <em key={`italic-${currentIndex}`} className="italic">
+                                {italicMatch[1]}
+                              </em>
+                            )
+                            currentIndex = italicMatch.index + italicMatch[0].length
+                          }
+                          
+                          // Process `code` text
+                          const codeRegex = /`(.*?)`/g
+                          let codeMatch
+                          while ((codeMatch = codeRegex.exec(text)) !== null) {
+                            if (codeMatch.index > currentIndex) {
+                              parts.push(text.slice(currentIndex, codeMatch.index))
+                            }
+                            parts.push(
+                              <code key={`code-${currentIndex}`} className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">
+                                {codeMatch[1]}
+                              </code>
+                            )
+                            currentIndex = codeMatch.index + codeMatch[0].length
+                          }
+                          
+                          // Add remaining text
+                          if (currentIndex < text.length) {
+                            parts.push(text.slice(currentIndex))
+                          }
+                          
+                          return parts.length > 0 ? parts : text
+                        }
+                        
+                        // Apply inline markdown processing to string content
+                        if (typeof content === 'string') {
+                          content = processInlineMarkdown(content)
+                        }
+                        
+                        return (
+                          <div key={index} className={className}>
+                            {content}
+                          </div>
+                        )
+                      })
+                    )}
+                    
+                    {/* Scroll indicator */}
+                    <div className="scroll-indicator sticky bottom-0 left-0 right-0 bg-gradient-to-t from-white dark:from-gray-900 via-white/80 dark:via-gray-900/80 to-transparent h-8 flex items-center justify-center pointer-events-none transition-opacity duration-200">
+                      <div className="flex items-center space-x-1 text-xs text-muted-foreground/70">
+                        <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse"></div>
+                        <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-1 h-1 bg-muted-foreground/40 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                  {isLoading ? (
+                    <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <Lightbulb className="w-8 h-8 text-green-600 dark:text-green-400" />
+                  )}
+                </div>
+                <p className="text-sm text-green-800 dark:text-green-200 mb-2">
+                  {isLoading ? 'Обработка запроса...' : 'Ожидание ответа от ИИ...'}
+                </p>
+                <p className="text-xs text-green-600 dark:text-green-400">
+                  ИИ должен уважать ограничение "никаких выставок", работать в рамках бюджета $150K, подчеркивать дифференциатор синхронизации в реальном времени и предлагать подходящие digital-альтернативы.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -811,7 +1041,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 max-w-6xl">
+    <div className="container mx-auto px-6 py-8 max-w-6xl" ref={lessonPlayerRef}>
       <div className="space-y-8">
         {/* Header - Removed duplicate display */}
 

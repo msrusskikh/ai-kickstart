@@ -58,53 +58,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ response: response_text })
     }
 
-    // Handle lab analysis prompts (new format for workflow builder lab)
-    if (body.contextPrompt && body.testQuestion) {
-      console.log('Processing lab analysis prompt:', body.contextPrompt.substring(0, 100) + '...')
-      
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: body.model || "gpt-4o-mini",
-          temperature: 0.3,
-          max_tokens: 800,
-          messages: [
-            {
-              role: "system",
-              content: "Ты — эксперт по автоматизации рабочих процессов с помощью ИИ-инструментов. Отвечай на русском языке, будь конкретным и структурированным. Всегда возвращай ответ в запрошенном формате. Фокусируйся ТОЛЬКО на ИИ-технологиях (ChatGPT, Claude, Gemini, ИИ-функции в таблицах, Zapier с ИИ) и НЕ рекомендуй традиционные BI-инструменты (Power BI, Tableau, Qlik).",
-            },
-            { role: "user", content: body.contextPrompt },
-          ],
-        }),
-      })
 
-      if (!response.ok) {
-        const text = await response.text()
-        console.error('OpenAI API error:', response.status, text)
-        return NextResponse.json(
-          { error: "OpenAI API error", details: text },
-          { status: response.status }
-        )
-      }
-
-      const data = await response.json()
-      const content = data?.choices?.[0]?.message?.content || ""
-      console.log('Lab analysis response received, length:', content.length)
-      return NextResponse.json({ content })
-    }
 
     // Handle existing product launch prompts
     const { contextPrompt, testQuestion, model } = body
+    console.log('Processing context window lab prompt:')
+    console.log('- Context prompt length:', contextPrompt?.length || 0)
+    console.log('- Test question length:', testQuestion?.length || 0)
+    console.log('- Model:', model || 'gpt-4o-mini')
+    
     const composedUserMessage = [
       "You are helping plan a product launch. Use the following context refresh strictly:",
       contextPrompt || "",
       "\nNow answer this question based on the context above:",
       testQuestion || "",
     ].join("\n\n")
+    
+    console.log('Composed message length:', composedUserMessage.length)
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -115,11 +85,12 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model: model || "gpt-4o-mini",
         temperature: 0.3,
+        max_tokens: 800,
         messages: [
           {
             role: "system",
             content:
-              "You are an expert enterprise product launch assistant. You strictly honor constraints (budget caps, CEO directives, timelines). Prefer digital marketing over trade shows if the context forbids trade shows. Be concise and actionable.",
+              "You are an expert enterprise product launch assistant. You strictly honor constraints (budget caps, CEO directives, timelines). Prefer digital marketing over trade shows if the context forbids trade shows. Be concise and actionable. IMPORTANT: Respond in Russian language to match the user's interface language.",
           },
           { role: "user", content: composedUserMessage },
         ],

@@ -11,36 +11,42 @@ const FRAMEWORK_PATTERNS = {
 
 const ELEMENT_SUGGESTIONS = {
   role: [
-    "Добавьте роль: 'Ты — customer success менеджер'",
-    "Укажите профессиональную перспективу для ИИ"
+    "Добавьте роль"
   ],
   goal: [
-    "Определите цель: 'выявить критичные темы'",
-    "Укажите конкретный желаемый результат"
+    "определите цель"
   ],
   steps: [
-    "Добавьте пошаговый процесс: 'Шаг 1:', 'Шаг 2:', 'Шаг 3:'",
-    "Структурируйте логическую последовательность действий"
+    "Добавьте пошаговый процесс"
   ],
   constraints: [
-    "Укажите ограничения: 'не более 300 слов', 'используй bullet points'",
-    "Определите формат и стиль результата"
+    "Укажите ограничения"
   ],
   quality_bar: [
-    "Добавьте стандарт качества: 'включай только темы с 2+ упоминаниями'",
-    "Попросите ИИ проверить свою работу перед ответом"
+    "Добавьте стандарт качества"
   ]
 };
 
-export const usePromptValidation = (promptText: string) => {
+// Define which elements are introduced in each round
+const ROUND_ELEMENTS = {
+  1: [], // Round 1: No framework elements - just starter prompt
+  2: ['role', 'goal'], // Round 2: Introduce role and goal
+  3: ['role', 'goal', 'steps', 'constraints'], // Round 3: Add steps and constraints
+  4: ['role', 'goal', 'steps', 'constraints', 'quality_bar'] // Round 4: Add quality bar
+};
+
+export const usePromptValidation = (promptText: string, currentRound: number = 1) => {
   const validation = useMemo(() => {
     const detectedElements: string[] = [];
     const missingElements: string[] = [];
     const suggestions: string[] = [];
     
-    // Check each framework element
-    Object.entries(FRAMEWORK_PATTERNS).forEach(([element, pattern]) => {
-      if (pattern.test(promptText)) {
+    // Get elements that should be available for the current round
+    const availableElements = ROUND_ELEMENTS[currentRound as keyof typeof ROUND_ELEMENTS] || ROUND_ELEMENTS[1];
+    
+    // Check only the elements available for the current round
+    availableElements.forEach((element) => {
+      if (FRAMEWORK_PATTERNS[element as keyof typeof FRAMEWORK_PATTERNS].test(promptText)) {
         detectedElements.push(element);
       } else {
         missingElements.push(element);
@@ -52,23 +58,25 @@ export const usePromptValidation = (promptText: string) => {
       }
     });
     
-    // Calculate score (0-5 based on number of elements)
+    // Calculate score based on available elements for current round
     const score = detectedElements.length;
+    const maxScore = availableElements.length;
     
-    // Determine overall quality
+    // Determine overall quality based on current round's expectations
     let qualityLevel = 'low';
-    if (score >= 4) qualityLevel = 'high';
-    else if (score >= 2) qualityLevel = 'medium';
+    if (score >= maxScore * 0.8) qualityLevel = 'high';
+    else if (score >= maxScore * 0.5) qualityLevel = 'medium';
     
     return {
       detectedElements,
       missingElements,
       suggestions: suggestions.slice(0, 3), // Limit to 3 suggestions
       score,
+      maxScore,
       qualityLevel,
-      isComplete: detectedElements.length === 5
+      isComplete: detectedElements.length === maxScore
     };
-  }, [promptText]);
+  }, [promptText, currentRound]);
   
   return validation;
 };
