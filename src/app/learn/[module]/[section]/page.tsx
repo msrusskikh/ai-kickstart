@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Breadcrumbs } from "@/components/layout/breadcrumbs"
 import { ArrowLeft, ArrowRight, CheckCircle, Lock } from "lucide-react"
 import { useEffect, useState } from "react"
+import CourseCompletionPopup from "@/components/lesson/CourseCompletionPopup"
 
 export default function LessonPage() {
   const router = useRouter()
@@ -16,6 +17,7 @@ export default function LessonPage() {
   const moduleStr = params?.module || ""
   const sectionStr = params?.section || ""
   const { completedSections, currentModule, currentSection, isDevMode } = useProgressStore()
+  const [showCompletionModal, setShowCompletionModal] = useState(false)
 
   if (!moduleStr || !sectionStr) {
     return <div>Loading...</div>
@@ -156,11 +158,44 @@ console.log(greet("Learner"));</code></pre>
                     </Link>
                   </Button>
                 )}
+                
+                {/* Course Completion Button - Show only on last lesson of last module */}
+                {isLastLessonOfModule && !nextModule && (
+                  <Button 
+                    variant="default" 
+                    className="max-w-xs"
+                    style={{ backgroundColor: '#10a37f' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0d8a6b'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#10a37f'}
+                    onClick={() => setShowCompletionModal(true)}
+                  >
+                    <span className="truncate">Завершить курс</span>
+                  </Button>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Course Completion Modal */}
+      <CourseCompletionPopup 
+        isOpen={showCompletionModal} 
+        onClose={() => setShowCompletionModal(false)} 
+        courseData={{
+          modules: 12,
+          timeSpent: '2.5h',
+          score: '94%'
+        }}
+        onDownloadCertificate={() => {
+          console.log('Downloading certificate...');
+          // TODO: Implement certificate download
+        }}
+        onViewNextCourse={() => {
+          // Navigate to learn page
+          router.push('/learn');
+        }}
+      />
     </div>
   )
 }

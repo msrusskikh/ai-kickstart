@@ -445,7 +445,7 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
 - Ключевые преимущества: Повторяющийся процесс
 - Потенциальные сложности: Требует контекстного понимания
 
-**Рекомендация:** Сосредоточьтесь на Задаче 1 для вашего первого ИИ-workflow.`
+`
       
       setStateWithDebug(prev => ({ 
         ...prev, 
@@ -893,15 +893,7 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
             </div>
           ))}
           
-          <div className="bg-green-50 dark:bg-green-950/20 border-l-4 border-green-500 p-4 rounded-r-lg">
-            <h3 className="text-lg font-semibold text-green-900 dark:text-green-100 mb-2">
-              🎯 Рекомендация
-            </h3>
-            <div 
-              className="text-green-800 dark:text-green-200"
-              dangerouslySetInnerHTML={{ __html: cleanRecommendation || 'Сосредоточьтесь на задаче с наивысшим баллом для вашего первого ИИ-workflow.' }}
-            />
-          </div>
+
         </div>
       )
     } catch (error) {

@@ -998,26 +998,26 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
           <h3 className="font-semibold mb-4">Примените к вашей работе:</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">📅 Ешьте слона по частям</h4>
+              <h4 className="font-medium mb-2">🐘 Ешьте слона по частям</h4>
               <p className="text-sm text-muted-foreground">
               Разбивайте большие задачи на составные и проводите по ним отдельные сессии, задавая ИИ общий контекст в каждом диалоге
               </p>
             </div>
         
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">📝 Правило трёх предложений</h4>
+              <h4 className="font-medium mb-2">🎯 Правило трёх предложений</h4>
               <p className="text-sm text-muted-foreground">
               Если не можете объяснить текущий контекст в 3 предложениях, упростите или разбейте задачу на части
               </p>
             </div>
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">⚠️ Таймер распада контекста</h4>
+              <h4 className="font-medium mb-2">⏰ Таймер распада контекста</h4>
               <p className="text-sm text-muted-foreground">
               После 10+ обменов считайте, что ИИ забыл ваш первоначальный бриф — время для обновления
               </p>
             </div>
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium mb-2">📋 Контекстные шаблоны</h4>
+              <h4 className="font-medium mb-2">💾 Контекстные шаблоны</h4>
               <p className="text-sm text-muted-foreground">
               Создавайте сохранённые заготовки типа: "Краткий контекст: Мы разрабатываем X для Y, текущий блокер - Z"
               </p>
