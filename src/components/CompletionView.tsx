@@ -1,11 +1,11 @@
 import React from 'react';
-import { KEY_TAKEAWAYS, DOWNLOADABLE_ASSETS, UI_MESSAGES } from '../data/content';
+import { KEY_TAKEAWAYS, UI_MESSAGES } from '../data/content';
 
 interface CompletionViewProps {
-  onDownload: (assetName: string) => void;
+  // No props needed since downloadable section is removed
 }
 
-const CompletionView: React.FC<CompletionViewProps> = ({ onDownload }) => {
+const CompletionView: React.FC<CompletionViewProps> = () => {
   return (
     <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-8 border border-green-200">
       <div className="text-center mb-8">
@@ -56,32 +56,7 @@ const CompletionView: React.FC<CompletionViewProps> = ({ onDownload }) => {
         </div>
       </div>
       
-      {/* Downloadable Assets */}
-      <div>
-        <h3 className="text-xl font-semibold text-green-900 mb-4">
-          {DOWNLOADABLE_ASSETS.title}
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {DOWNLOADABLE_ASSETS.items.map((asset, index) => (
-            <div 
-              key={index}
-              className="bg-white p-4 rounded-lg border hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => onDownload(asset.name)}
-            >
-              <div className="text-3xl mb-2">{asset.icon}</div>
-              <h4 className="font-semibold text-gray-900 mb-1">
-                {asset.name}
-              </h4>
-              <p className="text-sm text-gray-600 mb-3">
-                {asset.description}
-              </p>
-              <button className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors">
-                {UI_MESSAGES.buttons.download}
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 };

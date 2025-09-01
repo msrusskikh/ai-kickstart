@@ -146,7 +146,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       fontWeight: '600',
       color: '#10a37f',
       display: 'block',
-      marginBottom: '4px'
+      marginBottom: '2px'
     },
     statLabel: {
       fontSize: '13px',
@@ -303,26 +303,26 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
           </div>
           
           <h1 style={styles.title} className="title-mobile">
-            Course Complete
+            Курс завершен
           </h1>
           <p style={styles.subtitle}>
-            You've successfully mastered the fundamentals of AI. Ready to build something extraordinary?
+            Вы успешно освоили основы искусственного интеллекта. Готовы создать что-то необыкновенное?
           </p>
           
-          <div style={styles.stats}>
-            <div style={styles.stat}>
-              <span style={styles.statNumber}>{courseData.modules}</span>
-              <span style={styles.statLabel}>Modules</span>
+                      <div style={styles.stats}>
+              <div style={styles.stat}>
+                <span style={styles.statNumber}>{courseData.modules}</span>
+                <span style={styles.statLabel}>Модулей</span>
+              </div>
+              <div style={styles.stat}>
+                <span style={styles.statNumber}>{courseData.timeSpent}</span>
+                <span style={styles.statLabel}>Время</span>
+              </div>
+              <div style={styles.stat}>
+                <span style={styles.statNumber}>{courseData.score}</span>
+                <span style={styles.statLabel}>Оценка</span>
+              </div>
             </div>
-            <div style={styles.stat}>
-              <span style={styles.statNumber}>{courseData.timeSpent}</span>
-              <span style={styles.statLabel}>Time Spent</span>
-            </div>
-            <div style={styles.stat}>
-              <span style={styles.statNumber}>{courseData.score}</span>
-              <span style={styles.statLabel}>Score</span>
-            </div>
-          </div>
           
           <div style={styles.actions} className="actions-mobile">
             <button 
@@ -330,14 +330,14 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
               className="btn-primary btn-mobile"
               onClick={handleDownloadCertificate}
             >
-              Download Certificate
+              Скачать сертификат
             </button>
             <button 
               style={{...styles.btn, ...styles.btnSecondary}} 
               className="btn-secondary btn-mobile"
               onClick={handleViewNextCourse}
             >
-              Explore More
+              Изучить больше
             </button>
           </div>
         </div>

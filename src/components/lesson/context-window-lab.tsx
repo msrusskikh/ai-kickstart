@@ -39,7 +39,7 @@ const phases: Phase[] = [
   {
     id: 2,
     title: "История разговора",
-            description: "Найдите, где AI начал противоречить себе",
+            description: "Найдите, где ИИ начал противоречить себе",
     duration: "2 мин"
   },
   {
@@ -309,7 +309,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-semibold">Добро пожаловать в самый важный продуктовый запуск этого года в TechFlow Inc!</h2>
         <p className="text-lg text-muted-foreground">
-          Вы — проджект-менеджер CloudSync Pro, ноей корпоративной платформы для интеграции данных. За последний час вы планировали запуск с вашим AI-ассистентом, но что-то пошло не так...
+          Вы — проджект-менеджер CloudSync Pro, новой корпоративной платформы для интеграции данных. За последний час вы планировали запуск с вашим ИИ-ассистентом, но что-то пошло не так...
         </p>
       </div>
       
@@ -319,7 +319,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
         <CardContent className="p-6">
           <h3 className="font-semibold mb-3">Описание сценария:</h3>
           <p className="text-muted-foreground mb-4">
-            AI начал отлично, помогая вам планировать таймлайн, бюджет и назначения в команде. Но по мере того, как разговор становился длиннее, он начал противоречить более ранним решениям и 'забывать' ключевые ограничения.
+            ИИ начал отлично, помогая вам планировать таймлайн, бюджет и назначения в команде. Но по мере того, как разговор становился длиннее, он начал противоречить более ранним решениям и 'забывать' ключевые ограничения.
           </p>
           <p className="text-muted-foreground">
             Это классический случай ограничений контекстного окна — давайте это исправим!
@@ -334,7 +334,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-semibold">История разговора</h2>
         <p className="text-muted-foreground">
-          Просмотрите историю разговора и найдите, где AI начал противоречить себе
+          Просмотрите историю разговора и найдите, где ИИ начал противоречить себе
         </p>
       </div>
 
@@ -354,7 +354,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                       <p className="text-sm text-gray-700 dark:text-gray-300">{exchange.human}</p>
                     </div>
                     <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
-                      <p className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-1">AI:</p>
+                      <p className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-1">ИИ:</p>
                       <p className="text-sm text-blue-700 dark:text-blue-300">{exchange.ai}</p>
                     </div>
                     {/* Contradiction warning for exchanges 11-12 - positioned below AI bubble */}
@@ -392,7 +392,7 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 Что произошло?
               </h3>
               <p className="text-amber-800 dark:text-amber-200">
-                В обменах 11-12 AI полностью забыл директиву генерального директора о запрете выставок и предложил 
+                В обменах 11-12 ИИ полностью забыл директиву генерального директора о запрете выставок и предложил 
                 выделить еще $60K на выставки, что превышает общий бюджет в $150K!
               </p>
             </div>

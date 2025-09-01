@@ -20,8 +20,16 @@ export async function POST(request: Request) {
     console.log('✅ API key loaded successfully')
 
     // Handle lab prompts (new format)
-    if (body.prompt) {
-      console.log('Processing lab prompt:', body.prompt.substring(0, 100) + '...')
+    if (body.systemPrompt && body.userPrompt) {
+      console.log('Processing lab prompt with system message:', body.systemPrompt.substring(0, 100) + '...')
+      console.log('User prompt preview:', body.userPrompt.substring(0, 100) + '...')
+      
+      const messages = [
+        { role: "system", content: body.systemPrompt },
+        { role: "user", content: body.userPrompt },
+      ];
+      
+      console.log('Full messages being sent to OpenAI:', JSON.stringify(messages, null, 2))
       
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -32,12 +40,39 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           model: body.model || "gpt-4o-mini",
           temperature: body.temperature || 0.7,
-          max_tokens: body.max_tokens || 400,
+          messages: messages,
+        }),
+      })
+
+      if (!response.ok) {
+        const text = await response.text()
+        console.error('OpenAI API error:', response.status, text)
+        return NextResponse.json(
+          { error: "OpenAI API error", details: text },
+          { status: response.status }
+        )
+      }
+
+      const data = await response.json()
+      const response_text = data?.choices?.[0]?.message?.content || ""
+      console.log('OpenAI response received, length:', response_text.length)
+      return NextResponse.json({ response: response_text })
+    }
+
+    // Handle lab prompts (old format for backward compatibility)
+    if (body.prompt) {
+      console.log('Processing lab prompt (old format):', body.prompt.substring(0, 100) + '...')
+      
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: body.model || "gpt-4o-mini",
+          temperature: body.temperature || 0.7,
           messages: [
-            {
-              role: "system",
-              content: "Ты — AI-ассистент для анализа клиентских отзывов. Отвечай на русском языке, будь конкретным и структурированным.",
-            },
             { role: "user", content: body.prompt },
           ],
         }),

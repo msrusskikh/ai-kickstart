@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
-import { Clock, CheckCircle, XCircle, AlertCircle, Download, Trophy, Paperclip } from 'lucide-react'
+import { Clock, CheckCircle, XCircle, AlertCircle, Trophy, Paperclip } from 'lucide-react'
 import { LAB_CONTENT, CUSTOMER_FEEDBACK, ROUNDS_CONTENT, FRAMEWORK_ELEMENTS, UI_MESSAGES } from '@/data/content'
 import { usePromptValidation } from '@/hooks/usePromptValidation'
 import { getSystemPrompt } from '@/data/systemPrompts'
-import { generatePromptTemplate, generateIterationGuide, generateAnalysisChecklist, downloadTextFile } from '@/utils/downloadAssets'
+
 import ScenarioPanel from '@/components/ScenarioPanel'
 import RoundGuidance from '@/components/RoundGuidance'
 import ComparisonView from '@/components/ComparisonView'
@@ -20,7 +20,7 @@ interface RoundData {
   userPrompt: string
   aiResponse: string
   frameworkElements: string[]
-  qualityScore: number
+  qualityScore: string // Changed to string for hardcoded quality levels
   timestamp: Date
 }
 
@@ -43,24 +43,30 @@ const useOpenAI = () => {
 
     try {
       const systemPrompt = getSystemPrompt(round)
+      const fullUserPrompt = `${prompt}
+
+Клиентский фидбек:
+${CUSTOMER_FEEDBACK.join('\n')}
+
+ВАЖНО: Будь лаконичным и структурированным. Отвечай на русском языке, используй краткие пункты, избегай лишних слов. КРИТИЧНО: Каждый заголовок пиши только один раз. Например: "Позитивные моменты:" (не "Позитивные моменты:Позитивные моменты:").`
+      
+      console.log(`Submitting prompt for round ${round}:`, { 
+        systemPrompt, 
+        userPrompt: prompt,
+        fullUserPrompt: fullUserPrompt.substring(0, 200) + '...'
+      })
+      
       const response = await fetch('/api/openai', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // Note: AI response limited to 400 tokens max for concise, focused answers
-          prompt: `${systemPrompt}
-
-${prompt}
-
-Клиентский фидбек:
-${CUSTOMER_FEEDBACK.join('\n')}
-
-Отвечай на русском языке, будь конкретным и структурированным.`,
+          // Note: AI instructed to be concise and structured without strict token limits
+          systemPrompt: systemPrompt,
+          userPrompt: fullUserPrompt,
           model: "gpt-4o-mini",
-          temperature: 0.7,
-          max_tokens: 400
+          temperature: 0.7
         }),
       })
 
@@ -69,7 +75,12 @@ ${CUSTOMER_FEEDBACK.join('\n')}
       }
 
       const data = await response.json()
-      return data.response || 'Ошибка получения ответа'
+      let responseText = data.response || 'Ошибка получения ответа'
+      
+      // Clean up any potential formatting issues
+      responseText = responseText.replace(/([А-Яа-я\s]+:)\1/g, '$1')
+      
+      return responseText
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка'
       setError(`Ошибка API: ${errorMessage}`)
@@ -166,18 +177,37 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
     setState(prev => ({ ...prev, timeRemaining }))
   }, [timeRemaining])
 
-  // Auto-populate previous prompt for rounds 2-4
+  // Auto-populate previous prompt for rounds 2-4 (only when round changes)
   useEffect(() => {
-    if (state.currentRound > 1 && state.rounds[state.currentRound - 1]) {
+    if (state.currentRound > 1 && state.rounds[state.currentRound - 1] && !currentPrompt) {
       setCurrentPrompt(state.rounds[state.currentRound - 1].userPrompt)
     }
-  }, [state.currentRound, state.rounds])
+  }, [state.currentRound]) // Removed state.rounds dependency to prevent re-running on every response
 
   // Auto-populate starter prompt for round 1
   useEffect(() => {
     if (state.currentRound === 1 && !currentPrompt) {
       setCurrentPrompt(ROUNDS_CONTENT[1].starterPrompt)
-            }
+    }
+  }, [state.currentRound])
+
+  // Auto-scroll to prompt builder when round changes
+  useEffect(() => {
+    if (state.currentRound > 1) {
+      setTimeout(() => {
+        const promptBuilder = document.getElementById('prompt-builder')
+        if (promptBuilder) {
+          // Only scroll if we're not already at the top
+          const rect = promptBuilder.getBoundingClientRect()
+          if (rect.top < 0 || rect.top > window.innerHeight) {
+            promptBuilder.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            })
+          }
+        }
+      }, 150)
+    }
   }, [state.currentRound])
 
   // Update framework feedback when prompt changes
@@ -203,7 +233,10 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
       userPrompt: currentPrompt,
       aiResponse: response,
       frameworkElements: validation.detectedElements,
-      qualityScore: validation.score,
+      qualityScore: state.currentRound === 1 ? 'Не очень' :
+                   state.currentRound === 2 ? 'Лучше' :
+                   state.currentRound === 3 ? 'Хорошее' :
+                   'Супер!',
       timestamp: new Date()
     }
 
@@ -217,6 +250,23 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
     if (state.currentRound < 4) {
       setState(prev => ({ ...prev, currentRound: (prev.currentRound + 1) as 1 | 2 | 3 | 4 }))
       setCurrentResponse("")
+      // Clear current prompt so the useEffect can populate it with the previous round's prompt
+      setCurrentPrompt("")
+      
+      // Auto-scroll to prompt builder after state update
+      setTimeout(() => {
+        const promptBuilder = document.getElementById('prompt-builder')
+        if (promptBuilder) {
+          // Only scroll if we're not already at the top
+          const rect = promptBuilder.getBoundingClientRect()
+          if (rect.top < 0 || rect.top > window.innerHeight) {
+            promptBuilder.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            })
+          }
+        }
+      }, 150)
     } else {
       setState(prev => ({ ...prev, showComparison: true }))
     }
@@ -225,31 +275,25 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
   const handleComplete = () => {
     setState(prev => ({ ...prev, isCompleted: true, showComparison: true }))
     onComplete?.()
-  }
-
-  const handleDownload = (assetName: string) => {
-    const round4Data = state.rounds[4]
-    const finalPrompt = round4Data?.userPrompt || currentPrompt
-
-    switch (assetName) {
-      case "Ваш финальный отшлифованный промпт":
-        downloadTextFile(generatePromptTemplate(finalPrompt), 'final-prompt-template.md')
-        break
-      case "Шаблон для 4-раундового итерационного процесса":
-        downloadTextFile(generateIterationGuide(), 'iteration-process-guide.md')
-        break
-      case "Чеклист анализа фидбека клиентов":
-        downloadTextFile(generateAnalysisChecklist(), 'feedback-analysis-checklist.md')
-        break
-      default:
-        break
-    }
+    
+    // Scroll to the completion section after state update
+    setTimeout(() => {
+      const completionSection = document.querySelector('[data-completion-section]')
+      if (completionSection) {
+        completionSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        })
+      }
+    }, 100)
   }
 
   if (state.isCompleted && state.showComparison) {
     return (
       <div className="space-y-6">
-        <CompletionView onDownload={handleDownload} />
+        <div data-completion-section>
+          <CompletionView />
+        </div>
         <ComparisonView rounds={state.rounds} />
       </div>
     )
@@ -265,8 +309,9 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
           description={LAB_CONTENT.scenario.description}
         />
 
-        {/* Prompt builder */}
-        <Card className="p-6">
+        {/* Prompt builder - hidden when showing response */}
+        {!currentResponse && (
+          <Card id="prompt-builder" className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">ПРОМПТ-КОНСТРУКТОР</h3>
             <Button
@@ -294,10 +339,11 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
             </div>
 
             {/* Framework validation */}
-            {(frameworkFeedback.maxScore || 0) > 0 && (
+            {state.currentRound > 1 && (
               <div className="space-y-2">
+                
                 <div className="flex items-center space-x-2 text-sm">
-                  <span className="font-medium">Фреймворк:</span>
+                  <span className="font-medium"></span>
                   {Object.entries(FRAMEWORK_ELEMENTS).map(([key, element]) => {
                     // Only show elements that are relevant for the current round
                     const roundElements = [1, 2, 3, 4].map(round => 
@@ -350,6 +396,7 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
             </div>
           </div>
         </Card>
+        )}
 
         {/* Customer Reviews */}
         {showCustomerReviews && (
@@ -380,155 +427,111 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
       {currentResponse && (
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">ИИ ОТВЕТ</h3>
-            {(frameworkFeedback.maxScore || 0) > 0 && (
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-muted-foreground">Качество:</span>
-                <span className={`px-2 py-1 rounded text-sm font-medium ${
-                  frameworkFeedback.score >= (frameworkFeedback.maxScore || 5) * 0.8 ? 'bg-green-100 text-green-800' :
-                  frameworkFeedback.score >= (frameworkFeedback.maxScore || 5) * 0.5 ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-red-100 text-red-800'
-                }`}>
-                  {frameworkFeedback.score}/{frameworkFeedback.maxScore || 5}
-                </span>
-              </div>
-            )}
+            <h3 className="text-lg font-semibold">ОТВЕТ ИИ</h3>
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-muted-foreground">Качество:</span>
+              <span className={`px-2 py-1 rounded text-sm font-medium ${
+                state.currentRound === 1 ? 'bg-red-100 text-red-800' :
+                state.currentRound === 2 ? 'bg-yellow-100 text-yellow-800' :
+                state.currentRound === 3 ? 'bg-blue-100 text-blue-800' :
+                'bg-green-100 text-green-800'
+              }`}>
+                {state.currentRound === 1 ? 'Не очень' :
+                 state.currentRound === 2 ? 'Лучше' :
+                 state.currentRound === 3 ? 'Хорошее' :
+                 'Супер!'}
+              </span>
+            </div>
           </div>
           
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg mb-4">
             <div className="prose prose-sm max-w-none">
-              {currentResponse.split('\n').map((line, index) => {
-                const trimmedLine = line.trim()
-                if (!trimmedLine) return <div key={index} className="mb-1">&nbsp;</div>
-                
-                // Enhanced markdown detection
-                const isHeading1 = /^#\s/.test(trimmedLine)
-                const isHeading2 = /^##\s/.test(trimmedLine)
-                const isHeading3 = /^###\s/.test(trimmedLine)
-                const isHeading = isHeading1 || isHeading2 || isHeading3
-                const isNumberedList = /^\d+\.\s/.test(trimmedLine)
-                const isBulletList = /^[\•\-\*]\s/.test(trimmedLine)
-                const isSubBullet = /^\s+[\•\-\*]\s/.test(trimmedLine)
-                const isBold = /\*\*(.*?)\*\*/.test(trimmedLine)
-                const isItalic = /\*(.*?)\*/.test(trimmedLine)
-                const isCode = /`(.*?)`/.test(trimmedLine)
-                
-                // Determine styling and content
-                let className = 'mb-2'
-                let content: string | JSX.Element | (string | JSX.Element)[] = trimmedLine
-                
-                if (isHeading1) {
-                  className = 'text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-6 first:mt-0'
-                  content = trimmedLine.replace(/^#\s/, '')
-                } else if (isHeading2) {
-                  className = 'text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 mt-5'
-                  content = trimmedLine.replace(/^##\s/, '')
-                } else if (isHeading3) {
-                  className = 'text-base font-bold text-gray-900 dark:text-gray-100 mb-3 mt-4'
-                  content = trimmedLine.replace(/^###\s/, '')
-                } else if (isNumberedList) {
-                  className = 'ml-6 mb-2 flex items-start'
-                  content = (
-                    <>
-                      <span className="text-gray-600 dark:text-gray-400 font-medium mr-2 flex-shrink-0">
-                        {trimmedLine.match(/^\d+\./)?.[0]}
-                      </span>
-                      <span>{trimmedLine.replace(/^\d+\.\s/, '')}</span>
-                    </>
-                  )
-                } else if (isBulletList) {
-                  className = 'ml-6 mb-2 flex items-start'
-                  content = (
-                    <>
-                      <span className="text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0">•</span>
-                      <span>{trimmedLine.replace(/^[\•\-\*]\s/, '')}</span>
-                    </>
-                  )
-                } else if (isSubBullet) {
-                  className = 'ml-12 mb-2 flex items-start'
-                  content = (
-                    <>
-                      <span className="text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0">◦</span>
-                      <span>{trimmedLine.replace(/^\s+[\•\-\*]\s/, '')}</span>
-                    </>
-                  )
-                }
-                
-                // Process inline markdown formatting
+              {(() => {
+                // Simplified inline markdown processing - single pass
                 const processInlineMarkdown = (text: string) => {
-                  const parts = []
-                  let currentIndex = 0
+                  if (!text) return text
                   
-                  // Process **bold** text
-                  const boldRegex = /\*\*(.*?)\*\*/g
-                  let boldMatch
-                  while ((boldMatch = boldRegex.exec(text)) !== null) {
-                    if (boldMatch.index > currentIndex) {
-                      parts.push(text.slice(currentIndex, boldMatch.index))
-                    }
-                    parts.push(
-                      <strong key={`bold-${currentIndex}`} className="font-bold">
-                        {boldMatch[1]}
-                      </strong>
-                    )
-                    currentIndex = boldMatch.index + boldMatch[0].length
-                  }
-                  
-                  // Process *italic* text
-                  const italicRegex = /\*(.*?)\*/g
-                  let italicMatch
-                  while ((italicMatch = italicRegex.exec(text)) !== null) {
-                    if (italicMatch.index > currentIndex) {
-                      parts.push(text.slice(currentIndex, italicMatch.index))
-                    }
-                    parts.push(
-                      <em key={`italic-${currentIndex}`} className="italic">
-                        {italicMatch[1]}
-                      </em>
-                    )
-                    currentIndex = italicMatch.index + italicMatch[0].length
-                  }
-                  
-                  // Process `code` text
-                  const codeRegex = /`(.*?)`/g
-                  let codeMatch
-                  while ((codeMatch = codeRegex.exec(text)) !== null) {
-                    if (codeMatch.index > currentIndex) {
-                      parts.push(text.slice(currentIndex, codeMatch.index))
-                    }
-                    parts.push(
-                      <code key={`code-${currentIndex}`} className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">
-                        {codeMatch[1]}
-                      </code>
-                    )
-                    currentIndex = codeMatch.index + codeMatch[0].length
-                  }
-                  
-                  // Add remaining text
-                  if (currentIndex < text.length) {
-                    parts.push(text.slice(currentIndex))
-                  }
-                  
-                  return parts.length > 0 ? parts : text
+                  // Process all inline formatting in one pass
+                  return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+                    .replace(/`(.*?)`/g, '<code class="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded text-sm font-mono">$1</code>')
                 }
+
+                return currentResponse.split('\n').map((line, index) => {
+                  const trimmedLine = line.trim()
+                  if (!trimmedLine) return <div key={index} className="mb-1">&nbsp;</div>
+                  
+                  // Detect line types
+                  const isHeading1 = /^#\s/.test(trimmedLine)
+                  const isHeading2 = /^##\s/.test(trimmedLine)
+                  const isHeading3 = /^###\s/.test(trimmedLine)
+                  const isNumberedList = /^\d+\.\s/.test(trimmedLine)
+                  const isBulletList = /^[\•\-\*]\s/.test(trimmedLine)
+                  const isSubBullet = /^\s+[\•\-\*]\s/.test(trimmedLine)
+                  
+                  // Check if bullet point contains bold text (treat as heading)
+                  const isBulletWithBold = isBulletList && /\*\*(.*?)\*\*/.test(trimmedLine)
                 
-                // Apply inline markdown processing to all content types
-                if (typeof content === 'string') {
-                  content = processInlineMarkdown(content)
-                } else if (Array.isArray(content) && content.length > 1) {
-                  // For JSX arrays (like bullet points), process the text part
-                  const textPart = content[1]
-                  if (typeof textPart === 'string') {
-                    content[1] = processInlineMarkdown(textPart)
+                  // Determine styling and content
+                  let className = 'mb-2'
+                  let content: string | JSX.Element = trimmedLine
+                  
+                  if (isHeading1) {
+                    className = 'text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 mt-6 first:mt-0'
+                    content = trimmedLine.replace(/^#\s/, '')
+                  } else if (isHeading2) {
+                    className = 'text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 mt-5'
+                    content = trimmedLine.replace(/^##\s/, '')
+                  } else if (isHeading3) {
+                    className = 'text-base font-bold text-gray-900 dark:text-gray-100 mb-3 mt-4'
+                    content = trimmedLine.replace(/^###\s/, '')
+                  } else if (isBulletWithBold) {
+                    // Treat bullet + bold as a subheading - extract only the bold text content
+                    className = 'text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2 mt-3 ml-4'
+                    const boldMatch = trimmedLine.match(/\*\*(.*?)\*\*/)
+                    content = boldMatch ? boldMatch[1] : trimmedLine.replace(/^[\•\-\*]\s/, '').replace(/\*\*(.*?)\*\*/g, '$1')
+                  } else if (isNumberedList) {
+                    className = 'ml-6 mb-2 flex items-start'
+                    const listContent = trimmedLine.replace(/^\d+\.\s/, '')
+                    content = (
+                      <>
+                        <span className="text-gray-600 dark:text-gray-400 font-medium mr-2 flex-shrink-0">
+                          {trimmedLine.match(/^\d+\./)?.[0]}
+                        </span>
+                        <span dangerouslySetInnerHTML={{ __html: processInlineMarkdown(listContent) }} />
+                      </>
+                    )
+                  } else if (isBulletList) {
+                    className = 'ml-6 mb-2 flex items-start'
+                    const bulletContent = trimmedLine.replace(/^[\•\-\*]\s/, '')
+                    content = (
+                      <>
+                        <span className="text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0">•</span>
+                        <span dangerouslySetInnerHTML={{ __html: processInlineMarkdown(bulletContent) }} />
+                      </>
+                    )
+                  } else if (isSubBullet) {
+                    className = 'ml-12 mb-2 flex items-start'
+                    const bulletContent = trimmedLine.replace(/^\s+[\•\-\*]\s/, '')
+                    content = (
+                      <>
+                        <span className="text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0">◦</span>
+                        <span dangerouslySetInnerHTML={{ __html: processInlineMarkdown(bulletContent) }} />
+                      </>
+                    )
+                  } else {
+                    // Regular text - apply inline formatting
+                    content = <span dangerouslySetInnerHTML={{ __html: processInlineMarkdown(trimmedLine) }} />
                   }
-                }
-                
-                return (
-                  <div key={index} className={className}>
-                    {content}
-                  </div>
-                )
-              })}
+                  
+                  return (
+                    <div key={index} className={className}>
+                      {content}
+                    </div>
+                  )
+                })
+              })()}
             </div>
           </div>
 
@@ -540,13 +543,14 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
           )}
 
           <div className="flex justify-between items-center">
-            <Button 
-              onClick={handleNextRound}
-              disabled={state.currentRound === 4}
-              className="bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/20 dark:hover:bg-amber-950/40 text-amber-900 dark:text-amber-100"
-            >
-              {state.currentRound === 4 ? 'Завершить' : UI_MESSAGES.buttons.nextRound}
-            </Button>
+            {state.currentRound < 4 && (
+              <Button 
+                onClick={handleNextRound}
+                className="bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/20 dark:hover:bg-amber-950/40 text-amber-900 dark:text-amber-100"
+              >
+                {UI_MESSAGES.buttons.nextRound}
+              </Button>
+            )}
             
             {state.currentRound === 4 && (
               <Button 
@@ -560,11 +564,13 @@ export const IterationChallengeLab: React.FC<IterationChallengeLabProps> = ({ on
         </Card>
       )}
 
-      {/* Round Guidance */}
-      <RoundGuidance 
-        currentRound={state.currentRound}
-        detectedElements={frameworkFeedback.detectedElements}
-      />
+      {/* Round Guidance - Only show when no AI response */}
+      {!currentResponse && (
+        <RoundGuidance 
+          currentRound={state.currentRound}
+          detectedElements={frameworkFeedback.detectedElements}
+        />
+      )}
 
       {/* Footer */}
       <div className="text-center text-sm text-muted-foreground mt-8">
