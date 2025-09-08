@@ -54,7 +54,7 @@ export function QuizMCQ({ quiz, module, section, quizIndex, onComplete }: QuizMC
   }
 
   return (
-    <div className="space-y-4 p-6 border rounded-lg bg-card">
+    <div className="space-y-4 p-7 border border-border/30 rounded-xl bg-card/50">
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Вопрос</h3>
         <p className="text-sm text-muted-foreground">{quiz.question}</p>

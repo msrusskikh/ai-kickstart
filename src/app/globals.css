@@ -37,7 +37,7 @@
     --popover: 220 15% 16%;
     --popover-foreground: 220 10% 90%;
     --primary: 220 10% 90%; /* Warm white for primary elements */
-    --primary-foreground: 220 15% 13%;
+    --primary-foreground: 220 15% 8%; /* Darker text for better contrast on light primary background */
     --secondary: 220 15% 20%; /* Softer secondary with warm undertones */
     --secondary-foreground: 220 10% 90%;
     --muted: 220 15% 20%; /* Softer muted with warm undertones */
@@ -156,7 +156,15 @@
     color: #f9fafb;
   }
   
-  /* Force white text on primary buttons */
+  /* Force dark text on light primary buttons in dark mode */
+  .dark .bg-primary .text-primary-foreground,
+  .dark .bg-primary.text-primary-foreground,
+  .dark button.bg-primary,
+  .dark .bg-primary button {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+  
+  /* Force white text on primary buttons in light mode */
   .bg-primary .text-primary-foreground,
   .bg-primary.text-primary-foreground,
   button.bg-primary,
@@ -164,7 +172,7 @@
     color: #ffffff !important;
   }
   
-  /* Ensure all button text is visible */
+  /* Ensure all button text is visible in light mode */
   [class*="bg-primary"] {
     color: #ffffff !important;
   }
@@ -172,6 +180,16 @@
   [class*="bg-primary"] span,
   [class*="bg-primary"] div {
     color: #ffffff !important;
+  }
+  
+  /* Dark mode primary button text */
+  .dark [class*="bg-primary"] {
+    color: hsl(var(--primary-foreground)) !important;
+  }
+  
+  .dark [class*="bg-primary"] span,
+  .dark [class*="bg-primary"] div {
+    color: hsl(var(--primary-foreground)) !important;
   }
   
   /* Dev button specific styling */
@@ -344,6 +362,81 @@
   }
   
   /* Lists converted to paragraphs, no list styling needed */
+  
+  /* Improved grey highlights for dark mode readability */
+  .dark .bg-gray-50 {
+    background-color: #374151 !important; /* Darker grey for better contrast */
+  }
+  
+  .dark .bg-gray-100 {
+    background-color: #4b5563 !important; /* Darker grey for better contrast */
+  }
+  
+  .dark .bg-gray-200 {
+    background-color: #6b7280 !important; /* Darker grey for better contrast */
+  }
+  
+  .dark .bg-gray-800 {
+    background-color: #1f2937 !important; /* Slightly lighter for better contrast */
+  }
+  
+  .dark .bg-gray-900 {
+    background-color: #111827 !important; /* Slightly lighter for better contrast */
+  }
+  
+  .dark .bg-gray-950 {
+    background-color: #0f172a !important; /* Slightly lighter for better contrast */
+  }
+  
+  /* Improve text contrast on grey backgrounds in dark mode */
+  .dark .bg-gray-50 .text-gray-700,
+  .dark .bg-gray-100 .text-gray-700,
+  .dark .bg-gray-200 .text-gray-700 {
+    color: #f9fafb !important; /* White text for better contrast */
+  }
+  
+  .dark .bg-gray-50 .text-gray-600,
+  .dark .bg-gray-100 .text-gray-600,
+  .dark .bg-gray-200 .text-gray-600 {
+    color: #e5e7eb !important; /* Light grey text for better contrast */
+  }
+  
+  .dark .bg-gray-800 .text-gray-300,
+  .dark .bg-gray-900 .text-gray-300 {
+    color: #f3f4f6 !important; /* Lighter text for better contrast */
+  }
+  
+  /* Make all table borders consistent in dark mode */
+  .dark table {
+    border-color: #4b5563 !important; /* Consistent border color for all table elements */
+  }
+  
+  .dark table th {
+    border-color: #4b5563 !important; /* Same as table border */
+  }
+  
+  .dark table td {
+    border-color: #4b5563 !important; /* Same as table border */
+  }
+  
+  .dark table tr {
+    border-color: #4b5563 !important; /* Same as table border */
+  }
+  
+  /* Override any existing border classes for tables in dark mode */
+  .dark .border-gray-200,
+  .dark .border-gray-300,
+  .dark .border-gray-600,
+  .dark .border-gray-700 {
+    border-color: #4b5563 !important;
+  }
+  
+  .dark .divide-gray-200,
+  .dark .divide-gray-300,
+  .dark .divide-gray-600,
+  .dark .divide-gray-700 {
+    border-color: #4b5563 !important;
+  }
   
   .workflow-content p {
     @apply mb-1;

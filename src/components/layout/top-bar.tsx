@@ -1,9 +1,9 @@
 "use client"
 
-import { Search, Lock, Unlock } from "lucide-react"
+import { Search, Lock, Unlock, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { CustomThemeToggle } from "@/components/ui/custom-theme-toggle"
 import { useCommandMenu } from "@/lib/command-menu"
 import { useProgressStore } from "@/lib/progress"
 
@@ -38,6 +38,22 @@ export function TopBar() {
             <Search className="h-4 w-4" />
             <span className="sr-only">Open command menu</span>
           </Button>
+          
+          {/* Theme Toggle */}
+          <CustomThemeToggle />
+          
+          {/* Reviews Link */}
+          <Link href="/admin/reviews">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 hover:bg-accent/50 transition-all duration-200"
+              title="View reviews"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span className="sr-only">View reviews</span>
+            </Button>
+          </Link>
           
           {/* Developer Mode Toggle */}
           <Button

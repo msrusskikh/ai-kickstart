@@ -8,7 +8,7 @@ export function Card({ children, className, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        "rounded-xl border border-border/30 bg-card/50 text-card-foreground shadow-sm",
         className
       )}
       {...props}
@@ -24,7 +24,7 @@ interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardHeader({ children, className, ...props }: CardHeaderProps) {
   return (
-    <div className={cn("flex flex-col space-y-1.5 p-6", className)} {...props}>
+    <div className={cn("flex flex-col space-y-1.5 p-7", className)} {...props}>
       {children}
     </div>
   )
@@ -69,7 +69,7 @@ interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardContent({ children, className, ...props }: CardContentProps) {
   return (
-    <div className={cn("p-6 pt-0", className)} {...props}>
+    <div className={cn("p-7 pt-0", className)} {...props}>
       {children}
     </div>
   )
@@ -81,7 +81,7 @@ interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardFooter({ children, className, ...props }: CardFooterProps) {
   return (
-    <div className={cn("flex items-center p-6 pt-0", className)} {...props}>
+    <div className={cn("flex items-center p-7 pt-0", className)} {...props}>
       {children}
     </div>
   )

@@ -181,13 +181,10 @@ console.log(greet("Learner"));</code></pre>
                 {isLastLessonOfModule && !nextModule && (
                   <Button 
                     variant="default" 
-                    className="max-w-xs"
-                    style={{ backgroundColor: '#0d9488' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0a7c6f'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0d9488'}
+                    className="max-w-xs bg-teal-600 hover:bg-teal-700 text-white"
                     onClick={() => setShowCompletionModal(true)}
                   >
-                    <span className="truncate">Завершить курс</span>
+                    <span className="truncate text-white">Завершить курс</span>
                   </Button>
                 )}
               </div>

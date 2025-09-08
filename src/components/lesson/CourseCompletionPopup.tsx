@@ -2,6 +2,7 @@
 // Complete component with inline styles - copy this entire file into your project
 
 import React, { useState, useEffect } from 'react';
+import { Star, Send, X } from 'lucide-react';
 
 interface CourseCompletionPopupProps {
   isOpen: boolean;
@@ -13,6 +14,11 @@ interface CourseCompletionPopupProps {
   };
   onDownloadCertificate?: () => void;
   onViewNextCourse?: () => void;
+}
+
+interface ReviewData {
+  rating: number
+  review: string
 }
 
 const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({ 
@@ -27,6 +33,12 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
   onViewNextCourse 
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [reviewData, setReviewData] = useState<ReviewData>({
+    rating: 0,
+    review: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -49,9 +61,55 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     onViewNextCourse?.();
   };
 
+  const handleReviewClick = () => {
+    setShowReviewForm(true);
+  };
+
+  const handleBackToCompletion = () => {
+    setShowReviewForm(false);
+  };
+
+  const handleRatingClick = (rating: number) => {
+    setReviewData(prev => ({ ...prev, rating }));
+  };
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (reviewData.rating === 0 || !reviewData.review.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reviewData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit review');
+      }
+
+      // Reset form and go back to completion view
+      setReviewData({
+        rating: 0,
+        review: ''
+      });
+      setShowReviewForm(false);
+      console.log('Review submitted successfully');
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (!isOpen) return null;
 
-  // All styles as JavaScript objects for inline styling
+  // Dynamic styles based on theme
+  const isDark = typeof window !== 'undefined' && document.documentElement.classList.contains('dark');
+  
   const styles = {
     overlay: {
       position: 'fixed' as const,
@@ -59,7 +117,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       left: 0,
       right: 0,
       bottom: 0,
-      background: 'rgba(0, 0, 0, 0.4)',
+      background: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -68,17 +126,18 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       animation: isVisible ? 'fadeIn 0.3s ease-out' : 'fadeOut 0.2s ease-out'
     },
     popup: {
-      background: 'white',
+      background: isDark ? '#1f2937' : 'white',
       borderRadius: '16px',
       padding: '48px',
       maxWidth: '480px',
       width: '90%',
-      boxShadow: '0 25px 50px rgba(0, 0, 0, 0.15)',
+      boxShadow: isDark ? '0 25px 50px rgba(0, 0, 0, 0.4)' : '0 25px 50px rgba(0, 0, 0, 0.15)',
       textAlign: 'center' as const,
       position: 'relative' as const,
       animation: 'slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
       overflow: 'hidden',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif'
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+      border: isDark ? '1px solid #374151' : 'none'
     },
     iconContainer: {
       marginBottom: '32px',
@@ -118,13 +177,13 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     title: {
       fontSize: '28px',
       fontWeight: '600',
-      color: '#202123',
+      color: isDark ? '#f9fafb' : '#202123',
       marginBottom: '12px',
       letterSpacing: '-0.02em'
     },
     subtitle: {
       fontSize: '16px',
-      color: '#6e6e80',
+      color: isDark ? '#d1d5db' : '#6e6e80',
       marginBottom: '32px',
       lineHeight: '1.5',
       fontWeight: '400'
@@ -134,9 +193,9 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       justifyContent: 'space-around',
       marginBottom: '32px',
       padding: '24px',
-      background: 'rgba(16, 163, 127, 0.05)',
+      background: isDark ? 'rgba(16, 163, 127, 0.1)' : 'rgba(16, 163, 127, 0.05)',
       borderRadius: '12px',
-      border: '1px solid rgba(16, 163, 127, 0.1)'
+      border: isDark ? '1px solid rgba(16, 163, 127, 0.2)' : '1px solid rgba(16, 163, 127, 0.1)'
     },
     stat: {
       textAlign: 'center' as const
@@ -150,7 +209,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     },
     statLabel: {
       fontSize: '13px',
-      color: '#8e8ea0',
+      color: isDark ? '#9ca3af' : '#8e8ea0',
       textTransform: 'uppercase' as const,
       letterSpacing: '0.05em'
     },
@@ -179,8 +238,8 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     },
     btnSecondary: {
       background: 'transparent',
-      color: '#6e6e80',
-      border: '1px solid #e5e5e5'
+      color: isDark ? '#d1d5db' : '#6e6e80',
+      border: isDark ? '1px solid #4b5563' : '1px solid #e5e5e5'
     },
     closeBtn: {
       position: 'absolute' as const,
@@ -188,7 +247,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       right: '20px',
       background: 'none',
       border: 'none',
-      color: '#8e8ea0',
+      color: isDark ? '#9ca3af' : '#8e8ea0',
       cursor: 'pointer',
       fontSize: '20px',
       width: '32px',
@@ -229,18 +288,22 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       0%, 100% { box-shadow: 0 0 20px rgba(16, 163, 127, 0.3); }
       50% { box-shadow: 0 0 40px rgba(16, 163, 127, 0.5); }
     }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     .btn-primary:hover {
       background: #0a7c6f !important;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
     }
     .btn-secondary:hover {
-      background: #f7f7f8 !important;
-      border-color: #d0d0d0 !important;
+      background: ${isDark ? '#4b5563' : '#f7f7f8'} !important;
+      border-color: ${isDark ? '#6b7280' : '#d0d0d0'} !important;
     }
     .close-btn:hover {
-      background: #f0f0f0 !important;
-      color: #202123 !important;
+      background: ${isDark ? '#374151' : '#f0f0f0'} !important;
+      color: ${isDark ? '#f9fafb' : '#202123'} !important;
     }
     @media (max-width: 640px) {
       .popup-mobile {
@@ -302,44 +365,204 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
             </div>
           </div>
           
-          <h1 style={styles.title} className="title-mobile">
-            Поздравляем!
-          </h1>
-            <p style={styles.subtitle}>
-              Вы успешно освоили основы искусственного интеллекта. Теперь вперед – использовать знания и делать красиво 💖
-            </p>
-          
-                      <div style={styles.stats}>
-              <div style={styles.stat}>
-                <span style={styles.statNumber}>{courseData.modules}</span>
-                <span style={styles.statLabel}>Модулей</span>
+          {!showReviewForm ? (
+            <>
+              <h1 style={styles.title} className="title-mobile">
+                Поздравляем!
+              </h1>
+              <p style={styles.subtitle}>
+                Вы успешно освоили основы искусственного интеллекта. Теперь вперед – использовать знания и делать красиво 💖
+              </p>
+              
+              <div style={styles.stats}>
+                <div style={styles.stat}>
+                  <span style={styles.statNumber}>{courseData.modules}</span>
+                  <span style={styles.statLabel}>Модулей</span>
+                </div>
+                <div style={styles.stat}>
+                  <span style={styles.statNumber}>{courseData.timeSpent}</span>
+                  <span style={styles.statLabel}>Время</span>
+                </div>
+                <div style={styles.stat}>
+                  <span style={styles.statNumber}>{courseData.score}</span>
+                  <span style={styles.statLabel}>Оценка</span>
+                </div>
               </div>
-              <div style={styles.stat}>
-                <span style={styles.statNumber}>{courseData.timeSpent}</span>
-                <span style={styles.statLabel}>Время</span>
+              
+              <div style={styles.actions} className="actions-mobile">
+                <button 
+                  style={{...styles.btn, ...styles.btnPrimary}} 
+                  className="btn-primary btn-mobile"
+                  onClick={handleDownloadCertificate}
+                >
+                  Порекомендовать другу
+                </button>
+                <button 
+                  style={{...styles.btn, ...styles.btnSecondary}} 
+                  className="btn-secondary btn-mobile"
+                  onClick={handleReviewClick}
+                >
+                  Оставить отзыв
+                </button>
               </div>
-              <div style={styles.stat}>
-                <span style={styles.statNumber}>{courseData.score}</span>
-                <span style={styles.statLabel}>Оценка</span>
-              </div>
-            </div>
-          
-          <div style={styles.actions} className="actions-mobile">
-            <button 
-              style={{...styles.btn, ...styles.btnPrimary}} 
-              className="btn-primary btn-mobile"
-              onClick={handleDownloadCertificate}
-            >
-              Порекомендовать другу
-            </button>
-            <button 
-              style={{...styles.btn, ...styles.btnSecondary}} 
-              className="btn-secondary btn-mobile"
-              onClick={handleViewNextCourse}
-            >
-              Оставить отзыв
-            </button>
-          </div>
+            </>
+          ) : (
+            <>
+              <h1 style={styles.title} className="title-mobile">
+                Поделитесь впечатлениями
+              </h1>
+              <p style={styles.subtitle}>
+                Ваш отзыв очень поможет нам сделать курс лучше. Все отзывы непубличны и видны только команде.
+              </p>
+              
+              <form onSubmit={handleReviewSubmit} style={{ textAlign: 'left' as const }}>
+                {/* Rating */}
+                <div style={{ marginBottom: '24px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    fontSize: '14px', 
+                    fontWeight: '500', 
+                    color: isDark ? '#f9fafb' : '#374151', 
+                    marginBottom: '12px' 
+                  }}>
+                    Оцените курс
+                  </label>
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => handleRatingClick(star)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          fontSize: '24px',
+                          transition: 'transform 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }}
+                      >
+                        <Star
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            color: star <= reviewData.rating ? '#eab308' : '#d1d5db',
+                            fill: star <= reviewData.rating ? '#eab308' : 'none'
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+
+
+                {/* Review */}
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    fontSize: '14px', 
+                    fontWeight: '500', 
+                    color: isDark ? '#f9fafb' : '#374151', 
+                    marginBottom: '8px' 
+                  }}>
+                    Отзыв
+                  </label>
+                  <textarea
+                    value={reviewData.review}
+                    onChange={(e) => setReviewData(prev => ({ ...prev, review: e.target.value }))}
+                    placeholder="Что понравилось, а что не очень?"
+                    required
+                    style={{
+                      width: '100%',
+                      minHeight: '100px',
+                      padding: '12px',
+                      border: isDark ? '1px solid #4b5563' : '1px solid #d1d5db',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      outline: 'none',
+                      resize: 'vertical',
+                      transition: 'border-color 0.2s ease',
+                      background: isDark ? '#374151' : 'white',
+                      color: isDark ? '#f9fafb' : '#374151'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = '#0d9488';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = isDark ? '#4b5563' : '#d1d5db';
+                    }}
+                  />
+                </div>
+
+
+                {/* Submit Buttons */}
+                <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                  <button
+                    type="button"
+                    onClick={handleBackToCompletion}
+                    disabled={isSubmitting}
+                    style={{
+                      ...styles.btn,
+                      ...styles.btnSecondary,
+                      padding: '12px 24px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                      opacity: isSubmitting ? 0.6 : 1,
+                      minWidth: '180px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    Вернуться назад
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={reviewData.rating === 0 || !reviewData.review.trim() || isSubmitting}
+                    style={{
+                      ...styles.btn,
+                      ...styles.btnPrimary,
+                      padding: '12px 24px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      cursor: (reviewData.rating === 0 || !reviewData.review.trim() || isSubmitting) ? 'not-allowed' : 'pointer',
+                      opacity: (reviewData.rating === 0 || !reviewData.review.trim() || isSubmitting) ? 0.6 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      minWidth: '160px'
+                    }}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <div style={{
+                          width: '16px',
+                          height: '16px',
+                          border: '2px solid transparent',
+                          borderTop: '2px solid white',
+                          borderRadius: '50%',
+                          animation: 'spin 1s linear infinite'
+                        }} />
+                        Отправляем...
+                      </>
+                    ) : (
+                      <>
+                        <Send style={{ width: '16px', height: '16px' }} />
+                        Отправить отзыв
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -96,16 +96,16 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                 )}
               >
                 {isCompleted ? (
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="mt-1 flex-shrink-0">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-1 flex-shrink-0 text-green-500 dark:text-green-700">
                     <circle cx="12" cy="12" r="10" />
-                    <path d="m9 12 2 2 4-4" stroke="#22c55e" strokeWidth="2" fill="none"/>
+                    <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
                   </svg>
                 ) : hasAccess ? (
                   <Circle className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
                 ) : (
                   <Lock className="h-4 w-4 text-muted-foreground/50 mt-1 flex-shrink-0" />
                 )}
-                <span className="relative overflow-hidden max-w-[180px]">
+                <span className="relative overflow-hidden max-w-[180px] -mt-0.5">
                   <span className={cn(
                     "text-xs font-medium leading-tight",
                     hasAccess ? "text-foreground" : "text-foreground/50"
