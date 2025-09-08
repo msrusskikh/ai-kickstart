@@ -16,8 +16,13 @@ export default function LessonPage() {
   const params = useParams<{ module: string; section: string }>()
   const moduleStr = params?.module || ""
   const sectionStr = params?.section || ""
-  const { completedSections, currentModule, currentSection, isDevMode, startSession, endSession, getTotalTimeSpent, getQuizScore } = useProgressStore()
+  const { completedSections, currentModule, currentSection, isDevMode, startSession, endSession, getTotalTimeSpent, getQuizScore, markSectionComplete } = useProgressStore()
   const [showCompletionModal, setShowCompletionModal] = useState(false)
+
+  // Handle next button click - mark current lesson as complete
+  const handleNextClick = () => {
+    markSectionComplete(moduleId, sectionId)
+  }
 
   if (!moduleStr || !sectionStr) {
     return <div>Loading...</div>
@@ -159,7 +164,7 @@ console.log(greet("Learner"));</code></pre>
               
               <div className="flex items-center space-x-4">
                 {nextSection && (
-                  <Button asChild className="max-w-xs">
+                  <Button asChild className="max-w-xs" onClick={handleNextClick}>
                     <Link href={`/learn/${moduleId}/${nextSection.section}`} className="flex items-center">
                       <span className="truncate">Далее: {nextSection.title}</span>
                       <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
@@ -169,7 +174,7 @@ console.log(greet("Learner"));</code></pre>
                 
                 {/* Next Module Button - Show only on last lesson of current module */}
                 {isLastLessonOfModule && nextModule && (
-                  <Button asChild variant="default" className="max-w-xs">
+                  <Button asChild variant="default" className="max-w-xs" onClick={handleNextClick}>
                     <Link href={`/learn/${nextModule.id}/1`} className="flex items-center">
                       <span className="truncate">К следующему модулю</span>
                       <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
@@ -182,7 +187,10 @@ console.log(greet("Learner"));</code></pre>
                   <Button 
                     variant="default" 
                     className="max-w-xs bg-teal-600 hover:bg-teal-700 text-white"
-                    onClick={() => setShowCompletionModal(true)}
+                    onClick={() => {
+                      handleNextClick()
+                      setShowCompletionModal(true)
+                    }}
                   >
                     <span className="truncate text-white">Завершить курс</span>
                   </Button>
@@ -198,7 +206,7 @@ console.log(greet("Learner"));</code></pre>
         isOpen={showCompletionModal} 
         onClose={() => setShowCompletionModal(false)} 
         courseData={{
-          modules: 4,
+          lessons: completedSections.size,
           timeSpent: getTotalTimeSpent(),
           score: `${getQuizScore()}%`
         }}

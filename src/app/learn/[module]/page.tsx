@@ -114,7 +114,10 @@ export default function ModulePage({ params }: ModulePageProps) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         {isCompleted ? (
-                          <CheckCircle className="h-6 w-6 text-green-500" />
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-green-500 dark:text-green-500">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
+                          </svg>
                         ) : isAccessible ? (
                           <Circle className="h-6 w-6 text-muted-foreground" />
                         ) : (

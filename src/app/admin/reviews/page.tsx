@@ -111,6 +111,7 @@ export default function ReviewsPage() {
               </Button>
             </div>
             <CustomThemeToggle />
+            
           </div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
             Отзывы о курсе

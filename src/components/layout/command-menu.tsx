@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Search, Command, ArrowRight } from "lucide-react"
 import { useCommandMenu } from "@/lib/command-menu"
@@ -23,6 +23,19 @@ export function CommandMenu() {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<ReturnType<typeof searchLessons>>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const resultsContainerRef = React.useRef<HTMLDivElement>(null)
+
+  const scrollToSelected = () => {
+    if (resultsContainerRef.current) {
+      const selectedElement = resultsContainerRef.current.querySelector(`[data-index="${selectedIndex}"]`)
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        })
+      }
+    }
+  }
 
   useEffect(() => {
     if (query.trim()) {
@@ -33,6 +46,10 @@ export function CommandMenu() {
       setResults([])
     }
   }, [query])
+
+  useEffect(() => {
+    scrollToSelected()
+  }, [selectedIndex])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -108,82 +125,99 @@ export function CommandMenu() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[450px] p-0">
-        <DialogHeader className="px-6 py-4 border-b">
-          <DialogTitle className="flex items-center space-x-2">
-            <Command className="h-5 w-5" />
-            <span>Command Menu</span>
+      <DialogContent className="sm:max-w-[450px] p-0 dark:bg-card/95 dark:backdrop-blur-xl dark:border-border/50 dark:shadow-2xl">
+        <DialogHeader className="px-6 py-4 border-b dark:border-border/30">
+          <DialogTitle className="flex items-center space-x-2 dark:text-foreground">
+            <Command className="h-5 w-5 dark:text-foreground" />
+            <span>Поиск по урокам</span>
           </DialogTitle>
         </DialogHeader>
         
         <div className="p-6">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground dark:text-muted-foreground" />
             <Input
-              placeholder="Search lessons..."
+              placeholder="Поиск уроков..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 dark:bg-input/50 dark:border-border/50 dark:focus:border-ring/50 dark:focus:ring-ring/20"
               autoFocus
             />
           </div>
           
           {query && (
-            <div className="mt-4 space-y-1 overflow-hidden">
+            <div 
+              ref={resultsContainerRef}
+              className="mt-4 max-h-80 overflow-y-auto dark:space-y-0.5 scrollbar-thin scrollbar-thumb-muted-foreground/30 scrollbar-track-transparent dark:scrollbar-thumb-muted-foreground/20"
+            >
               {results.length > 0 ? (
-                results.map((result, index) => (
+                <div className="space-y-1 dark:space-y-0.5">
+                  {results.map((result, index) => (
                   <Button
                     key={`${result.module}-${result.section}`}
+                    data-index={index}
                     variant="ghost"
+                    style={{ outline: 'none', boxShadow: 'none' }}
                     className={cn(
-                      "w-full justify-between h-auto p-3 min-w-0 group",
-                      index === selectedIndex && "bg-accent"
+                      "w-full justify-between h-auto p-3 min-w-0 group transition-colors duration-200 focus:outline-none focus:ring-0 focus:ring-offset-0 outline-none ring-0 ring-offset-0",
+                      index === selectedIndex 
+                        ? "bg-accent dark:bg-accent/80" 
+                        : "hover:bg-accent/40 dark:hover:bg-accent/40 dark:rounded-md"
                     )}
                     onClick={() => handleSelectResult(result)}
                   >
                     <div className="flex-1 text-left min-w-0 overflow-hidden pr-4">
-                      <div className="font-medium max-w-[280px] relative overflow-hidden">
+                      <div className="font-medium max-w-[280px] relative overflow-hidden dark:text-foreground">
                         <div className="truncate">{result.title}</div>
-                        {index === selectedIndex ? (
-                          <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--accent))] to-transparent pointer-events-none"></div>
-                        ) : (
-                          <>
-                            <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--background))] to-transparent pointer-events-none group-hover:opacity-0 transition-opacity"></div>
-                            <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--accent))] to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                          </>
-                        )}
+                        <div className={cn(
+                          "absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l to-transparent pointer-events-none transition-opacity duration-200",
+                          index === selectedIndex 
+                            ? "from-[hsl(var(--accent))] dark:from-accent/60 opacity-100"
+                            : "from-[hsl(var(--background))] dark:from-card/95 group-hover:opacity-0"
+                        )}></div>
+                        <div className={cn(
+                          "absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--accent))] to-transparent pointer-events-none transition-opacity duration-200 dark:from-accent/40",
+                          index === selectedIndex 
+                            ? "opacity-100"
+                            : "opacity-0 group-hover:opacity-100"
+                        )}></div>
                       </div>
-                      <div className="text-sm text-muted-foreground max-w-[280px] break-words overflow-hidden relative">
+                      <div className="text-sm text-muted-foreground max-w-[280px] break-words overflow-hidden relative dark:text-muted-foreground/80">
                         <div className="line-clamp-2">{result.summary}</div>
-                        {index === selectedIndex ? (
-                          <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--accent))] to-transparent pointer-events-none"></div>
-                        ) : (
-                          <>
-                            <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--background))] to-transparent pointer-events-none group-hover:opacity-0 transition-opacity"></div>
-                            <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--accent))] to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                          </>
-                        )}
+                        <div className={cn(
+                          "absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l to-transparent pointer-events-none transition-opacity duration-200",
+                          index === selectedIndex 
+                            ? "from-[hsl(var(--accent))] dark:from-accent/60 opacity-100"
+                            : "from-[hsl(var(--background))] dark:from-card/95 group-hover:opacity-0"
+                        )}></div>
+                        <div className={cn(
+                          "absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[hsl(var(--accent))] to-transparent pointer-events-none transition-opacity duration-200 dark:from-accent/40",
+                          index === selectedIndex 
+                            ? "opacity-100"
+                            : "opacity-0 group-hover:opacity-100"
+                        )}></div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-muted-foreground flex-shrink-0 min-w-[80px] justify-end">
-                      <span className="font-medium whitespace-nowrap">Module {result.module}</span>
-                      <ArrowRight className="h-4 w-4 flex-shrink-0" />
+                    <div className="flex items-center space-x-2 text-sm text-muted-foreground flex-shrink-0 min-w-[80px] justify-end dark:text-muted-foreground/70">
+                      <span className="font-medium whitespace-nowrap">Модуль {result.module}</span>
+                      <ArrowRight className="h-4 w-4 flex-shrink-0 dark:text-muted-foreground/60" />
                     </div>
                   </Button>
-                ))
+                  ))}
+                </div>
               ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No lessons found matching "{query}"
+                <div className="text-center py-8 text-muted-foreground dark:text-muted-foreground/70">
+                  Уроки не найдены для "{query}"
                 </div>
               )}
             </div>
           )}
           
           {!query && (
-            <div className="mt-8 text-center text-muted-foreground">
-              <p className="text-sm">Type to search lessons</p>
-              <p className="text-xs mt-2">
-                Use ↑↓ to navigate, Enter to select, Esc to close
+            <div className="mt-8 text-center text-muted-foreground dark:text-muted-foreground/70">
+              <p className="text-sm dark:text-foreground/60">Введите текст для поиска по урокам</p>
+              <p className="text-xs mt-2 dark:text-muted-foreground/50">
+                Используйте ↑↓ для навигации, Enter для выбора, Esc для закрытия
               </p>
             </div>
           )}

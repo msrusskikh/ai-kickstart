@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ChevronDown, ChevronRight, CheckCircle, Circle, Lock } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { useProgressStore } from "@/lib/progress"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -96,7 +96,7 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                 )}
               >
                 {isCompleted ? (
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-1 flex-shrink-0 text-green-500 dark:text-green-700">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-1 flex-shrink-0 text-green-500 dark:text-green-500">
                     <circle cx="12" cy="12" r="10" />
                     <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
                   </svg>
@@ -121,7 +121,33 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
 }
 
 export function SideNav() {
-  const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set([1]))
+  const pathname = usePathname()
+  
+  // Extract current module from pathname
+  const getCurrentModuleFromPath = () => {
+    const match = pathname.match(/^\/learn\/(\d+)/)
+    return match ? parseInt(match[1]) : null
+  }
+  
+  const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set())
+  
+  // Update expanded modules when pathname changes
+  useEffect(() => {
+    const currentModule = getCurrentModuleFromPath()
+    
+    if (currentModule) {
+      // If we're on a specific module page, expand that module
+      setExpandedModules(prev => {
+        if (!prev.has(currentModule)) {
+          return new Set([currentModule])
+        }
+        return prev
+      })
+    } else {
+      // If we're on /learn (main page), collapse all modules
+      setExpandedModules(new Set())
+    }
+  }, [pathname])
   
   const toggleModule = (moduleId: number) => {
     setExpandedModules(prev => {
@@ -138,7 +164,9 @@ export function SideNav() {
   return (
     <div className="flex h-full w-72 flex-col border-r border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="p-4 border-b border-border/50">
-        <h2 className="text-lg font-semibold text-foreground">Содержание</h2>
+        <Link href="/learn" className="hover:opacity-80 transition-opacity">
+          <h2 className="text-lg font-semibold cursor-pointer text-foreground">Содержание</h2>
+        </Link>
       </div>
       
       <ScrollArea className="flex-1 px-4">

@@ -8,7 +8,7 @@ interface CourseCompletionPopupProps {
   isOpen: boolean;
   onClose: () => void;
   courseData?: {
-    modules: number;
+    lessons: number;
     timeSpent: string;
     score: string;
   };
@@ -25,7 +25,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
   isOpen, 
   onClose, 
   courseData = {
-    modules: 12,
+    lessons: 12,
     timeSpent: '2.5h',
     score: '94%'
   },
@@ -376,8 +376,8 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
               
               <div style={styles.stats}>
                 <div style={styles.stat}>
-                  <span style={styles.statNumber}>{courseData.modules}</span>
-                  <span style={styles.statLabel}>Модулей</span>
+                  <span style={styles.statNumber}>{courseData.lessons}</span>
+                  <span style={styles.statLabel}>Уроков</span>
                 </div>
                 <div style={styles.stat}>
                   <span style={styles.statNumber}>{courseData.timeSpent}</span>
@@ -412,7 +412,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
                 Поделитесь впечатлениями
               </h1>
               <p style={styles.subtitle}>
-                Ваш отзыв очень поможет нам сделать курс лучше. Все отзывы непубличны и видны только команде.
+                Ваш отзыв очень поможет нам сделать курс лучше. Все отзывы непубличны и видны только команде. Спасибо!
               </p>
               
               <form onSubmit={handleReviewSubmit} style={{ textAlign: 'left' as const }}>
@@ -471,7 +471,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
                     color: isDark ? '#f9fafb' : '#374151', 
                     marginBottom: '8px' 
                   }}>
-                    Отзыв
+                    Ваш отзыв
                   </label>
                   <textarea
                     value={reviewData.review}

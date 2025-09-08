@@ -24,26 +24,6 @@ export function LessonPlayer({ lesson, content, module, section }: LessonPlayerP
   const { markSectionComplete } = useProgressStore()
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Track scroll progress and mark as complete at 80% (internal tracking only)
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!contentRef.current) return
-      
-      const scrollTop = window.scrollY
-      const contentTop = contentRef.current.offsetTop
-      const contentHeight = contentRef.current.offsetHeight
-      const windowHeight = window.innerHeight
-      
-      const scrollProgress = (scrollTop + windowHeight - contentTop) / contentHeight
-      
-      if (scrollProgress >= 0.8) {
-        markSectionComplete(lesson.module, lesson.section)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lesson.module, lesson.section, markSectionComplete])
 
   const handleQuizComplete = () => {
     markSectionComplete(lesson.module, lesson.section)
