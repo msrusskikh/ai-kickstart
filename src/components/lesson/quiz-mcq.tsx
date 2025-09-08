@@ -5,16 +5,21 @@ import { CheckCircle, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { QuizMCQ } from "@/lib/types"
+import { useProgressStore } from "@/lib/progress"
 
 interface QuizMCQProps {
   quiz: QuizMCQ
+  module: number
+  section: number
+  quizIndex: number
   onComplete?: () => void
 }
 
-export function QuizMCQ({ quiz, onComplete }: QuizMCQProps) {
+export function QuizMCQ({ quiz, module, section, quizIndex, onComplete }: QuizMCQProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [isAnswered, setIsAnswered] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
+  const { recordQuizAnswer } = useProgressStore()
 
   const handleAnswerSelect = (choice: string) => {
     if (isAnswered) return
@@ -23,6 +28,9 @@ export function QuizMCQ({ quiz, onComplete }: QuizMCQProps) {
     const correct = choice === quiz.answer
     setIsCorrect(correct)
     setIsAnswered(true)
+    
+    // Record the quiz answer
+    recordQuizAnswer(module, section, quizIndex, correct)
     
     if (correct && onComplete) {
       onComplete()
@@ -66,10 +74,17 @@ export function QuizMCQ({ quiz, onComplete }: QuizMCQProps) {
           >
             <div className="flex items-center space-x-3">
               {isAnswered && choice === quiz.answer && (
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m9 12 2 2 4-4" stroke="#22c55e" strokeWidth="2" fill="none"/>
+                </svg>
               )}
               {isAnswered && choice === selectedAnswer && choice !== quiz.answer && (
-                <XCircle className="h-5 w-5 text-red-600" />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="m15 9-6 6" stroke="#ef4444" strokeWidth="2" fill="none"/>
+                  <path d="m9 9 6 6" stroke="#ef4444" strokeWidth="2" fill="none"/>
+                </svg>
               )}
               <span className="font-mono text-sm text-muted-foreground w-6">
                 {String.fromCharCode(65 + index)}
@@ -89,13 +104,20 @@ export function QuizMCQ({ quiz, onComplete }: QuizMCQProps) {
         )}>
           {isCorrect ? (
             <div className="flex items-center space-x-2">
-              <CheckCircle className="h-4 w-4" />
-              <span>Правильно! Отличная работа.</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="m9 12 2 2 4-4" stroke="#22c55e" strokeWidth="2" fill="none"/>
+              </svg>
+              <span>Правильно! 🎉</span>
             </div>
           ) : (
             <div className="flex items-center space-x-2">
-              <XCircle className="h-4 w-4" />
-              <span>Неправильно. Правильный ответ: {quiz.answer}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="m15 9-6 6" stroke="#ef4444" strokeWidth="2" fill="none"/>
+                <path d="m9 9 6 6" stroke="#ef4444" strokeWidth="2" fill="none"/>
+              </svg>
+              <span>Неправильно 😔 Правильный ответ: {quiz.answer}</span>
             </div>
           )}
         </div>

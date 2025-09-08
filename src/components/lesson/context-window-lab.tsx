@@ -428,14 +428,15 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                 }`}
               >
                 <div className="flex items-start space-x-3">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 ${
-                    selectedContextItems.includes(item.id)
-                      ? correctAnswers.includes(item.id)
-                        ? 'border-green-500 bg-green-500 text-white' // Correct choice
-                        : 'border-red-500 bg-red-500 text-white' // Incorrect choice
-                      : 'border-gray-300 dark:border-gray-600'
-                  }`}>
-                    {selectedContextItems.includes(item.id) && <CheckCircle className="w-3 h-3" />}
+                  <div className="mt-0.5 flex-shrink-0">
+                    {selectedContextItems.includes(item.id) ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={correctAnswers.includes(item.id) ? "#22c55e" : "#ef4444"} strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m9 12 2 2 4-4" stroke={correctAnswers.includes(item.id) ? "#22c55e" : "#ef4444"} strokeWidth="2" fill="none"/>
+                      </svg>
+                    ) : (
+                      <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600" />
+                    )}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-medium">{item.text}</p>
@@ -508,7 +509,10 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                     </p>
                   </div>
                   {selectedTemplate === 1 && (
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 ml-2" />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" className="flex-shrink-0 ml-2">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none"/>
+                    </svg>
                   )}
                 </div>
                 <pre className="text-xs whitespace-pre-wrap text-muted-foreground mt-2 bg-white dark:bg-gray-900 p-2 rounded">
@@ -554,7 +558,10 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                     </p>
                   </div>
                   {selectedTemplate === 2 && (
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 ml-2" />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" className="flex-shrink-0 ml-2">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none"/>
+                    </svg>
                   )}
                 </div>
                 <pre className="text-xs whitespace-pre-wrap text-muted-foreground mt-2 bg-white dark:bg-gray-900 p-2 rounded">
@@ -589,7 +596,10 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                     </p>
                   </div>
                   {selectedTemplate === 3 && (
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 ml-2" />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" className="flex-shrink-0 ml-2">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none"/>
+                    </svg>
                   )}
                 </div>
                 <pre className="text-xs whitespace-pre-wrap text-muted-foreground mt-2 bg-white dark:bg-gray-900 p-2 rounded">
@@ -609,9 +619,12 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
             {selectedTemplate && (
               <div className="p-4 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
                 <div className="flex items-center space-x-3">
-                  <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-                  </div>
+                    <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--muted-foreground))" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m9 12 2 2 4-4" stroke="hsl(var(--muted-foreground))" strokeWidth="2" fill="none"/>
+                      </svg>
+                    </div>
                   <div>
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                       Выбран шаблон {selectedTemplate}
@@ -637,12 +650,15 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                   }`}
                 >
                   <div className="flex items-start space-x-3">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0 ${
-                      selectedQuestion === "Какие маркетинговые активности нам приоритизировать для максимального результата?"
-                        ? "border-primary bg-primary text-white"
-                        : "border-gray-300 dark:border-gray-600"
-                    }`}>
-                      {selectedQuestion === "Какие маркетинговые активности нам приоритизировать для максимального результата?" && <CheckCircle className="w-3 h-3" />}
+                    <div className="mt-0.5 flex-shrink-0">
+                      {selectedQuestion === "Какие маркетинговые активности нам приоритизировать для максимального результата?" ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none"/>
+                        </svg>
+                      ) : (
+                        <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600" />
+                      )}
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Какие маркетинговые активности нам приоритизировать для максимального результата?</p>
@@ -659,12 +675,15 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                   }`}
                 >
                   <div className="flex items-start space-x-3">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0 ${
-                      selectedQuestion === "Как нам распределить оставшийся маркетинговый бюджет?"
-                        ? "border-primary bg-primary text-white"
-                        : "border-gray-300 dark:border-gray-600"
-                    }`}>
-                      {selectedQuestion === "Как нам распределить оставшийся маркетинговый бюджет?" && <CheckCircle className="w-3 h-3" />}
+                    <div className="mt-0.5 flex-shrink-0">
+                      {selectedQuestion === "Как нам распределить оставшийся маркетинговый бюджет?" ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none"/>
+                        </svg>
+                      ) : (
+                        <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600" />
+                      )}
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Как нам распределить оставшийся маркетинговый бюджет?</p>
@@ -681,12 +700,15 @@ export default function ContextWindowLab({ onComplete }: ContextWindowLabProps) 
                   }`}
                 >
                   <div className="flex items-start space-x-3">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 flex-shrink-0 ${
-                      selectedQuestion === "Какое резюме нашей go-to-market стратегии?"
-                        ? "border-primary bg-primary text-white"
-                        : "border-gray-300 dark:border-gray-600"
-                    }`}>
-                      {selectedQuestion === "Какое резюме нашей go-to-market стратегии?" && <CheckCircle className="w-3 h-3" />}
+                    <div className="mt-0.5 flex-shrink-0">
+                      {selectedQuestion === "Какое резюме нашей go-to-market стратегии?" ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="m9 12 2 2 4-4" stroke="hsl(var(--primary))" strokeWidth="2" fill="none"/>
+                        </svg>
+                      ) : (
+                        <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600" />
+                      )}
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-medium">Какое резюме нашей go-to-market стратегии?</p>

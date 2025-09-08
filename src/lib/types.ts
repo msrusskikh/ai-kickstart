@@ -35,6 +35,9 @@ export interface Progress {
   completedSections: Set<string>; // "module-section" format
   currentModule: number;
   currentSection: number;
+  timeSpent: Record<string, number>; // "module-section" -> time in seconds
+  sessionStartTime: number | null;
+  quizAnswers: Record<string, boolean>; // "module-section-quizIndex" -> isCorrect
 }
 
 export interface SearchResult {

@@ -87,7 +87,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     completionIcon: {
       width: '80px',
       height: '80px',
-      background: 'linear-gradient(135deg, #10a37f, #1a9472)',
+      background: 'linear-gradient(135deg, #0d9488, #0a7c6f)',
       borderRadius: '50%',
       display: 'flex',
       alignItems: 'center',
@@ -111,7 +111,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       position: 'absolute' as const,
       width: '4px',
       height: '4px',
-      background: '#10a37f',
+      background: '#0d9488',
       borderRadius: '50%',
       animation: 'sparkle 2s ease-in-out infinite'
     },
@@ -144,7 +144,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     statNumber: {
       fontSize: '24px',
       fontWeight: '600',
-      color: '#10a37f',
+      color: '#0d9488',
       display: 'block',
       marginBottom: '2px'
     },
@@ -174,7 +174,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       gap: '8px'
     },
     btnPrimary: {
-      background: '#10a37f',
+      background: '#0d9488',
       color: 'white'
     },
     btnSecondary: {
@@ -230,7 +230,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       50% { box-shadow: 0 0 40px rgba(16, 163, 127, 0.5); }
     }
     .btn-primary:hover {
-      background: #0d8a6b !important;
+      background: #0a7c6f !important;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
     }
@@ -303,11 +303,11 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
           </div>
           
           <h1 style={styles.title} className="title-mobile">
-            Курс завершен
+            Поздравляем!
           </h1>
-          <p style={styles.subtitle}>
-            Вы успешно освоили основы искусственного интеллекта. Готовы создать что-то необыкновенное?
-          </p>
+            <p style={styles.subtitle}>
+              Вы успешно освоили основы искусственного интеллекта. Теперь вперед – использовать знания и делать красиво 💖
+            </p>
           
                       <div style={styles.stats}>
               <div style={styles.stat}>
@@ -330,14 +330,14 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
               className="btn-primary btn-mobile"
               onClick={handleDownloadCertificate}
             >
-              Скачать сертификат
+              Порекомендовать другу
             </button>
             <button 
               style={{...styles.btn, ...styles.btnSecondary}} 
               className="btn-secondary btn-mobile"
               onClick={handleViewNextCourse}
             >
-              Изучить больше
+              Оставить отзыв
             </button>
           </div>
         </div>

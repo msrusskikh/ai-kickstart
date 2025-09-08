@@ -16,9 +16,11 @@ import type { LessonFrontmatter, Quiz } from "@/lib/types"
 interface LessonPlayerProps {
   lesson: LessonFrontmatter
   content: string
+  module: number
+  section: number
 }
 
-export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
+export function LessonPlayer({ lesson, content, module, section }: LessonPlayerProps) {
   const { markSectionComplete } = useProgressStore()
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -108,11 +110,10 @@ export function LessonPlayer({ lesson, content }: LessonPlayerProps) {
       {/* Quizzes */}
       {lesson.quiz && lesson.quiz.length > 0 && (
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-foreground">Проверьте понимание</h2>
           {lesson.quiz.map((quiz, index) => (
             <div key={index}>
               {quiz.type === 'mcq' && (
-                <QuizMCQ quiz={quiz} onComplete={handleQuizComplete} />
+                <QuizMCQ quiz={quiz} module={module} section={section} quizIndex={index} onComplete={handleQuizComplete} />
               )}
               {quiz.type === 'reflection' && (
                 <QuizReflection quiz={quiz} onComplete={handleQuizComplete} />

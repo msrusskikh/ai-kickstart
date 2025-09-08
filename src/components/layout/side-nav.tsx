@@ -58,9 +58,6 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
             )}
           </div>
         </div>
-        <div className="text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded-md">
-          {completedCount}/{module.sections.length}
-        </div>
       </Button>
       
       {/* Progress indicator */}
@@ -99,7 +96,10 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                 )}
               >
                 {isCompleted ? (
-                  <CheckCircle className="h-4 w-4 text-green-500 mt-1 flex-shrink-0" />
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="mt-1 flex-shrink-0">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="m9 12 2 2 4-4" stroke="#22c55e" strokeWidth="2" fill="none"/>
+                  </svg>
                 ) : hasAccess ? (
                   <Circle className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
                 ) : (

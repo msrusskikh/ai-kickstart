@@ -16,7 +16,7 @@ export default function LessonPage() {
   const params = useParams<{ module: string; section: string }>()
   const moduleStr = params?.module || ""
   const sectionStr = params?.section || ""
-  const { completedSections, currentModule, currentSection, isDevMode } = useProgressStore()
+  const { completedSections, currentModule, currentSection, isDevMode, startSession, endSession, getTotalTimeSpent, getQuizScore } = useProgressStore()
   const [showCompletionModal, setShowCompletionModal] = useState(false)
 
   if (!moduleStr || !sectionStr) {
@@ -24,6 +24,24 @@ export default function LessonPage() {
   }
   const moduleId = parseInt(moduleStr)
   const sectionId = parseInt(sectionStr)
+
+  // Time tracking
+  useEffect(() => {
+    startSession()
+    
+    // Handle page unload
+    const handleBeforeUnload = () => {
+      endSession()
+    }
+    
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    
+    // Cleanup on unmount
+    return () => {
+      endSession()
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [moduleId, sectionId, startSession, endSession])
   
   const lesson = getLesson(moduleId, sectionId)
   if (!lesson) {
@@ -122,7 +140,7 @@ console.log(greet("Learner"));</code></pre>
           
           {/* Lesson Content */}
           <div className="mt-8">
-            <LessonPlayer lesson={lesson} content={content} />
+            <LessonPlayer lesson={lesson} content={content} module={moduleId} section={sectionId} />
           </div>
           
           {/* Navigation Controls */}
@@ -164,9 +182,9 @@ console.log(greet("Learner"));</code></pre>
                   <Button 
                     variant="default" 
                     className="max-w-xs"
-                    style={{ backgroundColor: '#10a37f' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0d8a6b'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#10a37f'}
+                    style={{ backgroundColor: '#0d9488' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0a7c6f'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0d9488'}
                     onClick={() => setShowCompletionModal(true)}
                   >
                     <span className="truncate">Завершить курс</span>
@@ -183,9 +201,9 @@ console.log(greet("Learner"));</code></pre>
         isOpen={showCompletionModal} 
         onClose={() => setShowCompletionModal(false)} 
         courseData={{
-          modules: 12,
-          timeSpent: '2.5h',
-          score: '94%'
+          modules: 4,
+          timeSpent: getTotalTimeSpent(),
+          score: `${getQuizScore()}%`
         }}
         onDownloadCertificate={() => {
           console.log('Downloading certificate...');
