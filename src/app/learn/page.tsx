@@ -15,10 +15,25 @@ export default function LearnPage() {
   const currentSectionData = currentModuleData?.sections.find(s => s.section === currentSection)
   
   // Check if user is a new learner (no progress)
-  const isNewLearner = completedSections.size === 0 && currentModule === 1 && currentSection === 1
+  const isNewLearner = completedSections.size === 0
   
   // Get first lesson data for new learners
   const firstLesson = modules[0]?.sections[0]
+  
+  // Find the next incomplete lesson
+  const getNextIncompleteLesson = () => {
+    for (const module of modules) {
+      for (const section of module.sections) {
+        const key = `${module.id}-${section.section}`
+        if (!completedSections.has(key)) {
+          return { module, section }
+        }
+      }
+    }
+    return null // All lessons completed
+  }
+  
+  const nextLesson = getNextIncompleteLesson()
   
   const getModuleProgress = (moduleId: number) => {
     const module = modules.find(m => m.id === moduleId)
@@ -60,21 +75,21 @@ export default function LearnPage() {
         )}
 
         {/* Продолжить обучение - only show if user has progress and is not a new learner */}
-        {currentSectionData && !isNewLearner && (
+        {nextLesson && !isNewLearner && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Play className="h-5 w-5" />
-                <span>{currentSectionData.title}</span>
+                <span>{nextLesson.section.title}</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <p className="text-muted-foreground">{currentSectionData.summary}</p>
+                <p className="text-muted-foreground">{nextLesson.section.summary}</p>
               </div>
               <Button asChild>
-                <Link href={`/learn/${currentModule}/${currentSection}`}>
-                  Продолжить урок
+                <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`}>
+                  Продолжить
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

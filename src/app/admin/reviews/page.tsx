@@ -19,6 +19,7 @@ export default function ReviewsPage() {
   const [reviews, setReviews] = useState<ReviewData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [ratingFilter, setRatingFilter] = useState<number | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -57,6 +58,24 @@ export default function ReviewsPage() {
   const averageRating = reviews.length > 0 
     ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
     : 0
+
+  const getRatingDistribution = () => {
+    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+    reviews.forEach(review => {
+      distribution[review.rating as keyof typeof distribution]++
+    })
+    return distribution
+  }
+
+  const ratingDistribution = getRatingDistribution()
+
+  const toggleRatingFilter = (rating: number) => {
+    setRatingFilter(ratingFilter === rating ? null : rating)
+  }
+
+  const filteredReviews = ratingFilter 
+    ? reviews.filter(review => review.rating === ratingFilter)
+    : reviews
 
   if (loading) {
     return (
@@ -116,9 +135,6 @@ export default function ReviewsPage() {
           <h1 className="text-3xl font-bold text-foreground mb-2">
             Отзывы о курсе
           </h1>
-          <p className="text-muted-foreground">
-            Всего отзывов: {reviews.length}
-          </p>
         </div>
 
         {/* Stats */}
@@ -153,37 +169,103 @@ export default function ReviewsPage() {
             </Card>
 
             <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-2">
-                  <Heart className="h-5 w-5 text-red-500" />
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Star className="h-4 w-4 text-yellow-500" />
                   <span className="text-sm font-medium text-muted-foreground">
-                    Положительных
+                    Распределение
                   </span>
                 </div>
-                <p className="text-2xl font-bold text-foreground mt-2">
-                  {reviews.filter(r => r.rating >= 4).length}
-                </p>
+                <div className="space-y-1.5">
+                  {[5, 4, 3, 2, 1].map((stars) => {
+                    const isActive = ratingFilter === stars
+                    const count = ratingDistribution[stars as keyof typeof ratingDistribution]
+                    return (
+                      <div 
+                        key={stars} 
+                        className={`flex items-center justify-between cursor-pointer rounded-md p-1 transition-colors ${
+                          isActive 
+                            ? 'bg-blue-100 dark:bg-blue-900/20' 
+                            : 'hover:bg-muted/50'
+                        }`}
+                        onClick={() => toggleRatingFilter(stars)}
+                      >
+                        <div className="flex items-center space-x-1">
+                          <span className={`text-xs ${isActive ? 'text-blue-700 dark:text-blue-300 font-medium' : 'text-muted-foreground'}`}>
+                            {stars}
+                          </span>
+                          <Star className={`h-2.5 w-2.5 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-yellow-400'} fill-current`} />
+                        </div>
+                        <div className="flex items-center space-x-1.5 flex-1 mx-2">
+                          <div className="flex-1 bg-muted rounded-full h-1.5">
+                            <div 
+                              className={`h-1.5 rounded-full transition-all duration-300 ${
+                                isActive ? 'bg-blue-600 dark:bg-blue-400' : 'bg-yellow-400'
+                              }`}
+                              style={{ 
+                                width: reviews.length > 0 
+                                  ? `${(count / reviews.length) * 100}%` 
+                                  : '0%' 
+                              }}
+                            />
+                          </div>
+                          <span className={`text-xs font-medium min-w-[16px] text-right ${
+                            isActive ? 'text-blue-700 dark:text-blue-300' : 'text-foreground'
+                          }`}>
+                            {count}
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
               </CardContent>
             </Card>
           </div>
         )}
 
+        {/* Filter Status */}
+        {ratingFilter && (
+          <div className="flex items-center justify-between bg-muted/50 rounded-lg p-4 mb-6">
+            <div className="flex items-center space-x-2">
+              <Star className="h-4 w-4 text-yellow-500" />
+              <span className="text-sm font-medium text-foreground">
+                Показаны отзывы с оценкой {ratingFilter} звезд
+              </span>
+              <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                {filteredReviews.length} из {reviews.length}
+              </Badge>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setRatingFilter(null)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Сбросить фильтр
+            </Button>
+          </div>
+        )}
+
         {/* Reviews List */}
-        {reviews.length === 0 ? (
+        {filteredReviews.length === 0 ? (
           <Card>
             <CardContent className="p-12 text-center">
               <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-foreground mb-2">
-                Пока нет отзывов
+                {ratingFilter ? 'Нет отзывов с такой оценкой' : 'Пока нет отзывов'}
               </h3>
               <p className="text-muted-foreground">
-                Отзывы появятся здесь, как только пользователи начнут их оставлять.
+                {ratingFilter 
+                  ? 'Попробуйте выбрать другую оценку или сбросить фильтр.'
+                  : 'Отзывы появятся здесь, как только пользователи начнут их оставлять.'
+                }
               </p>
             </CardContent>
           </Card>
         ) : (
           <div className="space-y-6">
-            {reviews
+            {filteredReviews
               .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
               .map((review) => (
                 <Card key={review.id}>
@@ -203,9 +285,6 @@ export default function ReviewsPage() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Badge className={getRatingColor(review.rating)}>
-                          {review.rating}/5
-                        </Badge>
                         <div className="flex items-center text-muted-foreground text-sm">
                           <Calendar className="h-3 w-3 mr-1" />
                           {formatDate(review.timestamp)}

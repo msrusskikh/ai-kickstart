@@ -7,12 +7,12 @@ interface ScenarioPanelProps {
 
 const ScenarioPanel: React.FC<ScenarioPanelProps> = ({ title, description }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-      <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+    <div className="rounded-xl border border-border/30 bg-card/50 text-card-foreground shadow-sm p-6">
+      <h2 className="text-lg font-semibold text-foreground mb-3">
         {title}
       </h2>
       
-      <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+      <p className="text-muted-foreground mb-6 leading-relaxed">
         {description}
       </p>
     </div>

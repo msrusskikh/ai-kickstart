@@ -71,39 +71,29 @@ export default function HomePage() {
   const hasProgress = completedSections.size > 0 || currentModule > 1 || currentSection > 1
   
   // Calculate overall progress
-  const totalSections = 47 // Total sections across all modules (updated for new quiz lessons)
+  const totalSections = 50 // Total sections across all modules
   const progressPercentage = Math.round((completedSections.size / totalSections) * 100)
   
   // Determine the best destination for "Continue Learning"
   const getContinueDestination = () => {
-    // If user has completed sections, find the next incomplete section
-    if (completedSections.size > 0) {
-      // Find the highest completed module-section
-      const completedArray = Array.from(completedSections).map(s => {
-        const [mod, sec] = s.split('-').map(Number)
-        return { module: mod, section: sec }
-      }).sort((a, b) => {
-        if (a.module !== b.module) return b.module - a.module
-        return b.section - a.section
-      })
-      
-      if (completedArray.length > 0) {
-        const lastCompleted = completedArray[0]
-        // Try to go to the next section, or next module if at end
-        if (lastCompleted.section < 12) { // Max sections per module is 12
-          return `/learn/${lastCompleted.module}/${lastCompleted.section + 1}`
-        } else if (lastCompleted.module < 4) { // Max modules is 4
-          return `/learn/${lastCompleted.module + 1}/1`
+    // Debug logging
+    console.log('Completed sections:', Array.from(completedSections))
+    console.log('Total completed:', completedSections.size)
+    
+    // Find the first incomplete lesson (same logic as learn page)
+    for (const module of modules) {
+      for (const section of module.sections) {
+        const key = `${module.id}-${section.section}`
+        if (!completedSections.has(key)) {
+          console.log('Next incomplete lesson:', `${module.id}-${section.section}`)
+          return `/learn/${module.id}/${section.section}`
         }
       }
     }
     
-    // Fallback to current progress or start of first module
-    if (currentModule > 1 || currentSection > 1) {
-      return `/learn/${currentModule}/${currentSection}`
-    }
-    
-    return `/learn/1/1`
+    // If all lessons are completed, go to the learn page
+    console.log('All lessons completed, going to /learn')
+    return `/learn`
   }
   
   return (
@@ -198,3 +188,4 @@ export default function HomePage() {
     </div>
   )
 }
+

@@ -185,6 +185,7 @@ export const COMPARISON_CONTENT = {
 // Key takeaways
 export const KEY_TAKEAWAYS = {
   title: "Ключевые выводы",
+  subtitle: "Что вы узнали и как применить это в будущем",
   insights: [
     {
       title: "Итерация решает",

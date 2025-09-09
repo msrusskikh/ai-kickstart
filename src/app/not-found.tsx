@@ -9,7 +9,7 @@ export default function NotFound() {
         Запрашиваемая страница не существует или была перемещена.
       </p>
       <Button asChild>
-        <Link href="/">
+        <Link href="/learn">
           Вернуться на главную
         </Link>
       </Button>

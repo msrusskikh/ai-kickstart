@@ -989,9 +989,9 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
           
           <div className="space-y-4">
             {state.userTasks.map((task, index) => (
-              <div key={index} className="border rounded-lg p-4 space-y-3">
+              <div key={index} className="rounded-xl border border-border/30 bg-card/50 text-card-foreground shadow-sm p-4 space-y-3">
                 <div className="flex justify-between items-center">
-                  <h3 className="font-medium">Задача {index + 1}</h3>
+                  <h3 className="font-medium text-foreground">Задача {index + 1}</h3>
                   {state.userTasks.length > 1 && (
                     <Button
                       variant="outline"
@@ -1005,11 +1005,11 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
                 
                 <div className="space-y-3">
                   <div>
-                    <label htmlFor={`task-description-${index}`} className="block text-sm font-medium mb-1">Описание задачи</label>
+                    <label htmlFor={`task-description-${index}`} className="block text-sm font-medium mb-1 text-foreground">Описание задачи</label>
                     <textarea
                       id={`task-description-${index}`}
                       name={`task-description-${index}`}
-                      className="w-full p-2 border rounded-md"
+                      className="w-full p-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                       placeholder="Опишите, в чём заключается задача..."
                       value={task.description}
                       onChange={(e) => updateTask(index, 'description', e.target.value)}
@@ -1019,12 +1019,12 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
                   
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor={`task-frequency-${index}`} className="block text-sm font-medium mb-1">Частота</label>
+                      <label htmlFor={`task-frequency-${index}`} className="block text-sm font-medium mb-1 text-foreground">Частота</label>
                       <input
                         id={`task-frequency-${index}`}
                         name={`task-frequency-${index}`}
                         type="text"
-                        className="w-full p-2 border rounded-md"
+                        className="w-full p-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                         placeholder="ежедневно, еженедельно..."
                         value={task.frequency}
                         onChange={(e) => updateTask(index, 'frequency', e.target.value)}
@@ -1032,12 +1032,12 @@ ${state.userTasks.map((task, i) => `${i + 1}. ${task.description} (${task.freque
                     </div>
                     
                     <div>
-                      <label htmlFor={`task-duration-${index}`} className="block text-sm font-medium mb-1">Время</label>
+                      <label htmlFor={`task-duration-${index}`} className="block text-sm font-medium mb-1 text-foreground">Время</label>
                       <input
                         id={`task-duration-${index}`}
                         name={`task-duration-${index}`}
                         type="text"
-                        className="w-full p-2 border rounded-md"
+                        className="w-full p-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
                         placeholder="30 минут, 2 часа..."
                         value={task.duration}
                         onChange={(e) => updateTask(index, 'duration', e.target.value)}
