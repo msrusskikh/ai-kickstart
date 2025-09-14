@@ -3,7 +3,6 @@
 import { Search, Lock, Unlock, MessageSquare, Menu, X } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { CustomThemeToggle } from "@/components/ui/custom-theme-toggle"
 import { useCommandMenu } from "@/lib/command-menu"
 import { useProgressStore } from "@/lib/progress"
 
@@ -25,7 +24,7 @@ export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/40">
       <div className="container flex h-14 items-center justify-between px-4">
         <div className="flex items-center space-x-2">
           {/* Mobile menu button - only visible on mobile */}
@@ -60,8 +59,6 @@ export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
             <span className="sr-only">Open command menu</span>
           </Button>
           
-          {/* Theme Toggle */}
-          <CustomThemeToggle />
           
           {/* Reviews Link */}
           <Link href="/admin/reviews">

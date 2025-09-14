@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from "next/link"
@@ -80,7 +81,7 @@ export default function LearnPage() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`} className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center hover:bg-teal-700 transition-colors cursor-pointer">
+                  <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`} className="w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer" style={{ backgroundColor: '#3D85F4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2563eb'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#3D85F4'}>
                     <Play className="h-4 w-4 text-white ml-0.5" fill="currentColor" />
                   </Link>
                   <div>
@@ -98,6 +99,7 @@ export default function LearnPage() {
                     <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`}>
                       Продолжить
                       <ArrowRight className="ml-1 h-3 w-3" />
+                      
                     </Link>
                   </Button>
                 </div>
@@ -128,7 +130,7 @@ export default function LearnPage() {
                         <p className="text-muted-foreground mt-1 text-left">{module.description}</p>
                       </div>
                       <div className="text-right flex-shrink-0 ml-4 self-start">
-                         <div className="text-2xl font-bold" style={{ color: completedCount === module.sections.length ? '#30B1A5' : '#FDC109' }}>
+                         <div className="text-2xl font-bold" style={{ color: completedCount === module.sections.length ? '#FFFFFF' : '#FDC109' }}>
                           {completedCount}/{module.sections.length}
                         </div>
                         <div className="text-sm text-muted-foreground">уроков</div>

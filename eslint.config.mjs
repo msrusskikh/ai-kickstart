@@ -1,15 +1,12 @@
-import pluginNext from '@next/eslint-plugin-next';
+import { FlatCompat } from '@eslint/eslintrc';
+import js from '@eslint/js';
+import nextConfig from 'eslint-config-next';
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+});
 
 export default [
-  {
-    name: 'ESLint Config - Next.js',
-    files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-    plugins: {
-      '@next/next': pluginNext,
-    },
-    rules: {
-      ...pluginNext.configs.recommended.rules,
-      ...pluginNext.configs['core-web-vitals'].rules,
-    },
-  },
+  ...compat.extends('next/core-web-vitals'),
 ];

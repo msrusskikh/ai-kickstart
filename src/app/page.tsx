@@ -5,48 +5,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/lesson/card"
 import { useProgressStore } from "@/lib/progress"
 import { modules } from "@/lib/content"
-import { Moon, Sun } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 export default function HomePage() {
   const { completedSections, currentModule, currentSection, isDevMode } = useProgressStore()
-  const [theme, setTheme] = useState('light')
-  
-  // Theme toggle function
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(newTheme)
-    document.documentElement.classList.toggle('dark')
-    localStorage.setItem('theme', newTheme)
-  }
-  
-  // Initialize theme on mount
+  // Force dark theme on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light'
-    setTheme(savedTheme)
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    }
-    
-    // Add debug function to window for console access
-    ;(window as any).debugTheme = () => {
-      const root = document.documentElement
-      const computedStyle = getComputedStyle(root)
-      
-      console.log('=== Theme Debug Info ===')
-      console.log('Current theme:', theme)
-      console.log('HTML classes:', root.className)
-      console.log('CSS Variables:')
-      console.log('--background:', computedStyle.getPropertyValue('--background'))
-      console.log('--foreground:', computedStyle.getPropertyValue('--foreground'))
-      console.log('--primary:', computedStyle.getPropertyValue('--primary'))
-      console.log('--muted-foreground:', computedStyle.getPropertyValue('--muted-foreground'))
-      console.log('Computed colors:')
-      console.log('Background:', computedStyle.backgroundColor)
-      console.log('Color:', computedStyle.color)
-      console.log('=======================')
-    }
-  }, [theme])
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('theme', 'dark')
+  }, [])
   
   // Function to get current lesson title
   const getCurrentLessonTitle = () => {
@@ -105,18 +72,6 @@ export default function HomePage() {
             <h1 className="text-lg font-semibold text-foreground">Трансформер</h1>
           </div>
           
-          {/* Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-md hover:bg-muted/50 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? (
-              <Moon className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Sun className="h-4 w-4 text-muted-foreground" />
-            )}
-          </button>
         </div>
       </header>
 
@@ -144,7 +99,7 @@ export default function HomePage() {
                 <div className="w-full bg-muted/50 rounded-full h-2 mb-4">
                   <div 
                     className="h-2 rounded-full transition-all duration-500 ease-out" 
-                    style={{ width: `${progressPercentage}%`, backgroundColor: '#3D85F4' }}
+                    style={{ width: `${progressPercentage}%`, backgroundColor: '#0d9488' }}
                   />
                 </div>
                 <div className="space-y-2">

@@ -118,9 +118,9 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       right: 0,
       bottom: 0,
       background: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       backdropFilter: 'blur(8px)',
       zIndex: 1000,
       animation: isVisible ? 'fadeIn 0.3s ease-out' : 'fadeOut 0.2s ease-out'
@@ -135,7 +135,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       textAlign: 'center' as const,
       position: 'relative' as const,
       animation: 'slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-      overflow: 'hidden',
+      overflow: 'hidden' as const,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
       border: isDark ? '1px solid #374151' : 'none'
     },
@@ -148,9 +148,9 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       height: '80px',
       background: 'linear-gradient(135deg, #0d9488, #0a7c6f)',
       borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       margin: '0 auto',
       position: 'relative' as const,
       animation: 'glow 2s ease-in-out infinite'
@@ -189,7 +189,7 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       fontWeight: '400'
     },
     stats: {
-      display: 'flex',
+      display: 'flex' as const,
       justifyContent: 'space-around',
       marginBottom: '32px',
       padding: '24px',
@@ -214,9 +214,9 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       letterSpacing: '0.05em'
     },
     actions: {
-      display: 'flex',
+      display: 'flex' as const,
       gap: '12px',
-      justifyContent: 'center'
+      justifyContent: 'center' as const
     },
     btn: {
       padding: '12px 24px',
@@ -228,8 +228,8 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       cursor: 'pointer',
       transition: 'all 0.2s ease',
       fontFamily: 'inherit',
-      display: 'inline-flex',
-      alignItems: 'center',
+      display: 'inline-flex' as const,
+      alignItems: 'center' as const,
       gap: '8px'
     },
     btnPrimary: {
@@ -253,20 +253,20 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
       width: '48px',
       height: '48px',
       borderRadius: '8px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      display: 'flex' as const,
+      alignItems: 'center' as const,
+      justifyContent: 'center' as const,
       transition: 'all 0.2s ease',
       minWidth: '48px',
       minHeight: '48px',
-      touchAction: 'manipulation',
-      WebkitTouchCallout: 'none',
-      WebkitUserSelect: 'none',
-      userSelect: 'none',
+      touchAction: 'manipulation' as const,
+      WebkitTouchCallout: 'none' as const,
+      WebkitUserSelect: 'none' as const,
+      userSelect: 'none' as const,
       lineHeight: '1',
       padding: '0',
       margin: '0',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box' as const
     }
   };
 
@@ -400,9 +400,9 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
             title="Закрыть"
           >
             <span style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
+              display: 'flex' as const, 
+              alignItems: 'center' as const, 
+              justifyContent: 'center' as const,
               width: '100%',
               height: '100%',
               lineHeight: '1'
@@ -579,9 +579,9 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
                       cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       opacity: isSubmitting ? 0.6 : 1,
                       minWidth: '180px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
+                      display: 'flex' as const,
+                      alignItems: 'center' as const,
+                      justifyContent: 'center' as const
                     }}
                   >
                     Вернуться назад
@@ -597,8 +597,8 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
                       fontWeight: '500',
                       cursor: (reviewData.rating === 0 || !reviewData.review.trim() || isSubmitting) ? 'not-allowed' : 'pointer',
                       opacity: (reviewData.rating === 0 || !reviewData.review.trim() || isSubmitting) ? 0.6 : 1,
-                      display: 'flex',
-                      alignItems: 'center',
+                      display: 'flex' as const,
+                      alignItems: 'center' as const,
                       gap: '8px',
                       minWidth: '160px'
                     }}

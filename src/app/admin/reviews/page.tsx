@@ -5,7 +5,6 @@ import { Star, Calendar, User, MessageSquare, Heart, ArrowLeft } from 'lucide-re
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/lesson/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { CustomThemeToggle } from '@/components/ui/custom-theme-toggle'
 import { useRouter } from 'next/navigation'
 
 interface ReviewData {
@@ -129,7 +128,6 @@ export default function ReviewsPage() {
                 <span>Назад</span>
               </Button>
             </div>
-            <CustomThemeToggle />
             
           </div>
           <h1 className="text-3xl font-bold text-foreground mb-2">
