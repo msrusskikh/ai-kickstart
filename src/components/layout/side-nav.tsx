@@ -14,9 +14,10 @@ interface ModuleItemProps {
   module: typeof modules[0]
   isExpanded: boolean
   onToggle: () => void
+  onMobileMenuClose?: () => void
 }
 
-function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
+function ModuleItem({ module, isExpanded, onToggle, onMobileMenuClose }: ModuleItemProps) {
   const pathname = usePathname()
   const { completedSections, isDevMode } = useProgressStore()
   
@@ -64,14 +65,14 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
       <div className="ml-6 mt-2">
         <div className="w-full bg-muted/30 rounded-full h-1.5">
                       <div 
-              className="bg-primary h-1.5 rounded-full transition-all duration-500 ease-out"
-              style={{ width: `${progress}%` }}
+              className="h-1.5 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress}%`, backgroundColor: '#0d9488' }}
             />
         </div>
       </div>
       
       {isExpanded && (
-        <div className="ml-6 space-y-1">
+        <div className="ml-6 space-y-1 md:ml-6">
           {module.sections.map((section) => {
             const isCompleted = completedSections.has(`${module.id}-${section.section}`)
             const isActive = pathname === `/learn/${module.id}/${section.section}`
@@ -86,6 +87,7 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                 key={section.section}
                 href={`/learn/${module.id}/${section.section}`}
                 title={!hasAccess && !isDevMode ? "Complete previous lesson to unlock" : undefined}
+                onClick={onMobileMenuClose}
                 className={cn(
                   "flex items-start space-x-2 rounded-md px-3 py-2 transition-all duration-200 group",
                   // Apply dimming when not accessible and not in dev mode
@@ -96,7 +98,7 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
                 )}
               >
                 {isCompleted ? (
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-1 flex-shrink-0 text-green-500 dark:text-green-500">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-1 flex-shrink-0" style={{ color: '#0d9488' }}>
                     <circle cx="12" cy="12" r="10" />
                     <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
                   </svg>
@@ -120,7 +122,12 @@ function ModuleItem({ module, isExpanded, onToggle }: ModuleItemProps) {
   )
 }
 
-export function SideNav() {
+interface SideNavProps {
+  isMobileMenuOpen?: boolean
+  onMobileMenuClose?: () => void
+}
+
+export function SideNav({ isMobileMenuOpen, onMobileMenuClose }: SideNavProps) {
   const pathname = usePathname()
   
   // Extract current module from pathname
@@ -162,26 +169,48 @@ export function SideNav() {
   }
 
   return (
-    <div className="flex h-full w-72 flex-col border-r border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="p-4 border-b border-border/50">
-        <Link href="/learn" className="hover:opacity-80 transition-opacity">
-          <h2 className="text-lg font-semibold cursor-pointer text-foreground">Содержание</h2>
-        </Link>
-      </div>
+    <>
+      {/* Mobile overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={onMobileMenuClose}
+        />
+      )}
       
-      <ScrollArea className="flex-1 px-4">
-        <div className="space-y-4 py-4">
-          {modules.map((module) => (
-            <ModuleItem
-              key={module.id}
-              module={module}
-              isExpanded={expandedModules.has(module.id)}
-              onToggle={() => toggleModule(module.id)}
-            />
-          ))}
+      {/* Sidebar */}
+      <div className={`
+        flex h-full w-72 flex-col border-r border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80
+        fixed md:relative z-50 md:z-auto
+        transform transition-transform duration-300 ease-in-out
+        max-w-full overflow-x-hidden mobile-sidebar
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+        <div className="p-4 border-b border-border/50">
+          <Link 
+            href="/learn" 
+            className="hover:opacity-80 transition-opacity"
+            onClick={onMobileMenuClose}
+          >
+            <h2 className="text-lg font-semibold cursor-pointer text-foreground">Содержание</h2>
+          </Link>
         </div>
-      </ScrollArea>
-    </div>
+        
+        <ScrollArea className="flex-1 px-4">
+          <div className="space-y-4 py-4">
+            {modules.map((module) => (
+              <ModuleItem
+                key={module.id}
+                module={module}
+                isExpanded={expandedModules.has(module.id)}
+                onToggle={() => toggleModule(module.id)}
+                onMobileMenuClose={onMobileMenuClose}
+              />
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
+    </>
   )
 }
 

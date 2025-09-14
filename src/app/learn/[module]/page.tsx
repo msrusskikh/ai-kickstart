@@ -108,73 +108,108 @@ export default function ModulePage({ params }: ModulePageProps) {
               const hasAccessToPrevious = section.section > 1 && completedSections.has(`${moduleId}-${section.section - 1}`)
               const isAccessible = isDevMode || isFirst || isCompleted || hasAccessToPrevious
               
+              // Determine status icon - always show an icon with explicit sizing and visibility
+              const getStatusIcon = () => {
+                if (isCompleted) {
+                  return (
+                    <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-full h-full" style={{ color: '#0d9488' }}>
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
+                      </svg>
+                    </div>
+                  )
+                } else if (isAccessible) {
+                  return (
+                    <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                      <Circle className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                      <Lock className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                  )
+                }
+              }
+              
               return (
                 <Card key={section.section} className={!isAccessible ? "opacity-60" : ""}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        {isCompleted ? (
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-green-500 dark:text-green-500">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="m9 12 2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
-                          </svg>
-                        ) : isAccessible ? (
-                          <Circle className="h-6 w-6 text-muted-foreground" />
-                        ) : (
-                          <Lock className="h-6 w-6 text-muted-foreground" />
-                        )}
-                        
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3">
-                            {isAccessible ? (
-                              <Link 
-                                href={`/learn/${moduleId}/${section.section}`}
-                                className={`text-lg font-semibold ${!isAccessible ? "text-muted-foreground" : ""} truncate hover:text-primary transition-colors cursor-pointer`}
-                              >
-                                {section.title}
-                              </Link>
-                            ) : (
-                              <h3 className={`text-lg font-semibold ${!isAccessible ? "text-muted-foreground" : ""} truncate`}>
-                                {section.title}
-                              </h3>
-                            )}
-                            <div className="flex items-center space-x-1 text-sm text-muted-foreground flex-shrink-0">
-                              <Clock className="h-4 w-4" />
-                              <span>{section.duration} мин</span>
+                  {isAccessible ? (
+                    <Link href={`/learn/${moduleId}/${section.section}`} className="block">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-4 min-w-0">
+                            {getStatusIcon()}
+                            
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center space-x-3">
+                                <h3 className="text-lg font-semibold truncate hover:text-primary transition-colors cursor-pointer">
+                                  {section.title}
+                                </h3>
+                                <div className="flex items-center space-x-1 text-sm text-muted-foreground flex-shrink-0">
+                                  <Clock className="h-4 w-4" />
+                                  <span>{section.duration} мин</span>
+                                </div>
+                              </div>
+                              <p className="text-muted-foreground mt-1 line-clamp-2">{section.summary}</p>
                             </div>
                           </div>
-                          <p className="text-muted-foreground mt-1 line-clamp-2">{section.summary}</p>
-                          {!isAccessible && !isDevMode && (
-                            <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
-                              🔒 Завершите предыдущий урок для доступа
-                            </p>
-                          )}
-                          {isDevMode && !isAccessible && (
-                            <p className="text-xs text-green-600 dark:text-green-400 mt-2">
-                              🔓 Developer Mode: Lesson accessible
-                            </p>
-                          )}
+                          
+                          {/* Desktop buttons - hidden on mobile */}
+                          <div className="hidden md:block">
+                            <Button 
+                              variant={isCompleted ? "outline" : "default"}
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {isCompleted ? "Повторить" : "Начать"}
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Link>
+                  ) : (
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4 min-w-0">
+                          {getStatusIcon()}
+                          
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-3">
+                              <h3 className="text-lg font-semibold text-muted-foreground truncate">
+                                {section.title}
+                              </h3>
+                              <div className="flex items-center space-x-1 text-sm text-muted-foreground flex-shrink-0">
+                                <Clock className="h-4 w-4" />
+                                <span>{section.duration} мин</span>
+                              </div>
+                            </div>
+                            <p className="text-muted-foreground mt-1 line-clamp-2">{section.summary}</p>
+                            {!isDevMode && (
+                              <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
+                                🔒 Завершите предыдущий урок для доступа
+                              </p>
+                            )}
+                            {isDevMode && (
+                              <p className="text-xs text-green-600 dark:text-green-400 mt-2">
+                                🔓 Developer Mode: Lesson accessible
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Desktop locked button - hidden on mobile */}
+                        <div className="hidden md:block">
+                          <Button disabled variant="outline" className="opacity-50">
+                            <Lock className="mr-2 h-4 w-4" />
+                            Заблокировано
+                          </Button>
                         </div>
                       </div>
-                      
-                      {isAccessible ? (
-                        <Button 
-                          asChild 
-                          variant={isCompleted ? "outline" : "default"}
-                        >
-                          <Link href={`/learn/${moduleId}/${section.section}`}>
-                            {isCompleted ? "Повторить" : "Начать"}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                        </Button>
-                      ) : (
-                        <Button disabled variant="outline" className="opacity-50">
-                          <Lock className="mr-2 h-4 w-4" />
-                          Заблокировано
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
+                    </CardContent>
+                  )}
                 </Card>
               )
             })}

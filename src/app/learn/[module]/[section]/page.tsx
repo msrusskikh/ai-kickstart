@@ -150,34 +150,40 @@ console.log(greet("Learner"));</code></pre>
           
           {/* Navigation Controls */}
           <div className="mt-12 pt-8 border-t border-border/30">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center space-x-4 min-w-0 flex-1">
                 {prevSection && (
-                  <Button asChild variant="outline" className="max-w-xs">
+                  <Button asChild variant="outline" className="navigation-button min-w-[120px] max-w-xs">
                     <Link href={`/learn/${moduleId}/${prevSection.section}`} className="flex items-center">
                       <ArrowLeft className="mr-2 h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">Назад: {prevSection.title}</span>
+                      <span className="truncate">
+                        <span className="hidden md:inline">Назад: {prevSection.title}</span>
+                        <span className="md:hidden">Назад</span>
+                      </span>
                     </Link>
                   </Button>
                 )}
               </div>
               
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 min-w-0 flex-1 justify-end">
                 {nextSection && (
-                  <Button asChild className="max-w-xs" onClick={handleNextClick}>
-                    <Link href={`/learn/${moduleId}/${nextSection.section}`} className="flex items-center">
-                      <span className="truncate">Далее: {nextSection.title}</span>
-                      <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
+                  <Button asChild variant="default" className="navigation-button min-w-[120px] max-w-xs bg-teal-600 hover:bg-teal-700 text-white hover:scale-100" onClick={handleNextClick}>
+                    <Link href={`/learn/${moduleId}/${nextSection.section}`} className="flex items-center text-white">
+                      <span className="truncate text-white">
+                        <span className="hidden md:inline text-white">Далее: {nextSection.title}</span>
+                        <span className="md:hidden text-white">Далее</span>
+                      </span>
+                      <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0 text-white" />
                     </Link>
                   </Button>
                 )}
                 
                 {/* Next Module Button - Show only on last lesson of current module */}
                 {isLastLessonOfModule && nextModule && (
-                  <Button asChild variant="default" className="max-w-xs" onClick={handleNextClick}>
-                    <Link href={`/learn/${nextModule.id}/1`} className="flex items-center">
-                      <span className="truncate">К следующему модулю</span>
-                      <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0" />
+                  <Button asChild variant="default" className="navigation-button min-w-[120px] max-w-xs bg-teal-600 hover:bg-teal-700 text-white hover:scale-100" onClick={handleNextClick}>
+                    <Link href={`/learn/${nextModule.id}/1`} className="flex items-center text-white">
+                      <span className="truncate text-white">К следующему модулю</span>
+                      <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0 text-white" />
                     </Link>
                   </Button>
                 )}
@@ -186,8 +192,10 @@ console.log(greet("Learner"));</code></pre>
                 {isLastLessonOfModule && !nextModule && (
                   <Button 
                     variant="default" 
-                    className="max-w-xs bg-teal-600 hover:bg-teal-700 text-white"
-                    onClick={() => {
+                    className="navigation-button min-w-[120px] max-w-xs bg-teal-600 hover:bg-teal-700 text-white hover:scale-100"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
                       handleNextClick()
                       setShowCompletionModal(true)
                     }}

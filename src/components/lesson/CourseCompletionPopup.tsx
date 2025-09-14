@@ -243,20 +243,30 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
     },
     closeBtn: {
       position: 'absolute' as const,
-      top: '20px',
-      right: '20px',
+      top: '16px',
+      right: '16px',
       background: 'none',
       border: 'none',
       color: isDark ? '#9ca3af' : '#8e8ea0',
       cursor: 'pointer',
-      fontSize: '20px',
-      width: '32px',
-      height: '32px',
-      borderRadius: '6px',
+      fontSize: '24px',
+      width: '48px',
+      height: '48px',
+      borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      transition: 'all 0.2s ease'
+      transition: 'all 0.2s ease',
+      minWidth: '48px',
+      minHeight: '48px',
+      touchAction: 'manipulation',
+      WebkitTouchCallout: 'none',
+      WebkitUserSelect: 'none',
+      userSelect: 'none',
+      lineHeight: '1',
+      padding: '0',
+      margin: '0',
+      boxSizing: 'border-box'
     }
   };
 
@@ -320,6 +330,41 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
         width: 100% !important;
         justify-content: center !important;
       }
+      .close-btn-mobile {
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px !important;
+        min-height: 56px !important;
+        top: 8px !important;
+        right: 8px !important;
+        font-size: 28px !important;
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .close-btn-mobile:hover {
+        background: rgba(0, 0, 0, 0.1) !important;
+      }
+      .close-btn-mobile:active {
+        background: rgba(0, 0, 0, 0.15) !important;
+        transform: scale(0.95) !important;
+      }
+      .close-btn-mobile span {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
     }
   `;
 
@@ -335,17 +380,35 @@ const CourseCompletionPopup: React.FC<CourseCompletionPopupProps> = ({
   return (
     <>
       <style>{animations}</style>
-      <div style={styles.overlay}>
+      <div 
+        style={styles.overlay}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            handleClose();
+          }
+        }}
+      >
         <div 
           style={styles.popup} 
           className="popup-mobile"
         >
           <button 
             style={styles.closeBtn} 
-            className="close-btn"
+            className="close-btn close-btn-mobile"
             onClick={handleClose}
+            aria-label="Закрыть"
+            title="Закрыть"
           >
-            ×
+            <span style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+              lineHeight: '1'
+            }}>
+              ×
+            </span>
           </button>
           
           <div style={styles.iconContainer}>

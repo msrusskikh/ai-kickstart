@@ -76,23 +76,32 @@ export default function LearnPage() {
 
         {/* Продолжить обучение - only show if user has progress and is not a new learner */}
         {nextLesson && !isNewLearner && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Play className="h-5 w-5" />
-                <span>{nextLesson.section.title}</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <p className="text-muted-foreground">{nextLesson.section.summary}</p>
+          <Card className="bg-card/80 backdrop-blur-sm border-border/50">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`} className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center hover:bg-teal-700 transition-colors cursor-pointer">
+                    <Play className="h-4 w-4 text-white ml-0.5" fill="currentColor" />
+                  </Link>
+                  <div>
+                    <div className="font-medium text-foreground">Продолжить обучение</div>
+                    <div className="text-sm text-muted-foreground">{nextLesson.section.title}</div>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                  <div className="text-center">
+                    <div className="font-medium text-foreground">Модуль {nextLesson.module.id}</div>
+                    <div>Урок {nextLesson.section.section}</div>
+                  </div>
+                  <div className="w-px h-8 bg-border"></div>
+                  <Button asChild size="sm" className="bg-teal-600 hover:bg-teal-700 text-white">
+                    <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`}>
+                      Продолжить
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
-              <Button asChild>
-                <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`}>
-                  Продолжить
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
             </CardContent>
           </Card>
         )}
@@ -111,15 +120,15 @@ export default function LearnPage() {
               return (
                 <Card key={module.id}>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex justify-between">
+                      <div className="flex-1 min-w-0 text-left">
                         <Link href={`/learn/${module.id}`} className="hover:opacity-80 transition-opacity">
-                          <CardTitle className="text-xl cursor-pointer">{module.title}</CardTitle>
+                          <CardTitle className="text-xl cursor-pointer text-left">{module.title}</CardTitle>
                         </Link>
-                        <p className="text-muted-foreground mt-1">{module.description}</p>
+                        <p className="text-muted-foreground mt-1 text-left">{module.description}</p>
                       </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-primary">
+                      <div className="text-right flex-shrink-0 ml-4 self-start">
+                         <div className="text-2xl font-bold" style={{ color: completedCount === module.sections.length ? '#30B1A5' : '#FDC109' }}>
                           {completedCount}/{module.sections.length}
                         </div>
                         <div className="text-sm text-muted-foreground">уроков</div>

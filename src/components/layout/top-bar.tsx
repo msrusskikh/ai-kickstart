@@ -1,13 +1,18 @@
 "use client"
 
-import { Search, Lock, Unlock, MessageSquare } from "lucide-react"
+import { Search, Lock, Unlock, MessageSquare, Menu, X } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CustomThemeToggle } from "@/components/ui/custom-theme-toggle"
 import { useCommandMenu } from "@/lib/command-menu"
 import { useProgressStore } from "@/lib/progress"
 
-export function TopBar() {
+interface TopBarProps {
+  onMobileMenuToggle?: () => void
+  isMobileMenuOpen?: boolean
+}
+
+export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
   const { open } = useCommandMenu()
   const { isDevMode, toggleDevMode } = useProgressStore()
 
@@ -23,6 +28,22 @@ export function TopBar() {
     <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-14 items-center justify-between px-4">
         <div className="flex items-center space-x-2">
+          {/* Mobile menu button - only visible on mobile */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onMobileMenuToggle}
+            className="h-9 w-9 hover:bg-accent/50 transition-all duration-200 md:hidden"
+            title={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
+            <span className="sr-only">{isMobileMenuOpen ? "Close menu" : "Open menu"}</span>
+          </Button>
+          
           <Link href="/learn" className="hover:opacity-80 transition-opacity">
             <h1 className="text-lg font-semibold cursor-pointer text-foreground">Трансформер</h1>
           </Link>

@@ -143,8 +143,8 @@ export default function HomePage() {
                 </div>
                 <div className="w-full bg-muted/50 rounded-full h-2 mb-4">
                   <div 
-                    className="bg-primary h-2 rounded-full transition-all duration-500 ease-out" 
-                    style={{ width: `${progressPercentage}%` }}
+                    className="h-2 rounded-full transition-all duration-500 ease-out" 
+                    style={{ width: `${progressPercentage}%`, backgroundColor: '#3D85F4' }}
                   />
                 </div>
                 <div className="space-y-2">
