@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, ChevronRight, CheckCircle, Circle, Lock } from "lucide-react"
+import { ChevronDown, ChevronRight, CheckCircle, Circle, Lock, Palette } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { useProgressStore } from "@/lib/progress"
@@ -209,6 +209,18 @@ export function SideNav({ isMobileMenuOpen, onMobileMenuClose }: SideNavProps) {
             ))}
           </div>
         </ScrollArea>
+        
+        {/* Color Customization Link */}
+        <div className="p-4 border-t border-border/50">
+          <Link 
+            href="/learn/customize" 
+            className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            onClick={onMobileMenuClose}
+          >
+            <Palette className="h-4 w-4" />
+            <span>Настройка цветов</span>
+          </Link>
+        </div>
       </div>
     </>
   )

@@ -24,7 +24,7 @@ export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/40">
+    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between px-4">
         <div className="flex items-center space-x-2">
           {/* Mobile menu button - only visible on mobile */}
@@ -40,7 +40,7 @@ export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
             ) : (
               <Menu className="h-4 w-4" />
             )}
-            <span className="sr-only">{isMobileMenuOpen ? "Close menu" : "Open menu"}</span>
+            <span className="sr-only hidden md:inline">{isMobileMenuOpen ? "Close menu" : "Open menu"}</span>
           </Button>
           
           <Link href="/learn" className="hover:opacity-80 transition-opacity">
@@ -56,7 +56,7 @@ export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
             className="h-9 w-9 hover:bg-accent/50 transition-all duration-200"
           >
             <Search className="h-4 w-4" />
-            <span className="sr-only">Open command menu</span>
+            <span className="sr-only hidden md:inline">Open command menu</span>
           </Button>
           
           
@@ -69,7 +69,7 @@ export function TopBar({ onMobileMenuToggle, isMobileMenuOpen }: TopBarProps) {
               title="View reviews"
             >
               <MessageSquare className="h-4 w-4" />
-              <span className="sr-only">View reviews</span>
+              <span className="sr-only hidden md:inline">View reviews</span>
             </Button>
           </Link>
           

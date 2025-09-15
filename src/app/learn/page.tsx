@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import Link from "next/link"
@@ -77,11 +78,11 @@ export default function LearnPage() {
 
         {/* Продолжить обучение - only show if user has progress and is not a new learner */}
         {nextLesson && !isNewLearner && (
-          <Card className="bg-card/80 backdrop-blur-sm border-border/50">
+          <Card className="bg-card/100 backdrop-blur-sm border-border/50">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`} className="w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer" style={{ backgroundColor: '#3D85F4' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#2563eb'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#3D85F4'}>
+                  <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`} className="w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer" style={{ backgroundColor: '#8658EA' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6B4CE6'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#8658EA'}>
                     <Play className="h-4 w-4 text-white ml-0.5" fill="currentColor" />
                   </Link>
                   <div>
@@ -95,7 +96,7 @@ export default function LearnPage() {
                     <div>Урок {nextLesson.section.section}</div>
                   </div>
                   <div className="w-px h-8 bg-border"></div>
-                  <Button asChild size="sm" className="bg-teal-600 hover:bg-teal-700 text-white">
+                  <Button asChild size="sm" style={{ backgroundColor: '#FFB404', color: '#000000' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#E6F570'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFB404'}>
                     <Link href={`/learn/${nextLesson.module.id}/${nextLesson.section.section}`}>
                       Продолжить
                       <ArrowRight className="ml-1 h-3 w-3" />
@@ -130,7 +131,7 @@ export default function LearnPage() {
                         <p className="text-muted-foreground mt-1 text-left">{module.description}</p>
                       </div>
                       <div className="text-right flex-shrink-0 ml-4 self-start">
-                         <div className="text-2xl font-bold" style={{ color: completedCount === module.sections.length ? '#FFFFFF' : '#FDC109' }}>
+                         <div className="text-2xl font-bold" style={{ color: completedCount === module.sections.length ? '#FFFFFF' : '#FFB404' }}>
                           {completedCount}/{module.sections.length}
                         </div>
                         <div className="text-sm text-muted-foreground">уроков</div>
