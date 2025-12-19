@@ -19,34 +19,61 @@ export default function LessonPage() {
   const { completedSections, currentModule, currentSection, isDevMode, startSession, endSession, getTotalTimeSpent, getQuizScore, markSectionComplete } = useProgressStore()
   const [showCompletionModal, setShowCompletionModal] = useState(false)
 
+  // Parse IDs early - use 0 as fallback for invalid values
+  const moduleId = moduleStr ? parseInt(moduleStr) : 0
+  const sectionId = sectionStr ? parseInt(sectionStr) : 0
+
+  // Time tracking - moved before early returns
+  useEffect(() => {
+    if (moduleId > 0 && sectionId > 0) {
+      startSession()
+      
+      // Handle page unload
+      const handleBeforeUnload = () => {
+        endSession()
+      }
+      
+      window.addEventListener('beforeunload', handleBeforeUnload)
+      
+      // Cleanup on unmount
+      return () => {
+        endSession()
+        window.removeEventListener('beforeunload', handleBeforeUnload)
+      }
+    }
+  }, [moduleId, sectionId, startSession, endSession])
+
+  // Access check and navigation - moved before early returns
+  const moduleData = modules.find(m => m.id === moduleId)
+  const isFirstSection = sectionId === 1
+  const isCompleted = completedSections.has(`${moduleId}-${sectionId}`)
+  const hasAccessToPrevious = sectionId > 1 && completedSections.has(`${moduleId}-${sectionId - 1}`)
+  const hasAccess = isDevMode || isFirstSection || isCompleted || hasAccessToPrevious
+
+  useEffect(() => {
+    if (moduleId > 0 && sectionId > 0 && moduleData && !hasAccess && !isDevMode) {
+      const firstIncomplete = moduleData.sections.find(section => {
+        if (section.section === 1) return true
+        return completedSections.has(`${moduleId}-${section.section - 1}`)
+      })
+      if (firstIncomplete) {
+        router.replace(`/learn/${moduleId}/${firstIncomplete.section}`)
+      } else {
+        router.replace(`/learn/${moduleId}/1`)
+      }
+    }
+  }, [hasAccess, isDevMode, moduleData, completedSections, moduleId, sectionId, router])
+
   // Handle next button click - mark current lesson as complete
   const handleNextClick = () => {
-    markSectionComplete(moduleId, sectionId)
+    if (moduleId > 0 && sectionId > 0) {
+      markSectionComplete(moduleId, sectionId)
+    }
   }
 
   if (!moduleStr || !sectionStr) {
     return <div>Loading...</div>
   }
-  const moduleId = parseInt(moduleStr)
-  const sectionId = parseInt(sectionStr)
-
-  // Time tracking
-  useEffect(() => {
-    startSession()
-    
-    // Handle page unload
-    const handleBeforeUnload = () => {
-      endSession()
-    }
-    
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    
-    // Cleanup on unmount
-    return () => {
-      endSession()
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
-  }, [moduleId, sectionId, startSession, endSession])
   
   const lesson = getLesson(moduleId, sectionId)
   if (!lesson) {
@@ -61,7 +88,7 @@ export default function LessonPage() {
     )
   }
   
-  const module = modules.find(m => m.id === moduleId)
+  const module = moduleData
   if (!module) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
@@ -73,27 +100,6 @@ export default function LessonPage() {
       </div>
     )
   }
-
-  // Check if user has access to this lesson (bypass if dev mode is enabled)
-  const isFirstSection = sectionId === 1
-  const isCompleted = completedSections.has(`${moduleId}-${sectionId}`)
-  const hasAccessToPrevious = sectionId > 1 && completedSections.has(`${moduleId}-${sectionId - 1}`)
-  const hasAccess = isDevMode || isFirstSection || isCompleted || hasAccessToPrevious
-
-  // If user doesn't have access and dev mode is disabled, navigate client-side
-  useEffect(() => {
-    if (!hasAccess && !isDevMode) {
-      const firstIncomplete = module.sections.find(section => {
-        if (section.section === 1) return true
-        return completedSections.has(`${moduleId}-${section.section - 1}`)
-      })
-      if (firstIncomplete) {
-        router.replace(`/learn/${moduleId}/${firstIncomplete.section}`)
-      } else {
-        router.replace(`/learn/${moduleId}/1`)
-      }
-    }
-  }, [hasAccess, isDevMode, module.sections, completedSections, moduleId, router])
   
   const currentIndex = module.sections.findIndex(s => s.section === sectionId)
   const prevSection = currentIndex > 0 ? module.sections[currentIndex - 1] : null
